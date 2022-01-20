@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Plugins.DataStore.InMemory;
+using UseCases;
+using UseCases.DataStorePluginInterfaces;
 using WebApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+
+//Dependency injection for in-memory data store
+builder.Services.AddScoped<IScreeningRoomRepository, ScreeningRoomInMemoryRepository>();
+
+
+//Dependency injection for use cases and repositories
+builder.Services.AddTransient<IViewScreeningRoomsUseCase, ViewScreeningRoomsUseCase>();
+builder.Services.AddTransient<IAddScreeningRoomUseCase, AddScreeningRoomUseCase>();
+builder.Services.AddTransient<IGetScreeningRoomByIdUseCase, GetScreeningRoomByIdUseCase>();
+builder.Services.AddTransient<IEditScreeningRoomUseCase, EditScreeningRoomUseCase>();
+builder.Services.AddTransient<IDeleteScreeningRoomUseCase, DeleteScreeningRoomUseCase>();
+
 
 var app = builder.Build();
 
