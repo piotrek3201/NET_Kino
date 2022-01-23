@@ -1,0 +1,76 @@
+﻿@page "/managemovies"
+
+@inject NavigationManager NavigationManager
+@inject IViewMoviesUseCase ViewMoviesUseCase
+
+<h3>Zarządzanie filmami</h3>
+
+@if(movies != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Plakat</th>
+                <th>Tytuł</th>
+                <th>Opis</th>
+                <th>Rok</th>
+                <th>Długość</th>
+                <th>Wiek</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var movie in movies)
+            {
+                <tr>
+                    <td><img src="@movie.ImageUrl" alt="@movie.Title"></td>
+                    <td>@movie.Title</td>
+                    <td>@movie.Description</td>
+                    <td>@movie.Year</td>
+                    <td>@movie.Length min.</td>
+                    <td>@(movie.AgeRestriction)+</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br />
+
+
+@code 
+{
+    private List<Movie> movies;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        LoadMovies();
+    }
+
+    private void LoadMovies()
+    {
+        movies = ViewMoviesUseCase.Execute()?.ToList();
+    }
+    /*
+    private void OnClickAddScreeningRoom()
+    {
+        NavigationManager.NavigateTo("/addscreeningroom");
+    }
+
+    private void EditScreeningRoom(ScreeningRoom screeningRoom)
+    {
+        NavigationManager.NavigateTo($"/editscreeningroom/{screeningRoom.ScreeningRoomID}");
+    }
+
+    private void DeleteScreeningRoom(int screeningRoomID)
+    {
+        DeleteScreeningRoomUseCase.Delete(screeningRoomID);
+        LoadScreeningRooms();
+    }
+    */
+}
