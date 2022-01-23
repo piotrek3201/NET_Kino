@@ -5,7 +5,7 @@ namespace CoreBusiness
     public class ScreeningRoom
     {
         [Required]
-        public int ScreeningRoomID { get; set; }
+        public int ScreeningRoomId { get; set; }
         [Required]
         public string ScreeningRoomName { get; set;}
         [Required]

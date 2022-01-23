@@ -28,7 +28,7 @@
                     <td>@screeningRoom.ColumnCount</td>
                     <td>@(screeningRoom.ColumnCount * screeningRoom.RowCount)</td>
                     <td><button type="button" @onclick="@(() => EditScreeningRoom(screeningRoom))" class="btn btn-primary">Edytuj</button></td>
-                    <td><button type="button" @onclick="@(() => DeleteScreeningRoom(screeningRoom.ScreeningRoomID))" class="btn btn-primary">Usuń</button></td>
+                    <td><button type="button" @onclick="@(() => DeleteScreeningRoom(screeningRoom.ScreeningRoomId))" class="btn btn-primary">Usuń</button></td>
                 </tr>
             }
         </tbody>
@@ -61,7 +61,7 @@
 
     private void EditScreeningRoom(ScreeningRoom screeningRoom)
     {
-        NavigationManager.NavigateTo($"/editscreeningroom/{screeningRoom.ScreeningRoomID}");
+        NavigationManager.NavigateTo($"/editscreeningroom/{screeningRoom.ScreeningRoomId}");
     }
 
     private void DeleteScreeningRoom(int screeningRoomID)

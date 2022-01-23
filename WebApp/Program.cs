@@ -16,6 +16,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 //Dependency injection for in-memory data store
 builder.Services.AddScoped<IScreeningRoomRepository, ScreeningRoomInMemoryRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieInMemoryRepository>();
+builder.Services.AddScoped<IShowingRepository, ShowingInMemoryRepository>();
 
 
 //Dependency injection for use cases and repositories
@@ -26,6 +27,8 @@ builder.Services.AddTransient<IEditScreeningRoomUseCase, EditScreeningRoomUseCas
 builder.Services.AddTransient<IDeleteScreeningRoomUseCase, DeleteScreeningRoomUseCase>();
 
 builder.Services.AddTransient<IViewMoviesUseCase, ViewMoviesUseCase>();
+
+builder.Services.AddTransient<IViewShowingsUseCase, ViewShowingsUseCase>();
 
 
 var app = builder.Build();

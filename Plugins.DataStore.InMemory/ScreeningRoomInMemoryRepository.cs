@@ -11,9 +11,9 @@ namespace Plugins.DataStore.InMemory
         {
             screeningRooms = new List<ScreeningRoom>()
             {
-                new ScreeningRoom(){ScreeningRoomID = 1, ScreeningRoomName = "1", ColumnCount = 10, RowCount = 5},
-                new ScreeningRoom(){ScreeningRoomID = 2, ScreeningRoomName = "2", ColumnCount = 10, RowCount = 5},
-                new ScreeningRoom(){ScreeningRoomID = 3, ScreeningRoomName = "3", ColumnCount = 15, RowCount = 7}
+                new ScreeningRoom(){ScreeningRoomId = 1, ScreeningRoomName = "1", ColumnCount = 10, RowCount = 5},
+                new ScreeningRoom(){ScreeningRoomId = 2, ScreeningRoomName = "2", ColumnCount = 10, RowCount = 5},
+                new ScreeningRoom(){ScreeningRoomId = 3, ScreeningRoomName = "3", ColumnCount = 15, RowCount = 7}
             };
         }
 
@@ -23,12 +23,12 @@ namespace Plugins.DataStore.InMemory
 
             if(screeningRooms != null && screeningRooms.Count > 0)
             {
-                var maxID = screeningRooms.Max(x => x.ScreeningRoomID);
-                screeningRoom.ScreeningRoomID = maxID + 1;
+                var maxID = screeningRooms.Max(x => x.ScreeningRoomId);
+                screeningRoom.ScreeningRoomId = maxID + 1;
             }
             else
             {
-                screeningRoom.ScreeningRoomID = 1;
+                screeningRoom.ScreeningRoomId = 1;
             }
 
             screeningRooms.Add(screeningRoom);
@@ -41,12 +41,12 @@ namespace Plugins.DataStore.InMemory
 
         public ScreeningRoom GetScreeningRoomById(int screeningRoomId)
         {
-            return screeningRooms?.FirstOrDefault(x => x.ScreeningRoomID == screeningRoomId);
+            return screeningRooms?.FirstOrDefault(x => x.ScreeningRoomId == screeningRoomId);
         }
 
         public void UpdateScreeningRoom(ScreeningRoom screeningRoom)
         {
-            var screeningRoomToUpdate = GetScreeningRoomById(screeningRoom.ScreeningRoomID);
+            var screeningRoomToUpdate = GetScreeningRoomById(screeningRoom.ScreeningRoomId);
             if(screeningRoomToUpdate != null)
             {
                 screeningRoomToUpdate.ScreeningRoomName = screeningRoom.ScreeningRoomName;

@@ -1,0 +1,52 @@
+﻿@page "/manageshowings"
+
+@inject IViewShowingsUseCase ViewShowingsUseCase
+@inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
+
+<h3>Zarządzanie seansami</h3>
+
+@if(showings != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Film</th>
+                <th>Sala</th>
+                <th>Cena biletu</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var showing in showings)
+            {
+                <tr>
+                    <td>@showing.Date.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@showing.MovieId</td>
+                    <td>@GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId)?.ScreeningRoomName</td>
+                    <td>@Math.Round(showing.TicketPrice, 2) zł</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code 
+{
+    private List<Showing> showings;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        LoadShowings();
+    }
+
+    private void LoadShowings()
+    {
+        showings = ViewShowingsUseCase.Execute()?.ToList();
+    }
+}
