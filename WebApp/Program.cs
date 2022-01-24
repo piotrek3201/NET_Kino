@@ -27,6 +27,7 @@ builder.Services.AddTransient<IEditScreeningRoomUseCase, EditScreeningRoomUseCas
 builder.Services.AddTransient<IDeleteScreeningRoomUseCase, DeleteScreeningRoomUseCase>();
 
 builder.Services.AddTransient<IViewMoviesUseCase, ViewMoviesUseCase>();
+builder.Services.AddTransient<IGetMovieByIdUseCase, GetMovieByIdUseCase>();
 
 builder.Services.AddTransient<IViewShowingsUseCase, ViewShowingsUseCase>();
 
