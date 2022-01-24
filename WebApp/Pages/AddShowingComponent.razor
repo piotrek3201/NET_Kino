@@ -1,0 +1,81 @@
+﻿@page "/addshowing"
+
+@inject NavigationManager NavigationManager
+@inject IAddShowingUseCase AddShowingUseCase
+@inject IViewScreeningRoomsUseCase ViewScreeningRoomsUseCase
+@inject IViewMoviesUseCase ViewMoviesUseCase
+
+<h3>Zaplanuj seans</h3>
+
+@if(showing != null)
+{
+    <EditForm Model="showing" class="form-inline" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+        <div class="form-group">
+            <label for="screeningRoom">Sala</label>
+            <select id="screeningRoom" @bind="showing.ScreeningRoomId" class="form-control">
+                <option selected></option>
+                @foreach(var screeningRoom in screeningRooms)
+                {
+                    <option value = "@screeningRoom.ScreeningRoomId">@screeningRoom.ScreeningRoomName</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="movie">Film</label>
+            <select id="movie" @bind="showing.MovieId" class="form-control">
+                <option selected></option>
+                @foreach(var movie in movies)
+                {
+                    <option value = "@movie.MovieId">@movie.Title (@movie.Year)</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Data i godzina</label>
+            <input type="datetime-local" id="date" @bind="showing.Date" class="form-control"></input>
+        </div>
+
+        <div class="form-group">
+            <label for="ticketPrice">Cena biletu (zł)</label>
+            <InputNumber id="ticketPrice" @bind-Value="showing.TicketPrice" @bind-Value:format="F2" class="form-control"></InputNumber>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Zapisz</button>
+        <button type="button" class="btn btn-primary" @onclick="OnCancel">Anuluj</button>
+    </EditForm>
+}
+
+@code 
+{
+    private Showing showing;
+    private IEnumerable<ScreeningRoom> screeningRooms;
+    private IEnumerable<Movie> movies;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        showing = new Showing();
+
+        screeningRooms = ViewScreeningRoomsUseCase.Execute();
+        movies = ViewMoviesUseCase.Execute();
+
+        showing.Date = DateTime.Today;
+        showing.TicketPrice = 20.0;
+    }
+
+    private void OnValidSubmit()
+    {
+        AddShowingUseCase.Execute(showing);
+        NavigationManager.NavigateTo("/manageshowings");
+    }
+
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo("/manageshowings");
+    }
+}

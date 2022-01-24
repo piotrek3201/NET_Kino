@@ -30,6 +30,9 @@ builder.Services.AddTransient<IViewMoviesUseCase, ViewMoviesUseCase>();
 builder.Services.AddTransient<IGetMovieByIdUseCase, GetMovieByIdUseCase>();
 
 builder.Services.AddTransient<IViewShowingsUseCase, ViewShowingsUseCase>();
+builder.Services.AddTransient<IAddShowingUseCase, AddShowingUseCase>();
+builder.Services.AddTransient<IGetShowingByIdUseCase, GetShowingByIdUseCase>();
+builder.Services.AddTransient<IEditShowingUseCase, EditShowingUseCase>();
 
 
 var app = builder.Build();

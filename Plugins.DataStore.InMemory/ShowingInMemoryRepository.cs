@@ -25,9 +25,45 @@ namespace Plugins.DataStore.InMemory
                 }
             };
         }
+
+        public void AddShowing(Showing showing)
+        {
+            //TODO: sprawdzanie
+            //if (showings.Any(x => x.ScreeningRoomName.Equals(showings.ScreeningRoomName, StringComparison.OrdinalIgnoreCase))) return;
+
+            if (showings != null && showings.Count > 0)
+            {
+                var maxID = showings.Max(x => x.ShowingId);
+                showing.ShowingId = maxID + 1;
+            }
+            else
+            {
+                showing.ShowingId = 1;
+            }
+
+            showings.Add(showing);
+        }
+
+        public Showing GetShowingById(int showingId)
+        {
+            return showings?.FirstOrDefault(x => x.ShowingId == showingId);
+        }
+
         public IEnumerable<Showing> GetShowings()
         {
             return showings;
+        }
+
+        public void UpdateShowing(Showing showing)
+        {
+            var showingToUpdate = GetShowingById(showing.ShowingId);
+            if (showingToUpdate != null)
+            {
+                showingToUpdate.ScreeningRoomId = showing.ScreeningRoomId;
+                showingToUpdate.MovieId = showing.MovieId;
+                showingToUpdate.Date = showing.Date;
+                showingToUpdate.TicketPrice = showing.TicketPrice;
+            }
         }
     }
 }
