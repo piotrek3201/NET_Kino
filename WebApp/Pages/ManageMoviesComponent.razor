@@ -2,8 +2,13 @@
 
 @inject NavigationManager NavigationManager
 @inject IViewMoviesUseCase ViewMoviesUseCase
+@inject IDeleteMovieUseCase DeleteMovieUseCase
+
 
 <h3>Zarządzanie filmami</h3>
+
+<button type="button" @onclick="OnClickAddMovie" class="btn btn-primary">Dodaj film</button>
+<br />
 
 @if(movies != null)
 {
@@ -30,15 +35,13 @@
                     <td>@movie.Year</td>
                     <td>@movie.Length min.</td>
                     <td>@(movie.AgeRestriction)+</td>
-                    <td></td>
-                    <td></td>
+                    <td><button type="button" @onclick="@(() => EditMovie(movie))" class="btn btn-primary">Edytuj</button></td>
+                    <td><button type="button" @onclick="@(() => DeleteMovie(movie.MovieId))" class="btn btn-primary">Usuń</button></td>
                 </tr>
             }
         </tbody>
     </table>
 }
-
-<br />
 
 
 @code 
@@ -56,21 +59,20 @@
     {
         movies = ViewMoviesUseCase.Execute()?.ToList();
     }
-    /*
-    private void OnClickAddScreeningRoom()
+
+    private void OnClickAddMovie()
     {
-        NavigationManager.NavigateTo("/addscreeningroom");
+        NavigationManager.NavigateTo("/addmovie");
     }
 
-    private void EditScreeningRoom(ScreeningRoom screeningRoom)
+    private void EditMovie(Movie movie)
     {
-        NavigationManager.NavigateTo($"/editscreeningroom/{screeningRoom.ScreeningRoomID}");
+        NavigationManager.NavigateTo($"/editmovie/{movie.MovieId}");
     }
 
-    private void DeleteScreeningRoom(int screeningRoomID)
+    private void DeleteMovie(int movieId)
     {
-        DeleteScreeningRoomUseCase.Delete(screeningRoomID);
-        LoadScreeningRooms();
+        DeleteMovieUseCase.Delete(movieId);
+        LoadMovies();
     }
-    */
 }

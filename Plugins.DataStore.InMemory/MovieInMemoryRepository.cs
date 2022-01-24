@@ -58,5 +58,41 @@ namespace Plugins.DataStore.InMemory
         {
             return movies?.FirstOrDefault(x => x.MovieId == movieId);
         }
+
+        public void AddMovie(Movie movie)
+        {
+            if (movies.Any(x => x.Title.Equals(movie.Title, StringComparison.OrdinalIgnoreCase))) return;
+
+            if (movies != null && movies.Count > 0)
+            {
+                var maxID = movies.Max(x => x.MovieId);
+                movie.MovieId = maxID + 1;
+            }
+            else
+            {
+                movie.MovieId = 1;
+            }
+
+            movies.Add(movie);
+        }
+
+        public void UpdateMovie(Movie movie)
+        {
+            var movieToUpdate = GetMovieById(movie.MovieId);
+            if (movieToUpdate != null)
+            {
+                movieToUpdate.Title = movie.Title;
+                movieToUpdate.Description = movie.Description;
+                movieToUpdate.Year = movie.Year;
+                movieToUpdate.Length = movie.Length;
+                movieToUpdate.AgeRestriction = movie.AgeRestriction;
+                movieToUpdate.ImageUrl = movie.ImageUrl;
+            }
+        }
+
+        public void DeleteMovie(int movieId)
+        {
+            movies?.Remove(GetMovieById((int)movieId));
+        }
     }
 }
