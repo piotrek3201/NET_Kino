@@ -53,5 +53,10 @@ namespace Plugins.DataStore.InMemory
         {
             return movies;
         }
+
+        public Movie GetMovieById(int movieId)
+        {
+            return movies?.FirstOrDefault(x => x.MovieId == movieId);
+        }
     }
 }

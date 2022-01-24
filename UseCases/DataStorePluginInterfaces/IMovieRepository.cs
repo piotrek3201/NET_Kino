@@ -10,5 +10,7 @@ namespace UseCases.DataStorePluginInterfaces
     public interface IMovieRepository
     {
         IEnumerable<Movie> GetMovies();
+
+        Movie GetMovieById(int movieId);
     }
 }

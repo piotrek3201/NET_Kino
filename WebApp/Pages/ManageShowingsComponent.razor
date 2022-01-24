@@ -2,6 +2,7 @@
 
 @inject IViewShowingsUseCase ViewShowingsUseCase
 @inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
+@inject IGetMovieByIdUseCase GetMovieByIdUseCase
 
 <h3>Zarządzanie seansami</h3>
 
@@ -23,7 +24,7 @@
             {
                 <tr>
                     <td>@showing.Date.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td>@showing.MovieId</td>
+                    <td>@GetMovieByIdUseCase.Execute(showing.MovieId)?.Title</td>
                     <td>@GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId)?.ScreeningRoomName</td>
                     <td>@Math.Round(showing.TicketPrice, 2) zł</td>
                     <td></td>
