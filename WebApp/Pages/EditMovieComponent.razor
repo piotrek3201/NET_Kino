@@ -1,0 +1,92 @@
+﻿@page "/editmovie/{movieId}"
+
+@inject NavigationManager NavigationManager
+@inject IGetMovieByIdUseCase GetMovieByIdUseCase
+@inject IEditMovieUseCase EditMovieUseCase
+
+<h3>Edytuj film</h3>
+@if(movie != null)
+{
+    <EditForm Model="movie" class="form-inline" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+        <div class="form-group">
+            <label for="image">Plakat</label>
+            <InputText id="image" @bind-Value="movie.ImageUrl" class="form-control"></InputText>
+        </div>
+
+        <div class="form-group">
+            <label for="title">Tytuł</label>
+            <InputText id="title" @bind-Value="movie.Title" class="form-control"></InputText>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Opis</label>
+            <InputText id="description" @bind-Value="movie.Description" class="form-control"></InputText>
+        </div>
+
+        <div class="form-group">
+            <label for="year">Rok</label>
+            <InputNumber id="year" @bind-Value="movie.Year" class="form-control"></InputNumber>
+        </div>
+
+        <div class="form-group">
+            <label for="length">Długość</label>
+            <InputNumber id="length" @bind-Value="movie.Length" class="form-control"></InputNumber>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Wiek</label>
+            <InputNumber id="age" @bind-Value="movie.AgeRestriction" class="form-control"></InputNumber>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Zapisz</button>
+        <button type="button" class="btn btn-primary" @onclick="OnCancel">Anuluj</button>
+    </EditForm>
+}
+
+@code 
+{
+    [Parameter]
+    public string MovieId { get; set; }
+
+    private Movie movie;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        movie = new Movie();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if(int.TryParse(this.MovieId, out int iMovieId))
+        {
+            var m = GetMovieByIdUseCase.Execute(iMovieId);
+            this.movie = new Movie
+                {
+                    MovieId = m.MovieId,
+                    Title = m.Title,
+                    Description = m.Description,
+                    Length = m.Length,
+                    Year = m.Year,
+                    AgeRestriction = m.AgeRestriction,
+                    ImageUrl = m.ImageUrl
+                };
+        }
+    }
+
+    private void OnValidSubmit()
+    {
+        EditMovieUseCase.Execute(this.movie);
+        NavigationManager.NavigateTo("/managemovies");
+    }
+
+    private void OnCancel()
+    {
+        NavigationManager.NavigateTo("/managemovies");
+    }
+}

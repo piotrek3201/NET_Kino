@@ -10,7 +10,9 @@ namespace UseCases.DataStorePluginInterfaces
     public interface IMovieRepository
     {
         IEnumerable<Movie> GetMovies();
-
+        void AddMovie(Movie movie);
+        void UpdateMovie(Movie movie);
+        void DeleteMovie(int movieId);
         Movie GetMovieById(int movieId);
     }
 }
