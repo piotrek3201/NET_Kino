@@ -13,5 +13,6 @@ namespace UseCases
         void AddShowing(Showing showing);
         Showing GetShowingById(int showingId);
         void UpdateShowing(Showing showing);
+        void DeleteShowing(int showingId);
     }
 }

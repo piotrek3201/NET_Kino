@@ -36,7 +36,7 @@ builder.Services.AddTransient<IViewShowingsUseCase, ViewShowingsUseCase>();
 builder.Services.AddTransient<IAddShowingUseCase, AddShowingUseCase>();
 builder.Services.AddTransient<IGetShowingByIdUseCase, GetShowingByIdUseCase>();
 builder.Services.AddTransient<IEditShowingUseCase, EditShowingUseCase>();
-
+builder.Services.AddTransient<IDeleteShowingUseCase, DeleteShowingUseCase>();
 
 var app = builder.Build();
 

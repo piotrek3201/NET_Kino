@@ -1,0 +1,96 @@
+﻿@page "/showing/{showingId}"
+
+@inject IViewScreeningRoomsUseCase ViewScreeningRoomsUseCase
+@inject IViewMoviesUseCase ViewMoviesUseCase
+@inject IGetShowingByIdUseCase GetShowingByIdUseCase
+@inject IGetMovieByIdUseCase GetMovieByIdUseCase
+@inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
+
+@if(showing != null)
+{
+    <h3>Seans @showing.ShowingId</h3>
+    <h6>Sala: @screeningRoom.ScreeningRoomName</h6>
+    <h6>Film: @movie.Title (@movie.Year)</h6>
+    <h6>Data: @showing.Date.ToString("dd/MM/yyyy")</h6>
+    <h6>Godzina: @showing.Date.ToString("HH:mm")</h6>
+
+    <br />
+
+     
+    <table class="table">
+        <tbody>
+            @for (var i = 1; i <= @screeningRoom.RowCount ; i++)
+            {
+                <tr>
+                    @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
+                    {
+                        <td>F</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <h6>Przepraszamy, podany seans nie istnieje.</h6>
+}
+
+<button type="button"  class="btn btn-primary">Zarezerwuj miejsce</button>
+
+@code 
+{
+    [Parameter]
+    public string ShowingId { get; set; }
+
+    private Showing showing;
+    private ScreeningRoom screeningRoom;
+    private Movie movie;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        //showing = new Showing();
+
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if(int.TryParse(this.ShowingId, out int iShowingId))
+        {
+            var show = GetShowingByIdUseCase.Execute(iShowingId);
+            this.showing = new Showing
+            {
+                ShowingId = show.ShowingId,
+                ScreeningRoomId = show.ScreeningRoomId,
+                MovieId = show.MovieId,
+                Date = show.Date,
+                TicketPrice = show.TicketPrice
+            };
+            var mov = GetMovieByIdUseCase.Execute(showing.MovieId);
+            this.movie = new Movie
+            {
+                MovieId = mov.MovieId,
+                Title = mov.Title,
+                Description = mov.Description,
+                Year = mov.Year,
+                Length = mov.Length,
+                AgeRestriction = mov.AgeRestriction,
+                ImageUrl = mov.ImageUrl
+            };
+            var scrRoom = GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId);
+            this.screeningRoom = new ScreeningRoom
+            {
+                ScreeningRoomId = scrRoom.ScreeningRoomId,
+                ScreeningRoomName = scrRoom.ScreeningRoomName,
+                ColumnCount = scrRoom.ColumnCount,
+                RowCount = scrRoom.RowCount
+            };
+        }
+    }
+
+}

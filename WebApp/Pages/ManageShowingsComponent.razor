@@ -4,6 +4,7 @@
 @inject IViewShowingsUseCase ViewShowingsUseCase
 @inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
+@inject IDeleteShowingUseCase DeleteShowingUseCase
 
 <h3>Zarządzanie seansami</h3>
 
@@ -21,6 +22,7 @@
                 <th>Cena biletu</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +33,7 @@
                     <td>@GetMovieByIdUseCase.Execute(showing.MovieId)?.Title (@GetMovieByIdUseCase.Execute(showing.MovieId)?.Year)</td>
                     <td>@GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId)?.ScreeningRoomName</td>
                     <td>@Math.Round(showing.TicketPrice, 2) zł</td>
+                    <td><button type="button" @onclick="@(() => ViewShowing(showing))" class="btn btn-primary">Szczegóły</button></td>
                     <td><button type="button" @onclick="@(() => EditShowing(showing))" class="btn btn-primary">Edytuj</button></td>
                     <td><button type="button" @onclick="@(() => DeleteShowing(showing.ShowingId))" class="btn btn-primary">Usuń</button></td>
                 </tr>
@@ -67,6 +70,12 @@
 
     private void DeleteShowing(int screeningRoomID)
     {
-        
+        DeleteShowingUseCase.Delete(screeningRoomID);
+        LoadShowings();
+    }
+
+    private void ViewShowing(Showing showing)
+    {
+        NavigationManager.NavigateTo($"/showing/{showing.ShowingId}");
     }
 }

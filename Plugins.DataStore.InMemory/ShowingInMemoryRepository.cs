@@ -44,6 +44,11 @@ namespace Plugins.DataStore.InMemory
             showings.Add(showing);
         }
 
+        public void DeleteShowing(int showingId)
+        {
+            showings?.Remove(GetShowingById((int)showingId));
+        }
+
         public Showing GetShowingById(int showingId)
         {
             return showings?.FirstOrDefault(x => x.ShowingId == showingId);
