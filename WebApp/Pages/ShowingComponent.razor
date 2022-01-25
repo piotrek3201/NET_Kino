@@ -8,36 +8,44 @@
 
 @if(showing != null)
 {
-    <h3>Seans @showing.ShowingId</h3>
-    <h6>Sala: @screeningRoom.ScreeningRoomName</h6>
-    <h6>Film: @movie.Title (@movie.Year)</h6>
-    <h6>Data: @showing.Date.ToString("dd/MM/yyyy")</h6>
-    <h6>Godzina: @showing.Date.ToString("HH:mm")</h6>
-
+    <div class="row">
+        <div class="col-5" style="vertical-align: bottom;">
+            <h3>Seans @showing.ShowingId</h3>
+            <p>
+                Sala: @screeningRoom.ScreeningRoomName
+                <br />
+                Film: @movie.Title (@movie.Year)
+                <br />
+                Data: @showing.Date.ToString("dd/MM/yyyy")
+                <br />
+                Godzina: @showing.Date.ToString("HH:mm")
+            </p>
+        </div>
+        <div class="col" style="text-align: right;">
+            <img src="@movie.ImageUrl" alt="@movie.Title" height=150>
+        </div>
+    </div>
     <br />
-
-     
-    <table class="table">
+    <table class="screeningRoomTable">
         <tbody>
             @for (var i = 1; i <= @screeningRoom.RowCount ; i++)
             {
-                <tr>
+                <tr class="screeningRoomRow">
                     @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
                     {
-                        <td>F</td>
+                        <td class="screeningRoomSeat"><div class="seat"></div></td>
                     }
                 </tr>
             }
         </tbody>
     </table>
-
+    <br />
+    <button type="button"  class="btn btn-primary">Zarezerwuj miejsce</button>
 }
 else
 {
     <h6>Przepraszamy, podany seans nie istnieje.</h6>
 }
-
-<button type="button"  class="btn btn-primary">Zarezerwuj miejsce</button>
 
 @code 
 {
@@ -63,33 +71,37 @@ else
         if(int.TryParse(this.ShowingId, out int iShowingId))
         {
             var show = GetShowingByIdUseCase.Execute(iShowingId);
-            this.showing = new Showing
+            if(show != null)
             {
-                ShowingId = show.ShowingId,
-                ScreeningRoomId = show.ScreeningRoomId,
-                MovieId = show.MovieId,
-                Date = show.Date,
-                TicketPrice = show.TicketPrice
-            };
-            var mov = GetMovieByIdUseCase.Execute(showing.MovieId);
-            this.movie = new Movie
-            {
-                MovieId = mov.MovieId,
-                Title = mov.Title,
-                Description = mov.Description,
-                Year = mov.Year,
-                Length = mov.Length,
-                AgeRestriction = mov.AgeRestriction,
-                ImageUrl = mov.ImageUrl
-            };
-            var scrRoom = GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId);
-            this.screeningRoom = new ScreeningRoom
-            {
-                ScreeningRoomId = scrRoom.ScreeningRoomId,
-                ScreeningRoomName = scrRoom.ScreeningRoomName,
-                ColumnCount = scrRoom.ColumnCount,
-                RowCount = scrRoom.RowCount
-            };
+                this.showing = new Showing
+                {
+                    ShowingId = show.ShowingId,
+                    ScreeningRoomId = show.ScreeningRoomId,
+                    MovieId = show.MovieId,
+                    Date = show.Date,
+                    TicketPrice = show.TicketPrice
+                };
+                var mov = GetMovieByIdUseCase.Execute(showing.MovieId);
+                this.movie = new Movie
+                {
+                    MovieId = mov.MovieId,
+                    Title = mov.Title,
+                    Description = mov.Description,
+                    Year = mov.Year,
+                    Length = mov.Length,
+                    AgeRestriction = mov.AgeRestriction,
+                    ImageUrl = mov.ImageUrl
+                };
+                var scrRoom = GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId);
+                this.screeningRoom = new ScreeningRoom
+                {
+                    ScreeningRoomId = scrRoom.ScreeningRoomId,
+                    ScreeningRoomName = scrRoom.ScreeningRoomName,
+                    ColumnCount = scrRoom.ColumnCount,
+                    RowCount = scrRoom.RowCount
+                };
+            }
+            
         }
     }
 
