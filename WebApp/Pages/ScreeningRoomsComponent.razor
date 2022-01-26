@@ -24,13 +24,13 @@
             <tbody>
                 @foreach(var screeningRoom in screeningRooms)
                 {
-                    <tr>
+                    <tr class="table_row">
                         <td>@screeningRoom.ScreeningRoomName</td>
                         <td>@screeningRoom.RowCount</td>
                         <td>@screeningRoom.ColumnCount</td>
                         <td>@(screeningRoom.ColumnCount * screeningRoom.RowCount)</td>
-                        <td><button type="button" @onclick="@(() => EditScreeningRoom(screeningRoom))" class="btn btn-primary">Edytuj</button></td>
-                        <td><button type="button" @onclick="@(() => DeleteScreeningRoom(screeningRoom.ScreeningRoomId))" class="btn btn-primary">Usuń</button></td>
+                        <td><button type="button" @onclick="@(() => EditScreeningRoom(screeningRoom))" class="btn">Edytuj</button></td>
+                        <td><button type="button" @onclick="@(() => DeleteScreeningRoom(screeningRoom.ScreeningRoomId))" class="btn">Usuń</button></td>
                     </tr>
                 }
             </tbody>
@@ -38,7 +38,7 @@
     }
 
     <br />
-    <button type="button" @onclick="OnClickAddScreeningRoom" class="btn btn-primary">Dodaj salę</button>
+    <button type="button" @onclick="OnClickAddScreeningRoom" class="btn">Dodaj salę</button>
 
 </div>>
 

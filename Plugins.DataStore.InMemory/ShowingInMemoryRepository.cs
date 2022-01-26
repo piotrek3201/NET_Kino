@@ -97,7 +97,12 @@ namespace Plugins.DataStore.InMemory
 
         public IEnumerable<Showing> GetFutureShowings()
         {
-            return showings.Where(x => x.Date >= DateTime.Today);
+            return showings.Where(x => x.Date.Date >= DateTime.Today.Date);
+        }
+
+        public IEnumerable<Showing> GetShowingsByDay(DateTime day)
+        {
+            return showings.Where(x => x.Date.Date == day.Date);
         }
     }
 }

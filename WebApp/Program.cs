@@ -37,6 +37,9 @@ builder.Services.AddTransient<IAddShowingUseCase, AddShowingUseCase>();
 builder.Services.AddTransient<IGetShowingByIdUseCase, GetShowingByIdUseCase>();
 builder.Services.AddTransient<IEditShowingUseCase, EditShowingUseCase>();
 builder.Services.AddTransient<IDeleteShowingUseCase, DeleteShowingUseCase>();
+builder.Services.AddTransient<IGetFutureShowingsUseCase, GetFutureShowingsUseCase>();
+builder.Services.AddTransient<IGetShowingsByDayUseCase, GetShowingsByDayUseCase>();
+
 
 var app = builder.Build();
 

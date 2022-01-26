@@ -10,7 +10,7 @@
 
     <h3>Zarządzanie seansami</h3>
 
-    <button type="button" @onclick="OnClickAddShowing" class="btn btn-primary">Zaplanuj seans</button>
+    <button type="button" @onclick="OnClickAddShowing" class="btn">Zaplanuj seans</button>
     <br />
     <br />
 
@@ -31,14 +31,14 @@
             <tbody>
                 @foreach(var showing in showings)
                 {
-                    <tr>
+                    <tr class="table_row">
                         <td>@showing.Date.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>@GetMovieByIdUseCase.Execute(showing.MovieId)?.Title (@GetMovieByIdUseCase.Execute(showing.MovieId)?.Year)</td>
                         <td>@GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId)?.ScreeningRoomName</td>
                         <td>@Math.Round(showing.TicketPrice, 2) zł</td>
-                        <td><button type="button" @onclick="@(() => ViewShowing(showing))" class="btn btn-primary">Szczegóły</button></td>
-                        <td><button type="button" @onclick="@(() => EditShowing(showing))" class="btn btn-primary">Edytuj</button></td>
-                        <td><button type="button" @onclick="@(() => DeleteShowing(showing.ShowingId))" class="btn btn-primary">Usuń</button></td>
+                        <td><button type="button" @onclick="@(() => ViewShowing(showing))" class="btn">Szczegóły</button></td>
+                        <td><button type="button" @onclick="@(() => EditShowing(showing))" class="btn">Edytuj</button></td>
+                        <td><button type="button" @onclick="@(() => DeleteShowing(showing.ShowingId))" class="btn">Usuń</button></td>
                     </tr>
                 }
             </tbody>
