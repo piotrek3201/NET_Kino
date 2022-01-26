@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
+@inject IViewMoviesUseCase ViewMoviesUseCase
+
 <PageTitle>Kino</PageTitle>
 
 <!--
@@ -40,16 +42,30 @@
         @Body
     </div>
 
-    <!--
-        <main>
+@if(movies != null)
+{
+    @foreach(var movie in movies)
+    {
+        <p align=center><img src="@movie.ImageUrl" alt="@movie.Title" height="150"></p>
+    }
+}
 
+ @code
+ {
+    private List<Movie> movies;
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-    -->
-    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        LoadMovies();
+    }
+
+    private void LoadMovies()
+    {
+        movies = ViewMoviesUseCase.Execute()?.ToList();
+    }
+ }
     <!--
 </div>
 -->
