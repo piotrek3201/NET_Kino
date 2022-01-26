@@ -4,39 +4,43 @@
 @inject IViewScreeningRoomsUseCase ViewScreeningRoomsUseCase
 @inject IDeleteScreeningRoomUseCase DeleteScreeningRoomUseCase
 
-<h3>Zarządzanie salami kinowymi</h3>
+<div class="content">
 
-@if(screeningRooms != null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Sala</th>
-                <th>Liczba rzędów</th>
-                <th>Liczba foteli w rzędzie</th>
-                <th>Liczba miejsc</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var screeningRoom in screeningRooms)
-            {
+    <h3>Zarządzanie salami kinowymi</h3>
+
+    @if(screeningRooms != null)
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@screeningRoom.ScreeningRoomName</td>
-                    <td>@screeningRoom.RowCount</td>
-                    <td>@screeningRoom.ColumnCount</td>
-                    <td>@(screeningRoom.ColumnCount * screeningRoom.RowCount)</td>
-                    <td><button type="button" @onclick="@(() => EditScreeningRoom(screeningRoom))" class="btn btn-primary">Edytuj</button></td>
-                    <td><button type="button" @onclick="@(() => DeleteScreeningRoom(screeningRoom.ScreeningRoomId))" class="btn btn-primary">Usuń</button></td>
+                    <th>Sala</th>
+                    <th>Liczba rzędów</th>
+                    <th>Liczba foteli w rzędzie</th>
+                    <th>Liczba miejsc</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach(var screeningRoom in screeningRooms)
+                {
+                    <tr>
+                        <td>@screeningRoom.ScreeningRoomName</td>
+                        <td>@screeningRoom.RowCount</td>
+                        <td>@screeningRoom.ColumnCount</td>
+                        <td>@(screeningRoom.ColumnCount * screeningRoom.RowCount)</td>
+                        <td><button type="button" @onclick="@(() => EditScreeningRoom(screeningRoom))" class="btn btn-primary">Edytuj</button></td>
+                        <td><button type="button" @onclick="@(() => DeleteScreeningRoom(screeningRoom.ScreeningRoomId))" class="btn btn-primary">Usuń</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
-<br />
-<button type="button" @onclick="OnClickAddScreeningRoom" class="btn btn-primary">Dodaj salę</button>
+    <br />
+    <button type="button" @onclick="OnClickAddScreeningRoom" class="btn btn-primary">Dodaj salę</button>
+
+</div>>
 
 @code 
 {

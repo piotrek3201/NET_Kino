@@ -1,8 +1,45 @@
 ﻿@page "/"
 
+@inject IViewMoviesUseCase ViewMoviesUseCase
+
 <PageTitle>Index</PageTitle>
 
-<h1>Kino</h1>
+<div class="main_page">
 
-Welcome to your new app.
+    <h1>Kino</h1>
+
+    @if(movies != null)
+    {
+        <table class="center">
+            <tr>
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <td style="padding:0 3px 0 3px;"><img src="@movies[0].ImageUrl" alt="@movies[0].Title" height="350"></td>
+                <td style="padding:0 3px 0 3px;"><img src="@movies[1].ImageUrl" alt="@movies[1].Title" height="350"></td>
+                <td style="padding:0 3px 0 3px;"><img src="@movies[2].ImageUrl" alt="@movies[2].Title" height="350"></td>
+                <td style="padding:0 3px 0 3px;"><img src="@movies[3].ImageUrl" alt="@movies[3].Title" height="350"></td>
+                <td style="padding:0 3px 0 3px;"><img src="@movies[4].ImageUrl" alt="@movies[4].Title" height="350"></td>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </tr>
+        </table>
+    }
+
+</div>
+
+ @code
+ {
+    private List<Movie> movies;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        LoadMovies();
+    }
+
+    private void LoadMovies()
+    {
+        movies = ViewMoviesUseCase.Execute()?.ToList();
+    }
+ }
+
 

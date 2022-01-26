@@ -6,46 +6,50 @@
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
 @inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
 
-@if(showing != null)
-{
-    <div class="row">
-        <div class="col-5" style="vertical-align: bottom;">
-            <h3>Seans @showing.ShowingId</h3>
-            <p>
-                Sala: @screeningRoom.ScreeningRoomName
-                <br />
-                Film: @movie.Title (@movie.Year)
-                <br />
-                Data: @showing.Date.ToString("dd/MM/yyyy")
-                <br />
-                Godzina: @showing.Date.ToString("HH:mm")
-            </p>
+<div class="content">
+
+    @if(showing != null)
+    {
+        <div class="row">
+            <div class="col-5" style="vertical-align: bottom;">
+                <h3>Seans @showing.ShowingId</h3>
+                <p>
+                    Sala: @screeningRoom.ScreeningRoomName
+                    <br />
+                    Film: @movie.Title (@movie.Year)
+                    <br />
+                    Data: @showing.Date.ToString("dd/MM/yyyy")
+                    <br />
+                    Godzina: @showing.Date.ToString("HH:mm")
+                </p>
+            </div>
+            <div class="col" style="text-align: right;">
+                <img src="@movie.ImageUrl" alt="@movie.Title" height=150>
+            </div>
         </div>
-        <div class="col" style="text-align: right;">
-            <img src="@movie.ImageUrl" alt="@movie.Title" height=150>
-        </div>
-    </div>
-    <br />
-    <table class="screeningRoomTable">
-        <tbody>
-            @for (var i = 1; i <= @screeningRoom.RowCount ; i++)
-            {
-                <tr class="screeningRoomRow">
-                    @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
-                    {
-                        <td class="screeningRoomSeat"><div class="seat"></div></td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-    <br />
-    <button type="button"  class="btn btn-primary">Zarezerwuj miejsce</button>
-}
-else
-{
-    <h6>Przepraszamy, podany seans nie istnieje.</h6>
-}
+        <br />
+        <table class="screeningRoomTable">
+            <tbody>
+                @for (var i = 1; i <= @screeningRoom.RowCount ; i++)
+                {
+                    <tr class="screeningRoomRow">
+                        @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
+                        {
+                            <td class="screeningRoomSeat"><div class="seat"></div></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <button type="button"  class="btn btn-primary">Zarezerwuj miejsce</button>
+    }
+    else
+    {
+        <h6>Przepraszamy, podany seans nie istnieje.</h6>
+    }
+
+</div>
 
 @code 
 {

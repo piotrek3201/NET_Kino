@@ -4,31 +4,36 @@
 @inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
 @inject IEditScreeningRoomUseCase EditScreeningRoomUseCase
 
-<h3>Edytuj salę</h3>
-@if(screeningRoom != null)
-{
-    <EditForm Model="screeningRoom" class="form-inline" OnValidSubmit="OnValidSubmit">
-        <DataAnnotationsValidator></DataAnnotationsValidator>
-        <ValidationSummary></ValidationSummary>
-        <div class="form-group">
-            <label for="name">Nazwa sali</label>
-            <InputText id="name" @bind-Value="screeningRoom.ScreeningRoomName" class="form-control"></InputText>
-        </div>
+<div class="content">
 
-        <div class="form-group">
-            <label for="rowCount">Liczba rzędów</label>
-            <InputNumber id="rowCount" @bind-Value="screeningRoom.RowCount" class="form-control"></InputNumber>
-        </div>
+    <h3>Edytuj salę</h3>
 
-        <div class="form-group">
-            <label for="columnCount">Liczba foteli w rzędzie</label>
-            <InputNumber id="columnCount" @bind-Value="screeningRoom.ColumnCount" class="form-control"></InputNumber>
-        </div>
+    @if(screeningRoom != null)
+    {
+        <EditForm Model="screeningRoom" class="form-inline" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+            <div class="form-group">
+                <label for="name">Nazwa sali</label>
+                <InputText id="name" @bind-Value="screeningRoom.ScreeningRoomName" class="form-control"></InputText>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Zapisz</button>
-        <button type="button" class="btn btn-primary" @onclick="OnCancel">Anuluj</button>
-    </EditForm>
-}
+            <div class="form-group">
+                <label for="rowCount">Liczba rzędów</label>
+                <InputNumber id="rowCount" @bind-Value="screeningRoom.RowCount" class="form-control"></InputNumber>
+            </div>
+
+            <div class="form-group">
+                <label for="columnCount">Liczba foteli w rzędzie</label>
+                <InputNumber id="columnCount" @bind-Value="screeningRoom.ColumnCount" class="form-control"></InputNumber>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Zapisz</button>
+            <button type="button" class="btn btn-primary" @onclick="OnCancel">Anuluj</button>
+        </EditForm>
+    }
+
+</div>
 
 @code 
 {
