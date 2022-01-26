@@ -8,7 +8,7 @@
 
     <h3>Zarządzanie filmami</h3>
 
-    <button type="button" @onclick="OnClickAddMovie" class="btn btn-primary">Dodaj film</button>
+    <button type="button" @onclick="OnClickAddMovie" class="btn">Dodaj film</button>
     <br />
     <br />
 
@@ -30,15 +30,32 @@
             <tbody>
                 @foreach(var movie in movies)
                 {
-                    <tr>
+                    <tr class="table_row">
                         <td><img src="@movie.ImageUrl" alt="@movie.Title" height="150"></td>
                         <td>@movie.Title</td>
                         <td>@movie.Description</td>
                         <td>@movie.Year</td>
                         <td>@movie.Length min.</td>
-                        <td>@(movie.AgeRestriction)+</td>
-                        <td><button type="button" @onclick="@(() => EditMovie(movie))" class="btn btn-primary">Edytuj</button></td>
-                        <td><button type="button" @onclick="@(() => DeleteMovie(movie.MovieId))" class="btn btn-primary">Usuń</button></td>
+                        <td>
+                            @if(movie.AgeRestriction <= 6)
+                            {
+                                <span class="age3_6">@(movie.AgeRestriction)+</span>
+                            }
+                            else if(movie.AgeRestriction >= 7 && movie.AgeRestriction <= 14)
+                            {
+                                <span class="age7_14">@(movie.AgeRestriction)+</span>
+                            }
+                            else if(movie.AgeRestriction >= 15 && movie.AgeRestriction <= 17)
+                            {
+                                <span class="age15_17">@(movie.AgeRestriction)+</span>
+                            }
+                            else
+                            {
+                                <span class="age18">@(movie.AgeRestriction)+</span>
+                            }
+                        </td>
+                        <td><button type="button" @onclick="@(() => EditMovie(movie))" class="btn">Edytuj</button></td>
+                        <td><button type="button" @onclick="@(() => DeleteMovie(movie.MovieId))" class="btn">Usuń</button></td>
                     </tr>
                 }
             </tbody>

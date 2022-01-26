@@ -1,8 +1,102 @@
 ﻿@page "/whatson"
 
-<h3>Repertuar</h3>
+@inject IGetShowingsByDayUseCase GetShowingsByDayUseCase
+@inject IGetMovieByIdUseCase GetMovieByIdUseCase
+
+<div class="content">
+    <h3>Repertuar</h3>
+
+    Dzień: @date.ToString("dd/MM/yyyy") (@date.DayOfWeek)
+    <button type="button" @onclick="@(() => PreviousDay())" class="btn">Poprzedni dzień</button>
+    <button type="button" @onclick="@(() => NextDay())" class="btn">Następny dzień</button>
+    <br />
+    @foreach(var movie in movies)
+    {
+        <br />
+        <div class="movie">
+            <div class="row">
+                <div class="col-2" style="text-align: left;">
+                    <img src="@movie.ImageUrl" alt="@movie.Title" height="150">
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <span class="movie_title">@movie.Title</span>
+                    </div>
+                    <div class="row">
+                         <span class="movie_desc">@movie.Description</span>
+                    </div>
+                </div>
+                <div class="col-1" style="position: relative;">
+                    <span class="vertical_center">
+                        @if(movie.AgeRestriction <= 6)
+                        {
+                            <span class="age3_6">@(movie.AgeRestriction)+</span>
+                        }
+                        else if(movie.AgeRestriction >= 7 && movie.AgeRestriction <= 14)
+                        {
+                            <span class="age7_14">@(movie.AgeRestriction)+</span>
+                        }
+                        else if(movie.AgeRestriction >= 15 && movie.AgeRestriction <= 17)
+                        {
+                            <span class="age15_17">@(movie.AgeRestriction)+</span>
+                        }
+                        else
+                        {
+                            <span class="age18">@(movie.AgeRestriction)+</span>
+                        }
+                    </span>
+                </div>
+                <div class="col-2" style="position: relative;">
+                    <span class="vertical_center">
+                        <button type="button" class="btn">Seanse</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+    }
+
+</div>
 
 @code 
 {
+    private List<Showing> showings;
+    private List<Movie> movies;
 
+    private DateTime date;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        date = DateTime.Today;
+
+        LoadMovies();
+    }
+
+    private void LoadMovies()
+    {
+        showings = GetShowingsByDayUseCase.Execute(date)?.ToList();
+
+        movies = new List<Movie>();
+
+        foreach(var show in showings)
+        {
+            movies.Add(GetMovieByIdUseCase.Execute(show.MovieId));
+        }
+
+        movies = movies.Distinct().ToList();
+    }
+
+    private void NextDay()
+    {
+        date = date.AddDays(1);
+        LoadMovies();
+    }
+
+    private void PreviousDay()
+    {
+        date = date.AddDays(-1);
+        LoadMovies();
+    }
 }
