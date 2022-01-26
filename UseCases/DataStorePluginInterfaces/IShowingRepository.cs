@@ -14,5 +14,9 @@ namespace UseCases
         Showing GetShowingById(int showingId);
         void UpdateShowing(Showing showing);
         void DeleteShowing(int showingId);
+        IEnumerable<Showing> GetFutureShowings();
+        /*
+        IEnumerable<Showing> GetFutureShowingsByMovieId(int movieId);
+        */
     }
 }

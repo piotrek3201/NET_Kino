@@ -20,7 +20,31 @@ namespace Plugins.DataStore.InMemory
                     ShowingId = 1,
                     ScreeningRoomId = 1,
                     MovieId = 2,
-                    Date = DateTime.Now,
+                    Date = DateTime.Today,
+                    TicketPrice = 20
+                },
+                new Showing()
+                {
+                    ShowingId = 2,
+                    ScreeningRoomId = 1,
+                    MovieId = 2,
+                    Date = DateTime.Today.AddDays(1),
+                    TicketPrice = 20
+                },
+                new Showing()
+                {
+                    ShowingId = 3,
+                    ScreeningRoomId = 2,
+                    MovieId = 1,
+                    Date = DateTime.Today.AddDays(1),
+                    TicketPrice = 20
+                },
+                new Showing()
+                {
+                    ShowingId = 4,
+                    ScreeningRoomId = 3,
+                    MovieId = 1,
+                    Date = DateTime.Today.AddDays(2),
                     TicketPrice = 20
                 }
             };
@@ -69,6 +93,11 @@ namespace Plugins.DataStore.InMemory
                 showingToUpdate.Date = showing.Date;
                 showingToUpdate.TicketPrice = showing.TicketPrice;
             }
+        }
+
+        public IEnumerable<Showing> GetFutureShowings()
+        {
+            return showings.Where(x => x.Date >= DateTime.Today);
         }
     }
 }
