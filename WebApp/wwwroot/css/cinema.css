@@ -112,11 +112,50 @@ td
 
 .seat:hover
 {
-    background-color: white;
+    background-color: lightgray;
 }
 
 .seat_taken {
     background-color: #E21E13;
+    height: 40px;
+    width: 50px;
+    border-color: black;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 0px;
+    border-style: solid;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.seat_taken:hover {
+    background-color: #E07B75;
+    height: 40px;
+    width: 50px;
+    border-color: black;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 0px;
+    border-style: solid;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.seat_marked {
+    background-color: #1EE213;
+    height: 40px;
+    width: 50px;
+    border-color: black;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 0px;
+    border-style: solid;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.seat_marked:hover {
+    background-color: #7BE075;
     height: 40px;
     width: 50px;
     border-color: black;

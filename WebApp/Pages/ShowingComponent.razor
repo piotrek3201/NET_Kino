@@ -5,6 +5,12 @@
 @inject IGetShowingByIdUseCase GetShowingByIdUseCase
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
 @inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
+@inject IGetReservationsByShowingIdUseCase GetReservationsByShowingIdUseCase
+@inject IGetTicketsByMailUseCase GetTicketsByMailUseCase
+@inject IConfirmReservationUseCase ConfirmReservationUseCase
+@inject IAddReservationUseCase AddReservationUseCase
+@inject IDeleteReservationByPositionUseCase DeleteReservationByPositionUseCase
+@inject IAddTicketUseCase AddTicketUseCase
 
 @if(showing != null)
 {
@@ -19,6 +25,35 @@
                 Data: @showing.Date.ToString("dd/MM/yyyy")
                 <br />
                 Godzina: @showing.Date.ToString("HH:mm")
+                <br />
+                Zaznaczone miejsca: @markedSeats.Count / 10
+                <br />
+
+                @foreach (Reservation r in markedSeats)
+                {
+                    int c = r.ColumnNumber;
+                    char rLetter = (char)(r.RowNumber + 64);
+                    char whiteSpace = ' ';
+
+                    @rLetter@c@whiteSpace
+                }
+
+                <br />
+                <br />
+
+                @if (paymentSuccess)
+                {
+                    <dl>Zapłacono!</dl>
+                }
+                else if (processingPayment)
+                {
+                    <dl>Przetwarzanie płatności...</dl>
+                }
+                else
+                {
+                    <dl>Wybierz miejsca.</dl>
+                }
+
             </p>
         </div>
         <div class="col" style="text-align: right;">
@@ -30,17 +65,43 @@
         <tbody>
             @for (var i = 1; i <= @screeningRoom.RowCount ; i++)
             {
+                var r = i;
+                char rLetter = (char)(i + 64);
                 <tr class="screeningRoomRow">
                     @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
                     {
-                        <td class="screeningRoomSeat"><div class="seat"></div></td>
+                        var c = j;
+                        @if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j))
+                        {
+                            <td class="screeningRoomSeat"><div class="seat_taken"> <dl>@rLetter@c</dl> </div></td>
+                        }
+                        else if (markedSeats.Any(x => x.RowNumber == i && x.ColumnNumber == j))
+                        {
+                            <td class="screeningRoomSeat" @onclick="() => ToggleSeatMark(r, c)"><div class="seat_marked"> <dl>@rLetter@c</dl> </div></td>
+                        }
+                        else
+                        { 
+                            <td class="screeningRoomSeat" @onclick="() => ToggleSeatMark(r, c)"><div class="seat"> <dl>@rLetter@c</dl> </div></td>
+                        }
                     }
                 </tr>
             }
         </tbody>
     </table>
     <br />
-    <button type="button"  class="btn btn-primary">Zarezerwuj miejsce</button>
+    <br />
+
+
+    <p>
+        Mail: <input @oninput="checkIfPurchaseButtonEnabled" style="text-align:center; text-transform:lowercase"/> 
+    
+        <br />
+        <br />
+
+        <button type="button" @onclick="lockSeatsAndProcessPayment" disabled="@cannotSubmit" class="btn btn-primary">Metoda płatności 1</button>    
+    </p>
+
+    
 }
 else
 {
@@ -55,6 +116,118 @@ else
     private Showing showing;
     private ScreeningRoom screeningRoom;
     private Movie movie;
+    private List<Reservation> showingReservations = new(); //database state of reservations
+    private List<Reservation> markedSeats = new(); //seats marked by the user 
+    private bool cannotSubmit = true;
+    private bool validEmail = false;
+    private bool processingPayment = false;
+    private bool paymentSuccess = false;
+    private string customerEmailString = "";
+    private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute();
+
+    private void lockSeatsAndProcessPayment()
+    {
+        // First get max + 1 ticketId
+        int ticketId;
+        if (GetTicketsByMailUseCase.Execute(customerEmailString).Count() <= 0) ticketId = 1;
+        else ticketId = GetTicketsByMailUseCase.Execute(customerEmailString).Max(x => x.TicketId) + 1;
+
+        // populate reservation list for the showing with the up to date one
+        PopulateReservations();
+
+        // temporary list of locked seats 
+        List<Reservation> lockedSeats = new();
+
+        foreach (Reservation r in markedSeats)
+        {
+            // check if seats are not taken
+            if (showingReservations.Any(x => x.ShowingId == r.ShowingId &&
+                                x.RowNumber == r.RowNumber &&
+                                x.ColumnNumber == r.ColumnNumber))
+            {
+                markedSeats.Clear(); //unmark seats
+                                     // todo: message for user
+                foreach (Reservation lr in lockedSeats) //undo reservations
+                {
+                    DeleteReservationByPositionUseCase.Execute(lr.ShowingId, lr.RowNumber, lr.ColumnNumber);
+                }
+                lockedSeats.Clear();
+                return; // no payment, end of function, RETURN
+            }
+
+            else // make a temporary reservation
+            {
+                r.ClientMail = customerEmailString;
+                r.TicketId = ticketId;
+                AddReservationUseCase.Execute(r);
+                lockedSeats.Add(r);
+            }
+        }
+
+        processingPayment = true;
+        // TODO: visualize fake payment processing
+        // payment processed - confirm reservations
+        // this method will find reservation matching r in db and update that reservation
+        foreach (Reservation r in markedSeats) ConfirmReservationUseCase.Execute(r);
+
+        // create ticket
+        Ticket ticket = new Ticket()
+        {
+            ClientMail = customerEmailString,
+            TicketId = ticketId,
+            PurchaseDate = System.DateTime.Now
+        };
+        AddTicketUseCase.Execute(ticket, markedSeats, showing, movie);
+
+        paymentSuccess = true;
+        processingPayment = false;
+
+        checkIfPurchaseButtonEnabled(null);
+    }
+
+
+    private void checkIfPurchaseButtonEnabled(ChangeEventArgs args)
+    {
+        if (args != null) customerEmailString = args.Value.ToString().Trim();
+        validEmail = customerEmailAttribute.IsValid(customerEmailString);
+
+        if (validEmail && markedSeats.Count > 0 && !processingPayment && !paymentSuccess) cannotSubmit = false;
+        else cannotSubmit = true;
+    }
+
+    private void ToggleSeatMark(int rowNumber, int columnNumber)
+    {
+        Reservation? clickedSeat = markedSeats.FirstOrDefault(x => x.RowNumber == rowNumber && x.ColumnNumber == columnNumber);
+
+        if (clickedSeat != null) // the seat should be unmarked because it was selected
+        {
+            markedSeats.Remove(clickedSeat);
+        }
+        else if (markedSeats.Count < 10) // the seat wasn't selected so it should be marked if max count not reached
+        {
+            // this is not a real reservation in db - just a temporary one
+            Reservation userMarkedSeat = new Reservation()
+            {
+                ShowingId = showing.ShowingId,
+                RowNumber = rowNumber,
+                ColumnNumber = columnNumber
+            };
+            markedSeats.Add(userMarkedSeat);
+        }
+
+        checkIfPurchaseButtonEnabled(null);
+    }
+
+    private void PopulateReservations()
+    {
+        var res = GetReservationsByShowingIdUseCase.Execute(showing.ShowingId);
+        showingReservations.Clear();
+
+        foreach (Reservation r in res)
+        {
+            showingReservations.Add(r);
+        }
+    }
 
     protected override void OnInitialized()
     {
@@ -100,6 +273,9 @@ else
                     ColumnCount = scrRoom.ColumnCount,
                     RowCount = scrRoom.RowCount
                 };
+
+                // populate reservation list for the showing
+                PopulateReservations();
             }
             
         }

@@ -17,6 +17,8 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<IScreeningRoomRepository, ScreeningRoomInMemoryRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieInMemoryRepository>();
 builder.Services.AddScoped<IShowingRepository, ShowingInMemoryRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationInMemoryRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketInMemoryRepository>();
 
 
 //Dependency injection for use cases and repositories
@@ -37,6 +39,16 @@ builder.Services.AddTransient<IAddShowingUseCase, AddShowingUseCase>();
 builder.Services.AddTransient<IGetShowingByIdUseCase, GetShowingByIdUseCase>();
 builder.Services.AddTransient<IEditShowingUseCase, EditShowingUseCase>();
 builder.Services.AddTransient<IDeleteShowingUseCase, DeleteShowingUseCase>();
+
+builder.Services.AddTransient<IAddReservationUseCase, AddReservationUseCase>();
+builder.Services.AddTransient<IConfirmReservationUseCase, ConfirmReservationUseCase>();
+builder.Services.AddTransient<IDeleteReservationByPositionUseCase, DeleteReservationByPositionUseCase>();
+builder.Services.AddTransient<IGetReservationsByShowingIdUseCase, GetReservationsByShowingIdUseCase>();
+builder.Services.AddTransient<IGetReservationsByTicketUseCase, GetReservationsByTicketUseCase>();
+
+builder.Services.AddTransient<IAddTicketUseCase, AddTicketUseCase>();
+builder.Services.AddTransient<IDeleteTicketByIdsUseCase, DeleteTicketByIdsUseCase>();
+builder.Services.AddTransient<IGetTicketsByMailUseCase, GetTicketsByMailUseCase>();
 
 var app = builder.Build();
 
