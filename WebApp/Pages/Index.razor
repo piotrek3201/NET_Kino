@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@inject NavigationManager NavigationManager
 @inject IViewMoviesUseCase ViewMoviesUseCase
 
 <PageTitle>Index</PageTitle>
@@ -36,6 +37,9 @@
                 <div class="col" style="padding: 0">
                     <button class="next" @onclick="@(() => NextMovie(@postersIndex[4]))">&#10095;</button>
                 </div>
+            </div>
+            <div class="col" style="padding: 25px 0 0 0">
+                <button class="WhatsOnButton" @onclick="@(() => WhatsOnClick())">Repertuar</button>
             </div>
         </div>
     }
@@ -90,6 +94,11 @@
             index++;
             postersIndex.Insert(4, index);
         }
+    }
+
+    private void WhatsOnClick()
+    {
+        NavigationManager.NavigateTo("/whatson");
     }
  }
 
