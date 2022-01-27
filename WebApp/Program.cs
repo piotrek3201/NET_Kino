@@ -39,6 +39,9 @@ builder.Services.AddTransient<IAddShowingUseCase, AddShowingUseCase>();
 builder.Services.AddTransient<IGetShowingByIdUseCase, GetShowingByIdUseCase>();
 builder.Services.AddTransient<IEditShowingUseCase, EditShowingUseCase>();
 builder.Services.AddTransient<IDeleteShowingUseCase, DeleteShowingUseCase>();
+builder.Services.AddTransient<IGetFutureShowingsUseCase, GetFutureShowingsUseCase>();
+builder.Services.AddTransient<IGetShowingsByDayUseCase, GetShowingsByDayUseCase>();
+
 
 builder.Services.AddTransient<IAddReservationUseCase, AddReservationUseCase>();
 builder.Services.AddTransient<IConfirmReservationUseCase, ConfirmReservationUseCase>();

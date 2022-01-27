@@ -45,6 +45,36 @@ namespace Plugins.DataStore.InMemory
                     Year = 2021,
                     AgeRestriction = 12,
                     ImageUrl = "https://fwcdn.pl/fpo/82/06/828206/7969398.6.jpg"
+                },
+                new Movie()
+                {
+                    MovieId = 4,
+                    Title = "Diuna",
+                    Description = "Szlachetny ród Atrydów przybywa na Diunę, będącą jedynym źródłem najcenniejszej substancji we wszechświecie.",
+                    Length = 155,
+                    Year = 2021,
+                    AgeRestriction = 13,
+                    ImageUrl = "https://fwcdn.pl/fpo/94/76/469476/7972251.3.jpg"
+                },
+                new Movie()
+                {
+                    MovieId = 5,
+                    Title = "Spider-Man: Bez drogi do domu",
+                    Description = "Kiedy cały świat dowiaduje się, że pod maską Spider Mana skrywa się Peter Parker, superbohater decyduje się zwrócić o pomoc do Doktora Strange'a.",
+                    Length = 148,
+                    Year = 2021,
+                    AgeRestriction = 13,
+                    ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUFLWM-ZrmUUSs5kNkk6mdsST_eBVhcjwFCbLnbxt013rf7O9D"
+                },
+                new Movie()
+                {
+                    MovieId = 6,
+                    Title = "Eternals",
+                    Description = "Opowieść o Eternals - przedwiecznej rasie nieśmiertelnych istot, które zamieszkiwały Ziemię i ukształtowały jej historię.",
+                    Length = 157,
+                    Year = 2021,
+                    AgeRestriction = 13,
+                    ImageUrl = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTgjKTgI_15Qt9vy2Iuej0NniEIHAjFn_zqEqd12Ln-ep6jgO6e"
                 }
             };
         }

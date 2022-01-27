@@ -20,21 +20,33 @@ header a
     color: white;
 }
 
+.table_row:nth-child(2n+1) 
+{
+    background-color: #1F1F1F;
+}
+
+.table_row:nth-child(2n) 
+{
+    background-color: #171717;
+}
+
 table, td, th
 {
     color: white;
     text-align: center;
     vertical-align: middle;
+    border-style: none;
 }
 
-th
+thead, th
 {
-    
+    background-color: black;
 }
 
-td
+footer
 {
-
+    text-align: center;
+    margin-top: 30px;
 }
 
 .content
@@ -72,12 +84,26 @@ td
 {
     background-color: #B70D2F;
     border-color: #B70D2F;
+    color: white;
 }
 
-.btn:hover 
-{
+.btn:hover {
     background-color: #DC143C;
     border-color: #B70D2F;
+    color: white;
+}
+
+.btn:active {
+    background-color: #DC143C;
+    border-color: #B70D2F;
+    color: white;
+}
+
+.btn:focus
+{
+    background-color: #B70D2F;
+    border-color: #B70D2F;
+    box-shadow: none;
 }
 
 .screeningRoomTable
@@ -117,45 +143,6 @@ td
 
 .seat_taken {
     background-color: #E21E13;
-    height: 40px;
-    width: 50px;
-    border-color: black;
-    border-left-width: 10px;
-    border-right-width: 10px;
-    border-bottom-width: 10px;
-    border-top-width: 0px;
-    border-style: solid;
-    border-radius: 0px 0px 20px 20px;
-}
-
-.seat_taken:hover {
-    background-color: #E07B75;
-    height: 40px;
-    width: 50px;
-    border-color: black;
-    border-left-width: 10px;
-    border-right-width: 10px;
-    border-bottom-width: 10px;
-    border-top-width: 0px;
-    border-style: solid;
-    border-radius: 0px 0px 20px 20px;
-}
-
-.seat_marked {
-    background-color: #1EE213;
-    height: 40px;
-    width: 50px;
-    border-color: black;
-    border-left-width: 10px;
-    border-right-width: 10px;
-    border-bottom-width: 10px;
-    border-top-width: 0px;
-    border-style: solid;
-    border-radius: 0px 0px 20px 20px;
-}
-
-.seat_marked:hover {
-    background-color: #7BE075;
     height: 40px;
     width: 50px;
     border-color: black;

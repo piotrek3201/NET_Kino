@@ -1,8 +1,105 @@
 ﻿@page "/"
 
+@inject NavigationManager NavigationManager
+@inject IViewMoviesUseCase ViewMoviesUseCase
+
 <PageTitle>Index</PageTitle>
 
-<h1>Kino</h1>
+<div class="main_page">
 
-Welcome to your new app.
+    <h1>Kino</h1>
+
+    @if(movies != null)
+    {
+        <div class="center">
+            <div class="row2">
+
+                <div style="padding: 0">
+                    <button class="prev" @onclick="@(() => PreviousMovie(@postersIndex[4]))">&#10094;</button>
+                </div>
+                <div class="posters">
+                    <div class="col" style="padding: 0">
+                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="@movies[0].Title" height="350">
+                    </div>
+                    <div class="col" style="padding: 0">
+                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[1].Title" height="350">
+                    </div>
+                    <div class="col" style="padding: 0">
+                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[2].Title" height="350">
+                    </div>
+                    <div class="col" style="padding: 0">
+                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[3].Title" height="350">
+                    </div>
+                    <div class="col" style="padding: 0">
+                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[4].Title" height="350">
+                    </div>
+                </div>
+                <div class="col" style="padding: 0">
+                    <button class="next" @onclick="@(() => NextMovie(@postersIndex[4]))">&#10095;</button>
+                </div>
+            </div>
+            <div class="col" style="padding: 25px 0 0 0">
+                <button class="WhatsOnButton" @onclick="@(() => WhatsOnClick())">Repertuar</button>
+            </div>
+        </div>
+    }
+
+</div>
+
+ @code
+{
+    private List<Movie> movies;
+    private List<int> postersIndex = new List<int>() { 0, 1, 2, 3, 4 };
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        LoadMovies();
+    }
+
+    private void LoadMovies()
+    {
+        movies = ViewMoviesUseCase.Execute()?.ToList();
+    }
+
+    private void NextMovie(int index)
+    {
+
+        if(index == movies.Count - 1)
+        {
+            postersIndex.RemoveAt(4);
+            index = 0;
+            postersIndex.Insert(0, index);
+        }
+        else
+        {
+            postersIndex.RemoveAt(4);
+            index++;
+            postersIndex.Insert(0, index);
+        }
+    }
+
+    private void PreviousMovie(int index)
+    {
+        if(index == movies.Count - 1)
+        {
+            postersIndex.RemoveAt(0);
+            index = 0;
+            postersIndex.Insert(4, index);
+        }
+        else
+        {
+            postersIndex.RemoveAt(0);
+            index++;
+            postersIndex.Insert(4, index);
+        }
+    }
+
+    private void WhatsOnClick()
+    {
+        NavigationManager.NavigateTo("/whatson");
+    }
+ }
+
 

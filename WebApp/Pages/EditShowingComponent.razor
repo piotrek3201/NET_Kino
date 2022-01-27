@@ -6,49 +6,53 @@
 @inject IGetShowingByIdUseCase GetShowingByIdUseCase
 @inject IEditShowingUseCase EditShowingUseCase
 
-<h3>Edytuj seans</h3>
+<div class="content">
 
-@if(showing != null)
-{
-    <EditForm Model="showing" class="form-inline" OnValidSubmit="OnValidSubmit">
-        <DataAnnotationsValidator></DataAnnotationsValidator>
-        <ValidationSummary></ValidationSummary>
-        <div class="form-group">
-            <label for="screeningRoom">Sala</label>
-            <select id="screeningRoom" @bind="showing.ScreeningRoomId" class="form-control">
-                <option selected></option>
-                @foreach(var screeningRoom in screeningRooms)
-                {
-                    <option value = "@screeningRoom.ScreeningRoomId">@screeningRoom.ScreeningRoomName</option>
-                }
-            </select>
-        </div>
+    <h3>Edytuj seans</h3>
 
-        <div class="form-group">
-            <label for="movie">Film</label>
-            <select id="movie" @bind="showing.MovieId" class="form-control">
-                <option selected></option>
-                @foreach(var movie in movies)
-                {
-                    <option value = "@movie.MovieId">@movie.Title (@movie.Year)</option>
-                }
-            </select>
-        </div>
+    @if(showing != null)
+    {
+        <EditForm Model="showing" class="form-inline" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationSummary></ValidationSummary>
+            <div class="form-group">
+                <label for="screeningRoom">Sala</label>
+                <select id="screeningRoom" @bind="showing.ScreeningRoomId" class="form-control">
+                    <option selected></option>
+                    @foreach(var screeningRoom in screeningRooms)
+                    {
+                        <option value = "@screeningRoom.ScreeningRoomId">@screeningRoom.ScreeningRoomName</option>
+                    }
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="date">Data i godzina</label>
-            <input type="datetime-local" id="date" @bind="showing.Date" class="form-control"></input>
-        </div>
+            <div class="form-group">
+                <label for="movie">Film</label>
+                <select id="movie" @bind="showing.MovieId" class="form-control">
+                    <option selected></option>
+                    @foreach(var movie in movies)
+                    {
+                        <option value = "@movie.MovieId">@movie.Title (@movie.Year)</option>
+                    }
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="ticketPrice">Cena biletu (zł)</label>
-            <InputNumber id="ticketPrice" @bind-Value="showing.TicketPrice" @bind-Value:format="F2" class="form-control"></InputNumber>
-        </div>
+            <div class="form-group">
+                <label for="date">Data i godzina</label>
+                <input type="datetime-local" id="date" @bind="showing.Date" class="form-control"></input>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Zapisz</button>
-        <button type="button" class="btn btn-primary" @onclick="OnCancel">Anuluj</button>
-    </EditForm>
-}
+            <div class="form-group">
+                <label for="ticketPrice">Cena biletu (zł)</label>
+                <InputNumber id="ticketPrice" @bind-Value="showing.TicketPrice" @bind-Value:format="F2" class="form-control"></InputNumber>
+            </div>
+
+            <button type="submit" class="btn">Zapisz</button>
+            <button type="button" class="btn" @onclick="OnCancel">Anuluj</button>
+        </EditForm>
+    }
+
+</div>
 
 @code 
 {
