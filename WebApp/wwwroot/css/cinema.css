@@ -250,7 +250,7 @@ footer
     color: #B70D2F;
 }
 
-.row{
+.row2{
     display: grid;
     grid-template-columns: auto auto auto;
     justify-content: space-between;
