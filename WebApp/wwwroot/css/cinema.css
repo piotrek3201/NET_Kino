@@ -223,7 +223,6 @@ footer
 
 .center {
     text-align: center;
-    background-color: dimgrey;
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
@@ -235,7 +234,6 @@ footer
 .prev, .next {
     background-color: transparent;
     cursor: pointer;
-    /*position: absolute;*/
     padding: 16px;
     color: #B70D2F;
     font-weight: bold;
@@ -246,17 +244,7 @@ footer
     user-select: none;
 
 }
-/*
-.prev {
-    -ms-transform: translateX(50%);
-    transform: translateX(50%);
-}
 
-.next {
-    -ms-transform: translateX(-50%);
-    transform: translateX(-50%);
-}
-*/
 .prev:hover, .next:hover {
     background-color: rgba(0,0,0,0.8);
     color: #B70D2F;

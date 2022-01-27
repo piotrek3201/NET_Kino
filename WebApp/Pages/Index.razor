@@ -14,27 +14,27 @@
             <div class="row">
 
                 <div style="padding: 0">
-                    <button class="prev" @onclick="@(() => NextMovie())">&#10094;</button>
+                    <button class="prev" @onclick="@(() => PreviousMovie(@postersIndex[4]))">&#10094;</button>
                 </div>
                 <div class="posters">
                     <div class="col" style="padding: 0">
-                        <img src="@movies[0].ImageUrl" alt="@movies[0].Title" height="350">
+                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="@movies[0].Title" height="350">
                     </div>
                     <div class="col" style="padding: 0">
-                        <img src="@movies[1].ImageUrl" alt="@movies[1].Title" height="350">
+                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[1].Title" height="350">
                     </div>
                     <div class="col" style="padding: 0">
-                        <img src="@movies[2].ImageUrl" alt="@movies[2].Title" height="350">
+                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[2].Title" height="350">
                     </div>
                     <div class="col" style="padding: 0">
-                        <img src="@movies[3].ImageUrl" alt="@movies[3].Title" height="350">
+                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[3].Title" height="350">
                     </div>
                     <div class="col" style="padding: 0">
-                        <img src="@movies[4].ImageUrl" alt="@movies[4].Title" height="350">
+                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[4].Title" height="350">
                     </div>
                 </div>
                 <div class="col" style="padding: 0">
-                    <button class="next" >&#10095;</button>
+                    <button class="next" @onclick="@(() => NextMovie(@postersIndex[4]))">&#10095;</button>
                 </div>
             </div>
         </div>
@@ -45,6 +45,7 @@
  @code
 {
     private List<Movie> movies;
+    private List<int> postersIndex = new List<int>() { 0, 1, 2, 3, 4 };
 
     protected override void OnInitialized()
     {
@@ -58,9 +59,37 @@
         movies = ViewMoviesUseCase.Execute()?.ToList();
     }
 
-    private void NextMovie()
+    private void NextMovie(int index)
     {
-        
+
+        if(index == movies.Count - 1)
+        {
+            postersIndex.RemoveAt(4);
+            index = 0;
+            postersIndex.Insert(0, index);
+        }
+        else
+        {
+            postersIndex.RemoveAt(4);
+            index++;
+            postersIndex.Insert(0, index);
+        }
+    }
+
+    private void PreviousMovie(int index)
+    {
+        if(index == movies.Count - 1)
+        {
+            postersIndex.RemoveAt(0);
+            index = 0;
+            postersIndex.Insert(4, index);
+        }
+        else
+        {
+            postersIndex.RemoveAt(0);
+            index++;
+            postersIndex.Insert(4, index);
+        }
     }
  }
 
