@@ -122,8 +122,7 @@ footer
     width: 60px;
 }
 
-.seat
-{
+.seat {
     background-color: gray;
     height: 40px;
     width: 50px;
@@ -136,10 +135,9 @@ footer
     border-radius: 0px 0px 20px 20px;
 }
 
-.seat:hover
-{
-    background-color: lightgray;
-}
+    .seat:hover {
+        background-color: lightgray;
+    }
 
 .seat_taken {
     background-color: #E21E13;
@@ -153,3 +151,164 @@ footer
     border-style: solid;
     border-radius: 0px 0px 20px 20px;
 }
+
+    .seat_taken:hover {
+        background-color: #E07B75;
+        height: 40px;
+        width: 50px;
+        border-color: black;
+        border-left-width: 10px;
+        border-right-width: 10px;
+        border-bottom-width: 10px;
+        border-top-width: 0px;
+        border-style: solid;
+        border-radius: 0px 0px 20px 20px;
+    }
+
+.seat_marked {
+    background-color: #1EE213;
+    height: 40px;
+    width: 50px;
+    border-color: black;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 0px;
+    border-style: solid;
+    border-radius: 0px 0px 20px 20px;
+}
+
+    .seat_marked:hover {
+        background-color: #7BE075;
+        height: 40px;
+        width: 50px;
+        border-color: black;
+        border-left-width: 10px;
+        border-right-width: 10px;
+        border-bottom-width: 10px;
+        border-top-width: 0px;
+        border-style: solid;
+        border-radius: 0px 0px 20px 20px;
+    }
+
+.movie {
+    background-color: #101010;
+    vertical-align: middle;
+    margin: auto;
+    width: 90%;
+    max-height: 150px;
+}
+
+.movie_title {
+    display: table;
+    margin: 0 auto;
+    text-align: left;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.movie_desc {
+    display: table;
+    margin: 0 auto;
+    vertical-align: bottom;
+    text-align: left;
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.age3_6 {
+    background-color: green;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.age7_14 {
+    background-color: yellow;
+    color: black;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.age15_17 {
+    background-color: orange;
+    color: black;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.age18 {
+    background-color: red;
+    padding: 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.vertical_center {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.main_page {
+    max-width: auto;
+}
+
+
+.center {
+    text-align: center;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1340px;
+    width: auto;
+    padding: 0 0 0 0;
+}
+
+.prev, .next {
+    background-color: transparent;
+    cursor: pointer;
+    padding: 16px;
+    color: #B70D2F;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 5px 5px 5px 5px;
+    border: 3px solid #B70D2F;
+    user-select: none;
+}
+
+    .prev:hover, .next:hover {
+        background-color: rgba(0,0,0,0.8);
+        color: #B70D2F;
+    }
+
+.row2 {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.posters {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.WhatsOnButton {
+    background-color: transparent;
+    cursor: pointer;
+    padding: 16px;
+    color: #B70D2F;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 5px 5px 5px 5px;
+    border: 3px solid #B70D2F;
+    user-select: none;
+}
+
+    .WhatsOnButton:hover {
+        background-color: rgba(0,0,0,0.8);
+        color: #B70D2F;
+    }
