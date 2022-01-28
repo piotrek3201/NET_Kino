@@ -162,7 +162,7 @@ namespace Plugins.DataStore.SQL.Migrations
                             ReservationExpirationDate = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             RowNumber = 4,
                             ShowingId = 1,
-                            TicketId = 0
+                            TicketId = 1
                         },
                         new
                         {
@@ -172,17 +172,17 @@ namespace Plugins.DataStore.SQL.Migrations
                             ReservationExpirationDate = new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999),
                             RowNumber = 4,
                             ShowingId = 1,
-                            TicketId = 0
+                            TicketId = 1
                         },
                         new
                         {
                             ReservationId = 3,
                             ClientMail = "",
                             ColumnNumber = 2,
-                            ReservationExpirationDate = new DateTime(2022, 1, 28, 20, 45, 17, 794, DateTimeKind.Local).AddTicks(4279),
+                            ReservationExpirationDate = new DateTime(2022, 1, 28, 21, 28, 33, 891, DateTimeKind.Local).AddTicks(1531),
                             RowNumber = 3,
                             ShowingId = 1,
-                            TicketId = 0
+                            TicketId = 2
                         });
                 });
 
@@ -336,6 +336,14 @@ namespace Plugins.DataStore.SQL.Migrations
                             ClientMail = "dawid.leszczynski@student.wat.edu.pl",
                             PurchaseDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             QRString = "QWERTYUIO",
+                            QRStringImage = ""
+                        },
+                        new
+                        {
+                            TicketId = 2,
+                            ClientMail = "piotr.kaluzinski@student.wat.edu.pl",
+                            PurchaseDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            QRString = "ASDFGHJKL",
                             QRStringImage = ""
                         });
                 });
