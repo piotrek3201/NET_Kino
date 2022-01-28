@@ -137,8 +137,7 @@ footer
 }
 
     .seat:hover {
-        background-color: #a8a8a8;
-        font-size: inherit;
+        background-color: lightgray;
     }
 
 .seat_taken {
@@ -156,7 +155,7 @@ footer
 }
 
     .seat_taken:hover {
-        background-color: #d8716b;
+        background-color: #E07B75;
         height: 40px;
         width: 50px;
         border-color: black;
@@ -166,7 +165,6 @@ footer
         border-top-width: 0px;
         border-style: solid;
         border-radius: 0px 0px 20px 20px;
-        font-size: inherit;
     }
 
 .seat_marked {
@@ -184,7 +182,7 @@ footer
 }
 
     .seat_marked:hover {
-        background-color: #6fc06f;
+        background-color: #7BE075;
         height: 40px;
         width: 50px;
         border-color: black;
@@ -194,7 +192,6 @@ footer
         border-top-width: 0px;
         border-style: solid;
         border-radius: 0px 0px 20px 20px;
-        font-size: inherit;
     }
 
 .movie {
@@ -203,6 +200,15 @@ footer
     margin: auto;
     width: 90%;
     max-height: 150px;
+}
+
+.showing {
+    background-color: #101010;
+    vertical-align: middle;
+    margin: auto;
+    width: 100%;
+    height: 50px;
+    text-align: center;
 }
 
 .movie_title {
@@ -251,14 +257,21 @@ footer
 
 .vertical_center {
     position: absolute;
+    /*
     top: 50%;
     transform: translateY(-50%);
+    */
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }
 
-.main_page {
+.main_page 
+{
     max-width: auto;
 }
-
 
 .center {
     text-align: center;
@@ -283,10 +296,10 @@ footer
     user-select: none;
 }
 
-    .prev:hover, .next:hover {
-        background-color: rgba(0,0,0,0.8);
-        color: #B70D2F;
-    }
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+    color: #B70D2F;
+}
 
 .row2 {
     display: grid;
@@ -300,6 +313,7 @@ footer
     flex-direction: row;
     justify-content: center;
 }
+
 
 .WhatsOnButton {
     background-color: transparent;
@@ -318,3 +332,51 @@ footer
         background-color: rgba(0,0,0,0.8);
         color: #B70D2F;
     }
+
+.nav-logo {
+    margin-top: 1px;
+    margin-left: 10px;
+    margin-right: 1px;
+    justify-content: left;
+}
+
+.col2 {
+    flex: 1 0 0%;
+    opacity: 1;
+}
+
+.col2:hover .image{
+    opacity: 0.2;
+}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    text-align: center;
+    border-radius: 2px 2px 2px 2px;
+    border: 3px solid #B70D2F;
+    background-color: rgba(0,0,0,0.8);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%)
+}
+
+.col2:hover .middle {
+    opacity: 1;
+}
+
+.text {
+    opacity: 1;
+    color: #B70D2F;
+    font-size: 16px;
+    padding: 10px 8px;
+}
+
+.image {
+    opacity: 1;
+    width: 246px;
+    height: 350px;
+    transition: .5s ease;
+}

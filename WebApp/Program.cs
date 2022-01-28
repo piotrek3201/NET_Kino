@@ -41,7 +41,8 @@ builder.Services.AddTransient<IEditShowingUseCase, EditShowingUseCase>();
 builder.Services.AddTransient<IDeleteShowingUseCase, DeleteShowingUseCase>();
 builder.Services.AddTransient<IGetFutureShowingsUseCase, GetFutureShowingsUseCase>();
 builder.Services.AddTransient<IGetShowingsByDayUseCase, GetShowingsByDayUseCase>();
-
+builder.Services.AddTransient<IGetFutureShowingsByMovieUseCase, GetFutureShowingsByMovieUseCase>();
+builder.Services.AddTransient<IGetPastShowingsUseCase, GetPastShowingsUseCase>();
 
 builder.Services.AddTransient<IAddReservationUseCase, AddReservationUseCase>();
 builder.Services.AddTransient<IConfirmReservationUseCase, ConfirmReservationUseCase>();
