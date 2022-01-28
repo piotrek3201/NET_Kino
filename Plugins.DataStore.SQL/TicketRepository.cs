@@ -104,7 +104,7 @@ namespace Plugins.DataStore.SQL
             if (ticketToDelete != null)
             {
                 db.Tickets.Remove(ticketToDelete);
-                db.SavedChanges();
+                db.SaveChanges();
             }
         }
 
