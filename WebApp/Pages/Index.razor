@@ -24,31 +24,31 @@
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[0]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="movies[@postersIndex[0]].Title" class="image">
+                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="movies[@postersIndex[0]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[0]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[1]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[@postersIndex[1]].Title" class="image">
+                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[@postersIndex[1]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[1]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[2]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[@postersIndex[2]].Title" class="image">
+                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[@postersIndex[2]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[2]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[3]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[@postersIndex[3]].Title" class="image">
+                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[@postersIndex[3]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[3]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[4]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[@postersIndex[4]].Title" class="image">
+                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[@postersIndex[4]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[4]].MovieId))">
                     </div>
                 </div>
                 <div class="col" style="padding: 0">
@@ -116,6 +116,11 @@
     private void WhatsOnClick()
     {
         NavigationManager.NavigateTo("/whatson");
+    }
+
+    private void VievShowingsId(int id)
+    {
+        NavigationManager.NavigateTo($"/viewshowings/{id}");
     }
  }
 

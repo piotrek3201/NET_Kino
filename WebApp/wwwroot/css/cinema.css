@@ -339,6 +339,10 @@ footer
 
 .col2 {
     flex: 1 0 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     opacity: 1;
 }
 
@@ -350,14 +354,12 @@ footer
     transition: .5s ease;
     opacity: 0;
     text-align: center;
-    border-radius: 2px 2px 2px 2px;
+    border-radius: 5px 5px 5px 5px;
     border: 3px solid #B70D2F;
     background-color: rgba(0,0,0,0.8);
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%)
+    display: inline-block;
+    margin: 0 auto 0 auto;
 }
 
 .col2:hover .middle {
