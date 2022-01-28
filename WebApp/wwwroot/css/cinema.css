@@ -1,124 +1,105 @@
-body 
-{
+body {
     color: white;
     background-color: #202020;
 }
 
-header 
-{
+header {
     background-color: black;
     height: 50px;
     padding-top: 5px;
-    
-    position: fixed; 
-    top: 0; 
-    width: 100%; 
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
-header a
-{
-    color: white;
-}
+    header a {
+        color: white;
+    }
 
-.table_row:nth-child(2n+1) 
-{
+.table_row:nth-child(2n+1) {
     background-color: #1F1F1F;
 }
 
-.table_row:nth-child(2n) 
-{
+.table_row:nth-child(2n) {
     background-color: #171717;
 }
 
-table, td, th
-{
+table, td, th {
     color: white;
     text-align: center;
     vertical-align: middle;
     border-style: none;
 }
 
-thead, th
-{
+thead, th {
     background-color: black;
 }
 
-footer
-{
+footer {
     text-align: center;
     margin-top: 30px;
 }
 
-.content
-{
+.content {
     max-width: 1000px;
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.option a
-{
+.option a {
     color: white;
 }
 
-.option a:active
-{
-    background-color: #303030;
-    color: white;
-}
+    .option a:active {
+        background-color: #303030;
+        color: white;
+    }
 
-.option a:visited 
-{
-    background-color: #303030;
-    color: white;
-}
+    .option a:visited {
+        background-color: #303030;
+        color: white;
+    }
 
-.option a:hover 
-{
-    background-color: #B70D2F;
-    color: white;
-}
+    .option a:hover {
+        background-color: #B70D2F;
+        color: white;
+    }
 
-.btn 
-{
+.btn {
     background-color: #B70D2F;
     border-color: #B70D2F;
     color: white;
 }
 
-.btn:hover {
-    background-color: #DC143C;
-    border-color: #B70D2F;
-    color: white;
-}
+    .btn:hover {
+        background-color: #DC143C;
+        border-color: #B70D2F;
+        color: white;
+    }
 
-.btn:active {
-    background-color: #DC143C;
-    border-color: #B70D2F;
-    color: white;
-}
+    .btn:active {
+        background-color: #DC143C;
+        border-color: #B70D2F;
+        color: white;
+    }
 
-.btn:focus
-{
-    background-color: #B70D2F;
-    border-color: #B70D2F;
-    box-shadow: none;
-}
+    .btn:focus {
+        background-color: #B70D2F;
+        border-color: #B70D2F;
+        box-shadow: none;
+    }
 
-.screeningRoomTable
-{
+.screeningRoomTable {
     margin-left: auto;
     margin-right: auto;
 }
 
-.screeningRoomRow
-{
+.screeningRoomRow {
     height: 60px;
 }
 
-.screeningRoomSeat
-{
+.screeningRoomSeat {
     width: 60px;
 }
 
@@ -137,7 +118,8 @@ footer
 }
 
     .seat:hover {
-        background-color: lightgray;
+        background-color: #a8a8a8;
+        font-size: inherit;
     }
 
 .seat_taken {
@@ -155,7 +137,7 @@ footer
 }
 
     .seat_taken:hover {
-        background-color: #E07B75;
+        background-color: #d8716b;
         height: 40px;
         width: 50px;
         border-color: black;
@@ -165,6 +147,7 @@ footer
         border-top-width: 0px;
         border-style: solid;
         border-radius: 0px 0px 20px 20px;
+        font-size: inherit;
     }
 
 .seat_marked {
@@ -182,7 +165,7 @@ footer
 }
 
     .seat_marked:hover {
-        background-color: #7BE075;
+        background-color: #6fc06f;
         height: 40px;
         width: 50px;
         border-color: black;
@@ -192,6 +175,7 @@ footer
         border-top-width: 0px;
         border-style: solid;
         border-radius: 0px 0px 20px 20px;
+        font-size: inherit;
     }
 
 .movie {
@@ -268,8 +252,7 @@ footer
     transform: translateX(-50%) translateY(-50%);
 }
 
-.main_page 
-{
+.main_page {
     max-width: auto;
 }
 
@@ -296,10 +279,10 @@ footer
     user-select: none;
 }
 
-.prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
-    color: #B70D2F;
-}
+    .prev:hover, .next:hover {
+        background-color: rgba(0,0,0,0.8);
+        color: #B70D2F;
+    }
 
 .row2 {
     display: grid;
@@ -345,9 +328,9 @@ footer
     opacity: 1;
 }
 
-.col2:hover .image{
-    opacity: 0.2;
-}
+    .col2:hover .image {
+        opacity: 0.2;
+    }
 
 .middle {
     transition: .5s ease;

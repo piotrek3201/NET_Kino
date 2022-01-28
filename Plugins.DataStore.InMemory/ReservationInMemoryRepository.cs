@@ -68,7 +68,7 @@ namespace Plugins.DataStore.InMemory
 
             if (reservationToConfirm != null) reservationToConfirm.ReservationExpirationDate = DateTime.Now.AddYears(5);
         }
-        5
+        
         public IEnumerable<Reservation> GetReservationsByShowingId(int showingId)
         {
             return reservations.FindAll(x => x.ShowingId == showingId);
