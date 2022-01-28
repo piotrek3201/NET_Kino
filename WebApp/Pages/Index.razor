@@ -12,26 +12,43 @@
     @if(movies != null)
     {
         <div class="center">
+            <div class="col" style="padding: 0 0 40px 0">
+                <img src="NetKino.png" alt="Logo">
+            </div>
             <div class="row2">
-
                 <div style="padding: 0">
                     <button class="prev" @onclick="@(() => PreviousMovie(@postersIndex[4]))">&#10094;</button>
                 </div>
                 <div class="posters">
-                    <div class="col" style="padding: 0">
-                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="@movies[0].Title" height="350">
+                    <div class="col2" style="padding: 0">
+                        <div class="middle">
+                            <div class="text">@movies[@postersIndex[0]].Title</div>
+                        </div>
+                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="movies[@postersIndex[0]].Title" class="image">
                     </div>
-                    <div class="col" style="padding: 0">
-                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[1].Title" height="350">
+                    <div class="col2" style="padding: 0">
+                        <div class="middle">
+                            <div class="text">@movies[@postersIndex[1]].Title</div>
+                        </div>
+                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[@postersIndex[1]].Title" class="image">
                     </div>
-                    <div class="col" style="padding: 0">
-                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[2].Title" height="350">
+                    <div class="col2" style="padding: 0">
+                        <div class="middle">
+                            <div class="text">@movies[@postersIndex[2]].Title</div>
+                        </div>
+                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[@postersIndex[2]].Title" class="image">
                     </div>
-                    <div class="col" style="padding: 0">
-                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[3].Title" height="350">
+                    <div class="col2" style="padding: 0">
+                        <div class="middle">
+                            <div class="text">@movies[@postersIndex[3]].Title</div>
+                        </div>
+                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[@postersIndex[3]].Title" class="image">
                     </div>
-                    <div class="col" style="padding: 0">
-                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[4].Title" height="350">
+                    <div class="col2" style="padding: 0">
+                        <div class="middle">
+                            <div class="text">@movies[@postersIndex[4]].Title</div>
+                        </div>
+                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[@postersIndex[4]].Title" class="image">
                     </div>
                 </div>
                 <div class="col" style="padding: 0">

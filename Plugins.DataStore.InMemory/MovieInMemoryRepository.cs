@@ -54,7 +54,7 @@ namespace Plugins.DataStore.InMemory
                     Length = 155,
                     Year = 2021,
                     AgeRestriction = 13,
-                    ImageUrl = "https://fwcdn.pl/fpo/94/76/469476/7972251.3.jpg"
+                    ImageUrl = "https://i.ebayimg.com/images/g/wUkAAOSwpOxhHUrd/s-l400.jpg"
                 },
                 new Movie()
                 {
