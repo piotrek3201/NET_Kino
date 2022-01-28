@@ -146,6 +146,21 @@ namespace Plugins.DataStore.SQL
                     }
                 );
 
+            modelBuilder.Entity<Ticket>().HasData(
+                    new Ticket()
+                    {
+                        ClientMail = "dawid.leszczynski@student.wat.edu.pl",
+                        TicketId = 1,
+                        QRString = "QWERTYUIO"
+                    },
+                    new Ticket()
+                    {
+                        ClientMail = "piotr.kaluzinski@student.wat.edu.pl",
+                        TicketId = 2,
+                        QRString = "ASDFGHJKL"
+                    }
+                );
+
             modelBuilder.Entity<Reservation>().HasData(
                     new Reservation()
                     {
@@ -153,7 +168,8 @@ namespace Plugins.DataStore.SQL
                         ShowingId = 1,
                         RowNumber = 4,
                         ColumnNumber = 6,
-                        ReservationExpirationDate = DateTime.MaxValue
+                        ReservationExpirationDate = DateTime.MaxValue,
+                        TicketId = 1
                     },
                     new Reservation()
                     {
@@ -161,7 +177,8 @@ namespace Plugins.DataStore.SQL
                         ShowingId = 1,
                         RowNumber = 4,
                         ColumnNumber = 7,
-                        ReservationExpirationDate = DateTime.MaxValue
+                        ReservationExpirationDate = DateTime.MaxValue,
+                        TicketId = 1
                     },
                     new Reservation()
                     {
@@ -169,18 +186,12 @@ namespace Plugins.DataStore.SQL
                         ShowingId = 1,
                         RowNumber = 3,
                         ColumnNumber = 2,
-                        ReservationExpirationDate = DateTime.Now.AddMinutes(5)
+                        ReservationExpirationDate = DateTime.Now.AddMinutes(5),
+                        TicketId = 2
                     }
                 );
 
-            modelBuilder.Entity<Ticket>().HasData(
-                    new Ticket()
-                    {
-                        ClientMail = "dawid.leszczynski@student.wat.edu.pl",
-                        TicketId = 1,
-                        QRString = "QWERTYUIO"
-                    }
-                );
+            
 
 
         }

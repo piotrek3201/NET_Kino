@@ -61,6 +61,7 @@ builder.Services.AddTransient<IGetReservationsByTicketUseCase, GetReservationsBy
 builder.Services.AddTransient<IAddTicketUseCase, AddTicketUseCase>();
 builder.Services.AddTransient<IDeleteTicketByIdsUseCase, DeleteTicketByIdsUseCase>();
 builder.Services.AddTransient<IGetTicketsByMailUseCase, GetTicketsByMailUseCase>();
+builder.Services.AddTransient<IFinalizeTicketUseCase, FinalizeTicketUseCase>();
 
 var app = builder.Build();
 

@@ -22,7 +22,8 @@ namespace Plugins.DataStore.InMemory
                     ShowingId = 1,
                     RowNumber = 4,
                     ColumnNumber = 6,
-                    ReservationExpirationDate = DateTime.MaxValue
+                    ReservationExpirationDate = DateTime.MaxValue,
+                    TicketId = 1
                 },
                 new Reservation()
                 {
@@ -30,7 +31,8 @@ namespace Plugins.DataStore.InMemory
                     ShowingId = 1,
                     RowNumber = 4,
                     ColumnNumber = 7,
-                    ReservationExpirationDate = DateTime.MaxValue
+                    ReservationExpirationDate = DateTime.MaxValue,
+                    TicketId = 1
                 },
                 new Reservation()
                 {
@@ -38,7 +40,8 @@ namespace Plugins.DataStore.InMemory
                     ShowingId = 1,
                     RowNumber = 3,
                     ColumnNumber = 2,
-                    ReservationExpirationDate = DateTime.Now.AddMinutes(5)
+                    ReservationExpirationDate = DateTime.Now.AddMinutes(5),
+                    TicketId = 2
                 },
             };
         }
@@ -55,7 +58,7 @@ namespace Plugins.DataStore.InMemory
 
         public void AddReservation(Reservation reservation)
         {
-            reservation.ReservationId = reservations.Max(x => x.TicketId) + 1;
+            reservation.ReservationId = reservations.Max(x => x.ReservationId) + 1;
 
             if (reservations.Any(x => x.ShowingId == reservation.ShowingId &&
                                 x.RowNumber == reservation.RowNumber &&

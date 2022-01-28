@@ -8,17 +8,17 @@ using UseCases.DataStorePluginInterfaces;
 
 namespace UseCases
 {
-    public class AddTicketUseCase : IAddTicketUseCase
+    public class FinalizeTicketUseCase : IFinalizeTicketUseCase
     {
         private readonly ITicketRepository ticketRepository;
 
-        public AddTicketUseCase(ITicketRepository ticketRepository)
+        public FinalizeTicketUseCase(ITicketRepository ticketRepository)
         {
             this.ticketRepository = ticketRepository;
         }
-        public void Execute(Ticket ticket)
+        public void Execute(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie)
         {
-            ticketRepository.AddTicket(ticket);
+            ticketRepository.FinalizeTicket(ticket, linkedReservations, linkedShowing, linkedMovie);
         }
     }
 }

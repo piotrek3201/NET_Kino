@@ -11,6 +11,7 @@
 @inject IAddReservationUseCase AddReservationUseCase
 @inject IDeleteReservationByPositionUseCase DeleteReservationByPositionUseCase
 @inject IAddTicketUseCase AddTicketUseCase
+@inject IFinalizeTicketUseCase FinalizeTicketUseCase
 
 @using QRCoder;
 @using System.Drawing;
@@ -152,14 +153,14 @@ else
     private bool paymentSuccess = false;
     private string customerEmailString = "";
     private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute();
-    private Ticket ticket;
+    private Ticket ticket = new Ticket();
 
     private void lockSeatsAndProcessPayment()
     {
         // First get max + 1 ticketId
-        int ticketId;
-        if (GetTicketsByMailUseCase.Execute(customerEmailString).Count() <= 0) ticketId = 1;
-        else ticketId = GetTicketsByMailUseCase.Execute(customerEmailString).Max(x => x.TicketId) + 1;
+        int ticketId = ticket.TicketId;
+        //if (GetTicketsByMailUseCase.Execute(customerEmailString).Count() <= 0) ticketId = 1;
+        //else ticketId = GetTicketsByMailUseCase.Execute(customerEmailString).Max(x => x.TicketId) + 1;
 
         // populate reservation list for the showing with the up to date one
         PopulateReservations();
@@ -200,13 +201,10 @@ else
         foreach (Reservation r in markedSeats) ConfirmReservationUseCase.Execute(r);
 
         // create ticket
-        ticket = new Ticket()
-        {
-            ClientMail = customerEmailString,
-            TicketId = ticketId,
-            PurchaseDate = System.DateTime.Now
-        };
-        AddTicketUseCase.Execute(ticket, markedSeats, showing, movie);
+        ticket.ClientMail = customerEmailString;
+        ticket.TicketId = ticketId;
+        ticket.PurchaseDate = System.DateTime.Now;
+        FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie);
 
         paymentSuccess = true;
         processingPayment = false;
@@ -302,6 +300,9 @@ else
                     ColumnCount = scrRoom.ColumnCount,
                     RowCount = scrRoom.RowCount
                 };
+
+                // add cool id number to ticket
+                AddTicketUseCase.Execute(ticket);
 
                 // populate reservation list for the showing
                 PopulateReservations();

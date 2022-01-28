@@ -28,6 +28,12 @@ namespace Plugins.DataStore.InMemory
                     ClientMail = "dawid.leszczynski@student.wat.edu.pl",
                     TicketId = 1,
                     QRString = "QWERTYUIO"
+                },
+                new Ticket()
+                {
+                    ClientMail = "piotr.kaluzinski@student.wat.edu.pl",
+                    TicketId = 2,
+                    QRString = "ASDFGHJKL"
                 }
             };
         }
@@ -37,7 +43,7 @@ namespace Plugins.DataStore.InMemory
             return tickets; 
         }
 
-        public void AddTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie)
+        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie)
         {
             // check if ticket like this already exists, if it does then RETURN
             if (tickets.Any(x => x.ClientMail == ticket.ClientMail &&
@@ -72,7 +78,7 @@ namespace Plugins.DataStore.InMemory
                 "\n\nFilm: " + linkedMovie.Title + "\nData: " + linkedShowing.Date +
                 "\nTwoja sala: " + linkedShowing.ScreeningRoomId +
                 "\nTwoje miejsca: ";
-            
+
             foreach (Reservation lr in linkedReservations)
             {
                 char rLetter = (char)(lr.RowNumber + 64);
@@ -102,6 +108,12 @@ namespace Plugins.DataStore.InMemory
             {
                 throw;
             }
+
+        }
+
+        public void AddTicket(Ticket ticket)
+        {
+            ticket.TicketId = tickets.Max(x => x.TicketId) + 1;
         }
 
         public void DeleteTicketByIds(string clientMail, int ticketId)
