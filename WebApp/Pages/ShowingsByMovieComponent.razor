@@ -1,7 +1,125 @@
-﻿<h3>ShowingsByMovieComponent</h3>
+﻿@page "/viewshowings/{movieId}"
 
+@inject IGetMovieByIdUseCase GetMovieByIdUseCase
+@inject IGetFutureShowingsByMovieUseCase GetFutureShowingsByMovieUseCase
+@inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
+@inject IGetReservationsByShowingIdUseCase GetReservationsByShowingIdUseCase
+@inject NavigationManager NavigationManager
+
+<div class="content">
+    @if(showings != null)
+    {
+        <h3>Seanse filmu @movie.Title</h3>
+
+        @foreach(var date in dates)
+        {
+            <h3>@date.Date.ToString("dd/MM/yyyy")</h3>
+
+                @foreach(var show in showings)
+                {
+                    
+                    @if(show.Date.Date == date.Date.Date)
+                    {
+                        <div class="showing">
+                            <div class="row" style="height: 50px;">
+                                <div class="col" style="margin-top: 13px;">
+                                    Godzina: @show.Date.ToString("HH:mm")
+                                </div>
+                                <div class="col" style="margin-top: 13px;">
+                                    Sala @GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ScreeningRoomName
+                                </div>
+                                <div class="col" style="margin-top: 13px; width: 100px;">
+                                    Wolne miejsca:
+                                    @(GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).RowCount *
+                                    GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ColumnCount -
+                                    @GetReservationsByShowingIdUseCase.Execute(show.ShowingId).Count())/@(
+                                    GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).RowCount *
+                                    GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ColumnCount)
+                                </div>
+                                <div class="col" style="margin-top: 13px;">
+                                    Cena biletu: @show.TicketPrice zł
+                                </div>
+                                <div class="col" style="margin-top: 5px;">
+                                    
+                                        <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))">Kup bilet</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    }
+                    
+                }
+            
+            <br />
+        }
+
+    }
+    else
+    {
+        <h6>Przepraszamy, nie mogliśmy znaleźć podanego filmu <i class="fa-solid fa-face-frown"></i></h6>
+    }
+
+    
+</div>
 
 @code 
 {
+    [Parameter]
+    public string MovieId { get; set; }
 
+    private Movie movie;
+
+    private List<Showing> showings;
+
+    private List<DateTime> dates;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        movie = new Movie();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if(int.TryParse(this.MovieId, out int iMovieId))
+        {
+            var m = GetMovieByIdUseCase.Execute(iMovieId);
+            if(m != null)
+            {
+                this.movie = new Movie
+                {
+                    MovieId = m.MovieId,
+                    Title = m.Title,
+                    Description = m.Description,
+                    Length = m.Length,
+                    Year = m.Year,
+                    AgeRestriction = m.AgeRestriction,
+                    ImageUrl = m.ImageUrl
+                };
+            }
+        }
+
+        if(movie != null)
+        {
+            showings = GetFutureShowingsByMovieUseCase.Execute(movie)?.ToList();
+
+            dates = new List<DateTime>();
+
+            foreach(var show in showings)
+            {
+                dates.Add(show.Date.Date);
+            }
+
+            dates = dates.Distinct().ToList();
+        }
+    }
+
+    private void ViewShowing(int showingId)
+    {
+        NavigationManager.NavigateTo($"/showing/{showingId}");
+    }
 }

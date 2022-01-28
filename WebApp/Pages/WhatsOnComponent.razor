@@ -2,6 +2,7 @@
 
 @inject IGetShowingsByDayUseCase GetShowingsByDayUseCase
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
+@inject NavigationManager NavigationManager
 
 <div class="content">
     <h3>Repertuar</h3>
@@ -48,7 +49,7 @@
                 </div>
                 <div class="col-2" style="position: relative;">
                     <span class="vertical_center">
-                        <button type="button" class="btn">Seanse</button>
+                        <button type="button" class="btn" @onclick="@(() => ViewShowings(movie))">Seanse</button>
                     </span>
                 </div>
             </div>
@@ -98,5 +99,10 @@
     {
         date = date.AddDays(-1);
         LoadMovies();
+    }
+
+    private void ViewShowings(Movie movie)
+    {
+         NavigationManager.NavigateTo($"/viewshowings/{movie.MovieId}");
     }
 }

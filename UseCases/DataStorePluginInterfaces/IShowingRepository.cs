@@ -16,8 +16,7 @@ namespace UseCases
         void DeleteShowing(int showingId);
         IEnumerable<Showing> GetFutureShowings();
         IEnumerable<Showing> GetShowingsByDay(DateTime day);
-        /*
-        IEnumerable<Showing> GetFutureShowingsByMovieId(int movieId);
-        */
+        IEnumerable<Showing> GetFutureShowingsByMovie(Movie movie);
+        IEnumerable<Showing> GetPastShowings();
     }
 }
