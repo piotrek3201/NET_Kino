@@ -143,7 +143,11 @@ namespace Plugins.DataStore.SQL.Migrations
             migrationBuilder.InsertData(
                 table: "Tickets",
                 columns: new[] { "TicketId", "ClientMail", "PurchaseDate", "QRString", "QRStringImage" },
-                values: new object[] { 1, "dawid.leszczynski@student.wat.edu.pl", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "QWERTYUIO", "" });
+                values: new object[,]
+                {
+                    { 1, "dawid.leszczynski@student.wat.edu.pl", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "QWERTYUIO", "" },
+                    { 2, "piotr.kaluzinski@student.wat.edu.pl", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "ASDFGHJKL", "" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Showings",
@@ -159,17 +163,17 @@ namespace Plugins.DataStore.SQL.Migrations
             migrationBuilder.InsertData(
                 table: "Reservations",
                 columns: new[] { "ReservationId", "ClientMail", "ColumnNumber", "ReservationExpirationDate", "RowNumber", "ShowingId", "TicketId" },
-                values: new object[] { 1, "", 6, new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), 4, 1, 0 });
+                values: new object[] { 1, "", 6, new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), 4, 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",
                 columns: new[] { "ReservationId", "ClientMail", "ColumnNumber", "ReservationExpirationDate", "RowNumber", "ShowingId", "TicketId" },
-                values: new object[] { 2, "", 7, new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), 4, 1, 0 });
+                values: new object[] { 2, "", 7, new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Unspecified).AddTicks(9999), 4, 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",
                 columns: new[] { "ReservationId", "ClientMail", "ColumnNumber", "ReservationExpirationDate", "RowNumber", "ShowingId", "TicketId" },
-                values: new object[] { 3, "", 2, new DateTime(2022, 1, 28, 20, 45, 17, 794, DateTimeKind.Local).AddTicks(4279), 3, 1, 0 });
+                values: new object[] { 3, "", 2, new DateTime(2022, 1, 28, 21, 28, 33, 891, DateTimeKind.Local).AddTicks(1531), 3, 1, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_ShowingId",
