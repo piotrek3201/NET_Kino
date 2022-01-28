@@ -24,10 +24,6 @@ namespace Plugins.DataStore.SQL
 
         public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie)
         {
-            // check if ticket like this already exists, if it does then RETURN
-            if (db.Tickets.Any(x => x.ClientMail == ticket.ClientMail &&
-                               x.TicketId == ticket.TicketId)) return;
-
             // generate qr code for ticket and db
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             //TODO: append a unique string of characters (user id + ticket id I reckon)
@@ -48,7 +44,6 @@ namespace Plugins.DataStore.SQL
             }
 
             // save ticket
-            db.Tickets.Add(ticket);
             db.SaveChanges();
 
             // fill out mail and send ticket
@@ -93,7 +88,8 @@ namespace Plugins.DataStore.SQL
 
         public void AddTicket(Ticket ticket)
         {
-            ticket.TicketId = db.Tickets.Max(x => x.TicketId) + 1;
+            db.Tickets.Add(ticket);
+            db.SaveChanges();
         }
 
         public void DeleteTicketByIds(string clientMail, int ticketId)

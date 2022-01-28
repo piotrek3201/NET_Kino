@@ -29,7 +29,7 @@ namespace Plugins.DataStore.SQL
 
         public void AddReservation(Reservation reservation)
         {
-            reservation.ReservationId = db.Reservations.Max(x => x.ReservationId) + 1;
+            //reservation.ReservationId = db.Reservations.Max(x => x.ReservationId) + 1;
 
             if (db.Reservations.Any(x => x.ShowingId == reservation.ShowingId &&
                                 x.RowNumber == reservation.RowNumber &&
@@ -46,7 +46,11 @@ namespace Plugins.DataStore.SQL
                                 x.RowNumber == reservation.RowNumber &&
                                 x.ColumnNumber == reservation.ColumnNumber);
 
-            if (reservationToConfirm != null) reservationToConfirm.ReservationExpirationDate = DateTime.Now.AddYears(5);
+            if (reservationToConfirm != null)
+            {
+                reservationToConfirm.ReservationExpirationDate = DateTime.Now.AddYears(5);
+                db.SaveChanges();
+            }
         }
 
         public IEnumerable<Reservation> GetReservationsByShowingId(int showingId)

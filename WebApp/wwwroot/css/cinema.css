@@ -178,6 +178,34 @@ footer {
         font-size: inherit;
     }
 
+.seat_reserved {
+    background-color: #dc8a47;
+    height: 40px;
+    width: 50px;
+    border-color: black;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 0px;
+    border-style: solid;
+    border-radius: 0px 0px 20px 20px;
+    font-size: smaller;
+}
+
+    .seat_reserved:hover {
+        background-color: #db9760;
+        height: 40px;
+        width: 50px;
+        border-color: black;
+        border-left-width: 10px;
+        border-right-width: 10px;
+        border-bottom-width: 10px;
+        border-top-width: 0px;
+        border-style: solid;
+        border-radius: 0px 0px 20px 20px;
+        font-size: inherit;
+    }
+
 .movie {
     background-color: #101010;
     vertical-align: middle;

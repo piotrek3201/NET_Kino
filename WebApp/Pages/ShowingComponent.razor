@@ -12,6 +12,7 @@
 @inject IDeleteReservationByPositionUseCase DeleteReservationByPositionUseCase
 @inject IAddTicketUseCase AddTicketUseCase
 @inject IFinalizeTicketUseCase FinalizeTicketUseCase
+@inject IDeleteTicketByIdsUseCase DeleteTicketByIdsUseCase
 
 @using QRCoder;
 @using System.Drawing;
@@ -42,7 +43,8 @@
                     char rLetter = (char)(r.RowNumber + 64);
                     char whiteSpace = ' ';
 
-                    @rLetter@c@whiteSpace
+                    @ticket.TicketId @r.ReservationId @rLetter@c@whiteSpace
+                    
                 }
 
                 <br />
@@ -81,9 +83,13 @@
                             @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
                             {
                                 var c = j;
-                                @if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j))
+                                @if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j && x.ReservationExpirationDate > DateTime.Now.AddYears(1)))
                                 {
                                     <td class="screeningRoomSeat"><div class="seat_taken"> <dl>@rLetter@c</dl> </div></td>
+                                }
+                                else if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j))
+                                {
+                                    <td class="screeningRoomSeat"><div class="seat_reserved"> <dl>@rLetter@c</dl> </div></td>
                                 }
                                 else if (markedSeats.Any(x => x.RowNumber == i && x.ColumnNumber == j))
                                 {
@@ -108,6 +114,7 @@
                 <br />
 
                 <button type="button" @onclick="lockSeatsAndProcessPayment" disabled="@cannotSubmit" class="btn btn-primary">Metoda płatności 1</button>    
+
             </p>
         }
         else // display ticket
@@ -155,12 +162,12 @@ else
     private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute();
     private Ticket ticket = new Ticket();
 
-    private void lockSeatsAndProcessPayment()
+    private async void lockSeatsAndProcessPayment()
     {
-        // First get max + 1 ticketId
-        int ticketId = ticket.TicketId;
-        //if (GetTicketsByMailUseCase.Execute(customerEmailString).Count() <= 0) ticketId = 1;
-        //else ticketId = GetTicketsByMailUseCase.Execute(customerEmailString).Max(x => x.TicketId) + 1;
+        // add cool stuff to ticket
+        ticket.ClientMail = customerEmailString;
+        ticket.PurchaseDate = System.DateTime.Now;
+        AddTicketUseCase.Execute(ticket);
 
         // populate reservation list for the showing with the up to date one
         PopulateReservations();
@@ -182,13 +189,17 @@ else
                     DeleteReservationByPositionUseCase.Execute(lr.ShowingId, lr.RowNumber, lr.ColumnNumber);
                 }
                 lockedSeats.Clear();
+
+                // remove cool ticket from db
+                DeleteTicketByIdsUseCase.Execute(ticket.ClientMail, ticket.TicketId);
+
                 return; // no payment, end of function, RETURN
             }
 
             else // make a temporary reservation
             {
                 r.ClientMail = customerEmailString;
-                r.TicketId = ticketId;
+                r.TicketId = ticket.TicketId;
                 AddReservationUseCase.Execute(r);
                 lockedSeats.Add(r);
             }
@@ -196,14 +207,14 @@ else
 
         processingPayment = true;
         // TODO: visualize fake payment processing
+        await Task.Delay(5000);
+
+
         // payment processed - confirm reservations
         // this method will find reservation matching r in db and update that reservation
         foreach (Reservation r in markedSeats) ConfirmReservationUseCase.Execute(r);
 
         // create ticket
-        ticket.ClientMail = customerEmailString;
-        ticket.TicketId = ticketId;
-        ticket.PurchaseDate = System.DateTime.Now;
         FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie);
 
         paymentSuccess = true;
@@ -300,9 +311,6 @@ else
                     ColumnCount = scrRoom.ColumnCount,
                     RowCount = scrRoom.RowCount
                 };
-
-                // add cool id number to ticket
-                AddTicketUseCase.Execute(ticket);
 
                 // populate reservation list for the showing
                 PopulateReservations();
