@@ -55,6 +55,8 @@ namespace Plugins.DataStore.InMemory
 
         public void AddReservation(Reservation reservation)
         {
+            reservation.ReservationId = reservations.Max(x => x.TicketId) + 1;
+
             if (reservations.Any(x => x.ShowingId == reservation.ShowingId &&
                                 x.RowNumber == reservation.RowNumber &&
                                 x.ColumnNumber == reservation.ColumnNumber)) return;
