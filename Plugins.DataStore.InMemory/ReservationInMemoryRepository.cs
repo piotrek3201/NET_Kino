@@ -18,6 +18,7 @@ namespace Plugins.DataStore.InMemory
             {
                 new Reservation()
                 {
+                    ReservationId = 1,
                     ShowingId = 1,
                     RowNumber = 4,
                     ColumnNumber = 6,
@@ -25,6 +26,7 @@ namespace Plugins.DataStore.InMemory
                 },
                 new Reservation()
                 {
+                    ReservationId = 2,
                     ShowingId = 1,
                     RowNumber = 4,
                     ColumnNumber = 7,
@@ -32,6 +34,7 @@ namespace Plugins.DataStore.InMemory
                 },
                 new Reservation()
                 {
+                    ReservationId = 3,
                     ShowingId = 1,
                     RowNumber = 3,
                     ColumnNumber = 2,

@@ -21,5 +21,8 @@ namespace CoreBusiness
         public string QRStringImage { get; set; } = string.Empty;
 
         public DateTime PurchaseDate { get; set; }
+
+        //navigation property for ef core
+        public List<Reservation> Reservations { get; set; }
     }
 }

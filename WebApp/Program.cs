@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using Plugins.DataStore.InMemory;
+using Plugins.DataStore.SQL;
 using UseCases;
 using UseCases.DataStorePluginInterfaces;
 using WebApp.Data;
@@ -11,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+
+builder.Services.AddDbContext<CinemaContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 
 //Dependency injection for in-memory data store

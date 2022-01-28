@@ -21,5 +21,8 @@ namespace CoreBusiness
         public int Year { get; set; }
         public int AgeRestriction { get; set; }
         public string ImageUrl { get; set; }
+
+        //navigation property for ef core
+        public List<Showing> Showings { get; set; }
     }
 }

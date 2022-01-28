@@ -14,5 +14,8 @@ namespace CoreBusiness
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Value out of range")]
         public int ColumnCount { get; set; }
+
+        //navigation property for ef core
+        public List<Showing> Showings { get; set; }
     }
 }

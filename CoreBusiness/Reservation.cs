@@ -10,6 +10,9 @@ namespace CoreBusiness
     public class Reservation
     {
         [Required]
+        public int ReservationId { get; set; }
+
+        [Required]
         public int ShowingId { get; set; }
 
         [Required] // clasically denoted by a letter, but in this case it's a number
@@ -26,5 +29,9 @@ namespace CoreBusiness
         // foreign key pair for ticket
         public string ClientMail { get; set; } = string.Empty;
         public int TicketId { get; set; }
+
+        //navigation property for ef core
+        public Showing Showing { get; set; }
+        public Ticket Ticket { get; set; }
     }
 }
