@@ -7,12 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using UseCases.DataStorePluginInterfaces;
 using System.Net.Mail;
+using QRCoder;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace Plugins.DataStore.InMemory
 {
     public class TicketInMemoryRepository : ITicketRepository
     {
         private List<Ticket> tickets;
+        private static Random random = new Random();
 
         public TicketInMemoryRepository()
         {
@@ -22,7 +27,7 @@ namespace Plugins.DataStore.InMemory
                 {
                     ClientMail = "dawid.leszczynski@student.wat.edu.pl",
                     TicketId = 1,
-                    QRString = "test string"
+                    QRString = "QWERTYUIO"
                 }
             };
         }
@@ -38,21 +43,43 @@ namespace Plugins.DataStore.InMemory
             if (tickets.Any(x => x.ClientMail == ticket.ClientMail &&
                                x.TicketId == ticket.TicketId)) return;
 
+            // generate qr code for ticket and db
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            //TODO: append a unique string of characters (user id + ticket id I reckon)
+            ticket.QRString = new string(Enumerable.Repeat(chars, 9)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                QRCodeGenerator oQRCodeGenerator = new QRCodeGenerator();
+                QRCodeData oQRCodeData = oQRCodeGenerator.CreateQrCode(ticket.QRString, QRCodeGenerator.ECCLevel.Q);
+                QRCode oQRCode = new QRCode(oQRCodeData);
+
+                using (Bitmap bitmap = oQRCode.GetGraphic(20))
+                {
+                    bitmap.Save(ms, ImageFormat.Png);
+                    ticket.QRStringImage = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                }
+            }
+
             // save ticket
             tickets.Add(ticket);
 
-            // fill out mail
+            // fill out mail and send ticket
             string Subject = "Twój bilet do Kina NET na film \"" + linkedMovie.Title + "\"!";
 
-            string Body = "Witaj w naszym kinie! Poniżej znajdziesz swój bilet." + 
+            string Body = "Witaj w naszym kinie! Poniżej znajdziesz swój bilet." +
                 "\n\nFilm: " + linkedMovie.Title + "\nData: " + linkedShowing.Date +
                 "\nTwoja sala: " + linkedShowing.ScreeningRoomId +
                 "\nTwoje miejsca: ";
+            
             foreach (Reservation lr in linkedReservations)
             {
                 char rLetter = (char)(lr.RowNumber + 64);
                 Body += rLetter.ToString() + lr.ColumnNumber.ToString() + " ";
             }
+
+            Body += "\n\n Kod twojego biletu: " + ticket.QRString;
 
             try // send mail
             {
@@ -74,8 +101,7 @@ namespace Plugins.DataStore.InMemory
             catch (Exception)
             {
                 throw;
-            }  
-            
+            }
         }
 
         public void DeleteTicketByIds(string clientMail, int ticketId)

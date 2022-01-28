@@ -133,14 +133,16 @@ footer
     border-top-width: 0px;
     border-style: solid;
     border-radius: 0px 0px 20px 20px;
+    font-size: smaller;
 }
 
     .seat:hover {
-        background-color: lightgray;
+        background-color: #a8a8a8;
+        font-size: inherit;
     }
 
 .seat_taken {
-    background-color: #E21E13;
+    background-color: #d55049;
     height: 40px;
     width: 50px;
     border-color: black;
@@ -150,10 +152,11 @@ footer
     border-top-width: 0px;
     border-style: solid;
     border-radius: 0px 0px 20px 20px;
+    font-size: smaller;
 }
 
     .seat_taken:hover {
-        background-color: #E07B75;
+        background-color: #d8716b;
         height: 40px;
         width: 50px;
         border-color: black;
@@ -163,10 +166,11 @@ footer
         border-top-width: 0px;
         border-style: solid;
         border-radius: 0px 0px 20px 20px;
+        font-size: inherit;
     }
 
 .seat_marked {
-    background-color: #1EE213;
+    background-color: #42ae3d;
     height: 40px;
     width: 50px;
     border-color: black;
@@ -176,10 +180,11 @@ footer
     border-top-width: 0px;
     border-style: solid;
     border-radius: 0px 0px 20px 20px;
+    font-size: smaller;
 }
 
     .seat_marked:hover {
-        background-color: #7BE075;
+        background-color: #6fc06f;
         height: 40px;
         width: 50px;
         border-color: black;
@@ -189,6 +194,7 @@ footer
         border-top-width: 0px;
         border-style: solid;
         border-radius: 0px 0px 20px 20px;
+        font-size: inherit;
     }
 
 .movie {
