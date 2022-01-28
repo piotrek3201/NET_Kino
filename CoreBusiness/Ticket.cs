@@ -16,8 +16,9 @@ namespace CoreBusiness
         [Required]
         public int TicketId { get; set; }
 
-        [Required]
         public string QRString { get; set; } = string.Empty;
+
+        public string QRStringImage { get; set; } = string.Empty;
 
         public DateTime PurchaseDate { get; set; }
     }

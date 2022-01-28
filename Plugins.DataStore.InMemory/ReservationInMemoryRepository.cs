@@ -61,14 +61,14 @@ namespace Plugins.DataStore.InMemory
 
         public void ConfirmReservation(Reservation reservation)
         {
-            Reservation? reservationToConfirm =
-                                reservations.FirstOrDefault(x => x.ShowingId == reservation.ShowingId &&
+            Reservation? reservationToConfirm = reservations.FirstOrDefault(x => 
+                                x.ShowingId == reservation.ShowingId &&
                                 x.RowNumber == reservation.RowNumber &&
                                 x.ColumnNumber == reservation.ColumnNumber);
 
             if (reservationToConfirm != null) reservationToConfirm.ReservationExpirationDate = DateTime.Now.AddYears(5);
         }
-
+        
         public IEnumerable<Reservation> GetReservationsByShowingId(int showingId)
         {
             return reservations.FindAll(x => x.ShowingId == showingId);
