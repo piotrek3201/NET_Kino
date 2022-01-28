@@ -22,11 +22,20 @@ builder.Services.AddDbContext<CinemaContext>(options =>
 
 
 //Dependency injection for in-memory data store
+/*
 builder.Services.AddScoped<IScreeningRoomRepository, ScreeningRoomInMemoryRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieInMemoryRepository>();
 builder.Services.AddScoped<IShowingRepository, ShowingInMemoryRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationInMemoryRepository>();
 builder.Services.AddScoped<ITicketRepository, TicketInMemoryRepository>();
+*/
+
+//Dependency injection for EF Core
+builder.Services.AddScoped<IScreeningRoomRepository, ScreeningRoomRepository>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+builder.Services.AddScoped<IShowingRepository, ShowingRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 
 
 //Dependency injection for use cases and repositories
