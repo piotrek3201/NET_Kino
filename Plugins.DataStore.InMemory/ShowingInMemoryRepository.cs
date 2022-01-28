@@ -21,7 +21,8 @@ namespace Plugins.DataStore.InMemory
                     ScreeningRoomId = 1,
                     MovieId = 2,
                     Date = DateTime.Today,
-                    TicketPrice = 20
+                    TicketPrice = 20,
+                    Dubbing = false
                 },
                 new Showing()
                 {
@@ -29,7 +30,8 @@ namespace Plugins.DataStore.InMemory
                     ScreeningRoomId = 1,
                     MovieId = 2,
                     Date = DateTime.Today.AddDays(1),
-                    TicketPrice = 20
+                    TicketPrice = 20,
+                    Dubbing = false
                 },
                 new Showing()
                 {
@@ -37,7 +39,8 @@ namespace Plugins.DataStore.InMemory
                     ScreeningRoomId = 2,
                     MovieId = 1,
                     Date = DateTime.Today.AddDays(1),
-                    TicketPrice = 20
+                    TicketPrice = 20,
+                    Dubbing = false
                 },
                 new Showing()
                 {
@@ -45,7 +48,8 @@ namespace Plugins.DataStore.InMemory
                     ScreeningRoomId = 3,
                     MovieId = 1,
                     Date = DateTime.Today.AddDays(2),
-                    TicketPrice = 20
+                    TicketPrice = 20,
+                    Dubbing = false
                 }
             };
         }
@@ -92,6 +96,7 @@ namespace Plugins.DataStore.InMemory
                 showingToUpdate.MovieId = showing.MovieId;
                 showingToUpdate.Date = showing.Date;
                 showingToUpdate.TicketPrice = showing.TicketPrice;
+                showingToUpdate.Dubbing = showing.Dubbing;
             }
         }
 

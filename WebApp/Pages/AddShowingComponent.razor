@@ -37,6 +37,11 @@
             </div>
 
             <div class="form-group">
+                <label for="date">Dubbing</label>
+                <InputCheckbox id="dubbing" @bind-Value="showing.Dubbing"></InputCheckbox>
+            </div>
+
+            <div class="form-group">
                 <label for="date">Data i godzina</label>
                 <input type="datetime-local" id="date" @bind="showing.Date" class="form-control"></input>
             </div>

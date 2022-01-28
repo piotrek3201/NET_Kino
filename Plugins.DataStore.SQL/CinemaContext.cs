@@ -101,6 +101,51 @@ namespace Plugins.DataStore.SQL
                     }
                 );
 
+            modelBuilder.Entity<ScreeningRoom>().HasData(
+                    new ScreeningRoom() { ScreeningRoomId = 1, ScreeningRoomName = "1", ColumnCount = 10, RowCount = 5 },
+                    new ScreeningRoom() { ScreeningRoomId = 2, ScreeningRoomName = "2", ColumnCount = 10, RowCount = 5 },
+                    new ScreeningRoom() { ScreeningRoomId = 3, ScreeningRoomName = "3", ColumnCount = 15, RowCount = 7 }
+                );
+
+            modelBuilder.Entity<Showing>().HasData(
+                    new Showing()
+                    {
+                        ShowingId = 1,
+                        ScreeningRoomId = 1,
+                        MovieId = 2,
+                        Date = DateTime.Today,
+                        TicketPrice = 20,
+                        Dubbing = false
+                    },
+                    new Showing()
+                    {
+                        ShowingId = 2,
+                        ScreeningRoomId = 1,
+                        MovieId = 2,
+                        Date = DateTime.Today.AddDays(1),
+                        TicketPrice = 20,
+                        Dubbing = false
+                    },
+                    new Showing()
+                    {
+                        ShowingId = 3,
+                        ScreeningRoomId = 2,
+                        MovieId = 1,
+                        Date = DateTime.Today.AddDays(1),
+                        TicketPrice = 20,
+                        Dubbing = false
+                    },
+                    new Showing()
+                    {
+                        ShowingId = 4,
+                        ScreeningRoomId = 3,
+                        MovieId = 1,
+                        Date = DateTime.Today.AddDays(2),
+                        TicketPrice = 20,
+                        Dubbing = false
+                    }
+                );
+
             modelBuilder.Entity<Reservation>().HasData(
                     new Reservation()
                     {
@@ -125,47 +170,6 @@ namespace Plugins.DataStore.SQL
                         RowNumber = 3,
                         ColumnNumber = 2,
                         ReservationExpirationDate = DateTime.Now.AddMinutes(5)
-                    }
-                );
-
-            modelBuilder.Entity<ScreeningRoom>().HasData(
-                    new ScreeningRoom() { ScreeningRoomId = 1, ScreeningRoomName = "1", ColumnCount = 10, RowCount = 5 },
-                    new ScreeningRoom() { ScreeningRoomId = 2, ScreeningRoomName = "2", ColumnCount = 10, RowCount = 5 },
-                    new ScreeningRoom() { ScreeningRoomId = 3, ScreeningRoomName = "3", ColumnCount = 15, RowCount = 7 }
-                );
-
-            modelBuilder.Entity<Showing>().HasData(
-                    new Showing()
-                    {
-                        ShowingId = 1,
-                        ScreeningRoomId = 1,
-                        MovieId = 2,
-                        Date = DateTime.Today,
-                        TicketPrice = 20
-                    },
-                    new Showing()
-                    {
-                        ShowingId = 2,
-                        ScreeningRoomId = 1,
-                        MovieId = 2,
-                        Date = DateTime.Today.AddDays(1),
-                        TicketPrice = 20
-                    },
-                    new Showing()
-                    {
-                        ShowingId = 3,
-                        ScreeningRoomId = 2,
-                        MovieId = 1,
-                        Date = DateTime.Today.AddDays(1),
-                        TicketPrice = 20
-                    },
-                    new Showing()
-                    {
-                        ShowingId = 4,
-                        ScreeningRoomId = 3,
-                        MovieId = 1,
-                        Date = DateTime.Today.AddDays(2),
-                        TicketPrice = 20
                     }
                 );
 

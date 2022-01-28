@@ -24,6 +24,7 @@
                     <th>Data</th>
                     <th>Film</th>
                     <th>Sala</th>
+                    <th>Dubbing</th>
                     <th>Cena biletu</th>
                     <th></th>
                     <th></th>
@@ -37,6 +38,17 @@
                         <td>@showing.Date.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>@GetMovieByIdUseCase.Execute(showing.MovieId)?.Title (@GetMovieByIdUseCase.Execute(showing.MovieId)?.Year)</td>
                         <td>@GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId)?.ScreeningRoomName</td>
+                        
+                        @if(showing.Dubbing)
+                        {
+                        <td>Dubbing</td>
+                        }
+                        else
+                        {
+                            <td>Napisy</td>
+                        }
+
+                        
                         <td>@Math.Round(showing.TicketPrice, 2) zł</td>
                         <td><button type="button" @onclick="@(() => ViewShowing(showing))" class="btn">Szczegóły</button></td>
                         <td><button type="button" @onclick="@(() => EditShowing(showing))" class="btn">Edytuj</button></td>

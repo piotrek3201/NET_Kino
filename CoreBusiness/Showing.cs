@@ -19,6 +19,7 @@ namespace CoreBusiness
         public DateTime Date { get; set; }
         [Required]
         public double TicketPrice { get; set; }
+        public bool Dubbing { get; set; }
 
         //navigation property for ef core
         public ScreeningRoom ScreeningRoom { get; set; }
