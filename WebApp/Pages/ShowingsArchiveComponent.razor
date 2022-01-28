@@ -1,18 +1,17 @@
-﻿@page "/manageshowings"
+﻿@page "/showingsarchive"
 
 @inject NavigationManager NavigationManager
 @inject IViewShowingsUseCase ViewShowingsUseCase
 @inject IGetScreeningRoomByIdUseCase GetScreeningRoomByIdUseCase
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
 @inject IDeleteShowingUseCase DeleteShowingUseCase
-@inject IGetFutureShowingsUseCase GetFutureShowingsUseCase
+@inject IGetPastShowingsUseCase GetPastShowingsUseCase
 
 <div class="content">
 
-    <h3>Zarządzanie seansami</h3>
+    <h3>Archiwum seansów</h3>
 
-    <button type="button" @onclick="OnClickAddShowing" class="btn">Zaplanuj seans</button>
-    <button type="button" @onclick="ViewPastShowings" class="btn">Archiwum</button>
+    <button type="button" @onclick="ViewShowings" class="btn">Aktualne seanse</button>
     <br />
     <br />
 
@@ -27,7 +26,6 @@
                     <th>Cena biletu</th>
                     <th></th>
                     <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +37,6 @@
                         <td>@GetScreeningRoomByIdUseCase.Execute(showing.ScreeningRoomId)?.ScreeningRoomName</td>
                         <td>@Math.Round(showing.TicketPrice, 2) zł</td>
                         <td><button type="button" @onclick="@(() => ViewShowing(showing))" class="btn">Szczegóły</button></td>
-                        <td><button type="button" @onclick="@(() => EditShowing(showing))" class="btn">Edytuj</button></td>
                         <td><button type="button" @onclick="@(() => DeleteShowing(showing.ShowingId))" class="btn">Usuń</button></td>
                     </tr>
                 }
@@ -62,17 +59,7 @@
 
     private void LoadShowings()
     {
-        showings = GetFutureShowingsUseCase.Execute()?.ToList();
-    }
-
-    private void OnClickAddShowing()
-    {
-        NavigationManager.NavigateTo("/addshowing");
-    }
-
-    private void EditShowing(Showing showing)
-    {
-        NavigationManager.NavigateTo($"/editshowing/{showing.ShowingId}");
+        showings = GetPastShowingsUseCase.Execute()?.ToList();
     }
 
     private void DeleteShowing(int screeningRoomID)
@@ -86,8 +73,8 @@
         NavigationManager.NavigateTo($"/showing/{showing.ShowingId}");
     }
 
-    private void ViewPastShowings()
+    private void ViewShowings()
     {
-        NavigationManager.NavigateTo("/showingsarchive");
+        NavigationManager.NavigateTo("/manageshowings");
     }
 }

@@ -80,7 +80,7 @@ namespace Plugins.DataStore.InMemory
 
         public IEnumerable<Showing> GetShowings()
         {
-            return showings;
+            return showings.OrderBy(x => x.Date);
         }
 
         public void UpdateShowing(Showing showing)
@@ -97,12 +97,23 @@ namespace Plugins.DataStore.InMemory
 
         public IEnumerable<Showing> GetFutureShowings()
         {
-            return showings.Where(x => x.Date.Date >= DateTime.Today.Date);
+            return showings.Where(x => x.Date >= DateTime.Now).OrderBy(x => x.Date);
+        }
+
+        public IEnumerable<Showing> GetFutureShowingsByMovie(Movie movie)
+        {
+            return showings.Where(x => x.Date.Date >= DateTime.Today.Date &&
+                                    x.MovieId == movie.MovieId).OrderBy(x => x.Date);
         }
 
         public IEnumerable<Showing> GetShowingsByDay(DateTime day)
         {
             return showings.Where(x => x.Date.Date == day.Date);
+        }
+
+        public IEnumerable<Showing> GetPastShowings()
+        {
+            return showings.Where(x => x.Date <= DateTime.Now).OrderByDescending(x => x.Date);
         }
     }
 }

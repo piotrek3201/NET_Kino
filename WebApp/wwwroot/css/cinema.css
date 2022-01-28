@@ -135,9 +135,9 @@ footer
     border-radius: 0px 0px 20px 20px;
 }
 
-    .seat:hover {
-        background-color: lightgray;
-    }
+.seat:hover {
+    background-color: lightgray;
+}
 
 .seat_taken {
     background-color: #E21E13;
@@ -152,18 +152,18 @@ footer
     border-radius: 0px 0px 20px 20px;
 }
 
-    .seat_taken:hover {
-        background-color: #E07B75;
-        height: 40px;
-        width: 50px;
-        border-color: black;
-        border-left-width: 10px;
-        border-right-width: 10px;
-        border-bottom-width: 10px;
-        border-top-width: 0px;
-        border-style: solid;
-        border-radius: 0px 0px 20px 20px;
-    }
+.seat_taken:hover {
+    background-color: #E07B75;
+    height: 40px;
+    width: 50px;
+    border-color: black;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 0px;
+    border-style: solid;
+    border-radius: 0px 0px 20px 20px;
+}
 
 .seat_marked {
     background-color: #1EE213;
@@ -178,18 +178,18 @@ footer
     border-radius: 0px 0px 20px 20px;
 }
 
-    .seat_marked:hover {
-        background-color: #7BE075;
-        height: 40px;
-        width: 50px;
-        border-color: black;
-        border-left-width: 10px;
-        border-right-width: 10px;
-        border-bottom-width: 10px;
-        border-top-width: 0px;
-        border-style: solid;
-        border-radius: 0px 0px 20px 20px;
-    }
+.seat_marked:hover {
+    background-color: #7BE075;
+    height: 40px;
+    width: 50px;
+    border-color: black;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 0px;
+    border-style: solid;
+    border-radius: 0px 0px 20px 20px;
+}
 
 .movie {
     background-color: #101010;
@@ -197,6 +197,15 @@ footer
     margin: auto;
     width: 90%;
     max-height: 150px;
+}
+
+.showing {
+    background-color: #101010;
+    vertical-align: middle;
+    margin: auto;
+    width: 100%;
+    height: 50px;
+    text-align: center;
 }
 
 .movie_title {
@@ -245,14 +254,21 @@ footer
 
 .vertical_center {
     position: absolute;
+    /*
     top: 50%;
     transform: translateY(-50%);
+    */
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }
 
-.main_page {
+.main_page 
+{
     max-width: auto;
 }
-
 
 .center {
     text-align: center;
@@ -277,10 +293,10 @@ footer
     user-select: none;
 }
 
-    .prev:hover, .next:hover {
-        background-color: rgba(0,0,0,0.8);
-        color: #B70D2F;
-    }
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+    color: #B70D2F;
+}
 
 .row2 {
     display: grid;
