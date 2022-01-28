@@ -49,7 +49,7 @@ namespace Plugins.DataStore.SQL
 
             // save ticket
             db.Tickets.Add(ticket);
-            db.SavedChanges();
+            db.SaveChanges();
 
             // fill out mail and send ticket
             string Subject = "Twój bilet do Kina NET na film \"" + linkedMovie.Title + "\"!";
