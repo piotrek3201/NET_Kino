@@ -2,6 +2,8 @@
 
 @inject NavigationManager NavigationManager
 @inject IViewMoviesUseCase ViewMoviesUseCase
+@inject IGetShowingsByDayUseCase GetShowingsByDayUseCase
+@inject IGetMovieByIdUseCase GetMovieByIdUseCase
 
 <PageTitle>Index</PageTitle>
 
@@ -9,7 +11,7 @@
 
     <h1>Kino</h1>
 
-    @if(movies != null)
+    @if (movies != null)
     {
         <div class="center">
             <div class="col" style="padding: 0 0 40px 0">
@@ -24,31 +26,31 @@
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[0]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="movies[@postersIndex[0]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[0]].MovieId))">
+                        <img src="@movies[@postersIndex[0]].ImageUrl" alt="movies[@postersIndex[0]].Title" class="image" @onclick="@(() => ViewShowingsId(movies[@postersIndex[0]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[1]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[@postersIndex[1]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[1]].MovieId))">
+                        <img src="@movies[@postersIndex[1]].ImageUrl" alt="@movies[@postersIndex[1]].Title" class="image" @onclick="@(() => ViewShowingsId(movies[@postersIndex[1]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[2]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[@postersIndex[2]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[2]].MovieId))">
+                        <img src="@movies[@postersIndex[2]].ImageUrl" alt="@movies[@postersIndex[2]].Title" class="image" @onclick="@(() => ViewShowingsId(movies[@postersIndex[2]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[3]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[@postersIndex[3]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[3]].MovieId))">
+                        <img src="@movies[@postersIndex[3]].ImageUrl" alt="@movies[@postersIndex[3]].Title" class="image" @onclick="@(() => ViewShowingsId(movies[@postersIndex[3]].MovieId))">
                     </div>
                     <div class="col2" style="padding: 0">
                         <div class="middle">
                             <div class="text">@movies[@postersIndex[4]].Title</div>
                         </div>
-                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[@postersIndex[4]].Title" class="image" @onclick="@(() => VievShowingsId(movies[@postersIndex[4]].MovieId))">
+                        <img src="@movies[@postersIndex[4]].ImageUrl" alt="@movies[@postersIndex[4]].Title" class="image" @onclick="@(() => ViewShowingsId(movies[@postersIndex[4]].MovieId))">
                     </div>
                 </div>
                 <div class="col" style="padding: 0">
@@ -60,24 +62,86 @@
             </div>
         </div>
     }
+    <div class="content" style="margin-top: 15px">
+        <div class="text2 center" style="margin-top: auto">DZISIAJ GRAMY</div>
+        @foreach(var movie in todayMovies)
+        {
+            <div class="movie">
+                <div class="row">
+                    <div class="col-2" style="text-align: left;">
+                        <img src="@movie.ImageUrl" alt="@movie.Title" height="150">
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <span class="movie_title">@movie.Title</span>
+                        </div>
+                        <div class="row">
+                                <span class="movie_desc">@movie.Description</span>
+                        </div>
+                    </div>
+                    <div class="col-1" style="position: relative;">
+                        <span class="vertical_center">
+                            @if(movie.AgeRestriction <= 6)
+                            {
+                                <span class="age3_6">@(movie.AgeRestriction)+</span>
+                            }
+                            else if(movie.AgeRestriction >= 7 && movie.AgeRestriction <= 14)
+                            {
+                                <span class="age7_14">@(movie.AgeRestriction)+</span>
+                            }
+                            else if(movie.AgeRestriction >= 15 && movie.AgeRestriction <= 17)
+                            {
+                                <span class="age15_17">@(movie.AgeRestriction)+</span>
+                            }
+                            else
+                            {
+                                <span class="age18">@(movie.AgeRestriction)+</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="col-2" style="position: relative;">
+                    <span class="vertical_center">
+                        <button type="button" class="btn" @onclick="@(() => ViewShowingsId(movie.MovieId))">Seanse</button>
+                    </span>
+                </div>
+                </div>
+            </div>
+            <br />
+        }
+
+    </div>
 
 </div>
 
  @code
 {
     private List<Movie> movies;
+    private List<Movie> todayMovies;
     private List<int> postersIndex = new List<int>() { 0, 1, 2, 3, 4 };
+    private DateTime date;
+    private List<Showing> showings;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
+        date = DateTime.Today;
         LoadMovies();
     }
 
     private void LoadMovies()
     {
         movies = ViewMoviesUseCase.Execute()?.ToList();
+
+        showings = GetShowingsByDayUseCase.Execute(date)?.ToList();
+
+        todayMovies = new List<Movie>();
+
+        foreach(var show in showings)
+        {
+            todayMovies.Add(GetMovieByIdUseCase.Execute(show.MovieId));
+        }
+
+        todayMovies = todayMovies.Distinct().ToList();
     }
 
     private void NextMovie(int index)
@@ -118,7 +182,7 @@
         NavigationManager.NavigateTo("/whatson");
     }
 
-    private void VievShowingsId(int id)
+    private void ViewShowingsId(int id)
     {
         NavigationManager.NavigateTo($"/viewshowings/{id}");
     }

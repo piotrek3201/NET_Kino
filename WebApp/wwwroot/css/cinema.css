@@ -384,7 +384,14 @@ footer {
     opacity: 1;
     color: #B70D2F;
     font-size: 16px;
-    padding: 10px 8px;
+    padding: 5px 5px;
+}
+
+.text2 {
+    opacity: 1;
+    color: #B70D2F;
+    font-size: 36px;
+    padding: 5px 25px;
 }
 
 .image {
