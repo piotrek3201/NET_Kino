@@ -4,6 +4,6 @@ namespace UseCases
 {
     public interface IFinalizeTicketUseCase
     {
-        void Execute(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie);
+        void Execute(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie, string localhost);
     }
 }

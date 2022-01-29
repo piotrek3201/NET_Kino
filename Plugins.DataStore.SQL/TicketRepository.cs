@@ -23,7 +23,7 @@ namespace Plugins.DataStore.SQL
             return db.Tickets;
         }
 
-        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie)
+        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie, string localhost)
         {
             // generate qr code for ticket and db
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -54,7 +54,7 @@ namespace Plugins.DataStore.SQL
 
             string Body = "<h1 style=\"text-align:center\">Witaj w naszym kinie!" +
                 "<br/>W linku poniżej znajdziesz swój bilet.</h1>" +
-                "<div style=\"text-align:center;font-size:x-large\"><a href=\"" + Dns.GetHostName() 
+                "<div style=\"text-align:center;font-size:x-large\"><a href=\"" + localhost
                 + "/ticket/" + ticket.QRString + 
                 "\">Kliknij tutaj, aby obejrzeć bilet.</a></div>" +
                 "<br/><p style=\"text-align:center;font-size:larger\">Film: " + linkedMovie.Title +

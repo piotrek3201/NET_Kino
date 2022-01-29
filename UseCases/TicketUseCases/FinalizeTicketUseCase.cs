@@ -16,9 +16,9 @@ namespace UseCases
         {
             this.ticketRepository = ticketRepository;
         }
-        public void Execute(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie)
+        public void Execute(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie, string localhost)
         {
-            ticketRepository.FinalizeTicket(ticket, linkedReservations, linkedShowing, linkedMovie);
+            ticketRepository.FinalizeTicket(ticket, linkedReservations, linkedShowing, linkedMovie, localhost);
         }
     }
 }

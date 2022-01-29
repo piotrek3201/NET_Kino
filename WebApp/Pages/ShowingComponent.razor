@@ -208,7 +208,7 @@
         foreach (Reservation r in markedSeats) ConfirmReservationUseCase.Execute(r);
 
         // create ticket
-        FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie);
+        FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie, NavManager.BaseUri);
 
         ticketLink = "/ticket/" + ticket.QRString;
 

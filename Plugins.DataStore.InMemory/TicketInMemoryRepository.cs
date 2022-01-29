@@ -43,7 +43,7 @@ namespace Plugins.DataStore.InMemory
             return tickets; 
         }
 
-        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie)
+        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie, string localhost)
         {
             // check if ticket like this already exists, if it does then RETURN
             if (tickets.Any(x => x.ClientMail == ticket.ClientMail &&
