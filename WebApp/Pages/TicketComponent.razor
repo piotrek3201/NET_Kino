@@ -1,5 +1,6 @@
-﻿
-<div style="text-align:center">
+﻿<div id=ticket>
+
+    <br/><br/><br/>
 
     <h2>
         Twój bilet na film 
@@ -18,7 +19,9 @@
     <br/>
     <h2>Sala @Showing.ScreeningRoomId</h2>
     <p style="color:lightskyblue; font-size:large">
-        @Showing.Date.ToShortTimeString() @Showing.Date.ToShortDateString()
+        @Showing.Date.ToShortTimeString() 
+        <br/>
+        @Showing.Date.ToShortDateString()
     </p>
     
     <br/>
@@ -36,7 +39,7 @@
             @rLetter@c
 
             counter++;
-            if (counter >= Reservations.Count() / 2)
+            if (Reservations.Count() > 2 && counter >= Reservations.Count() / 2)
             {
                 counter = -1;
                 firstItem = true;
@@ -56,7 +59,7 @@
     public Ticket Ticket { get; set; }
 
     [Parameter]
-    public List<Reservation> Reservations { get; set; }
+    public IEnumerable<Reservation> Reservations { get; set; }
 
     [Parameter]
     public Showing Showing { get; set; }

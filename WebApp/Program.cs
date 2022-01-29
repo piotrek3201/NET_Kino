@@ -84,6 +84,7 @@ builder.Services.AddTransient<IAddTicketUseCase, AddTicketUseCase>();
 builder.Services.AddTransient<IDeleteTicketByIdsUseCase, DeleteTicketByIdsUseCase>();
 builder.Services.AddTransient<IGetTicketsByMailUseCase, GetTicketsByMailUseCase>();
 builder.Services.AddTransient<IFinalizeTicketUseCase, FinalizeTicketUseCase>();
+builder.Services.AddTransient<IGetTicketByQRStringUseCase, GetTicketByQRStringUseCase>();
 
 var app = builder.Build();
 

@@ -1,0 +1,44 @@
+﻿@page "/ticket/{QRString}"
+
+@inject IGetTicketByQRStringUseCase GetTicketByQRStringUseCase
+@inject IGetReservationsByTicketUseCase GetReservationsByTicketUseCase
+@inject IGetShowingByIdUseCase GetShowingByIdUseCase
+@inject IGetMovieByIdUseCase GetMovieByIdUseCase
+
+<TicketComponent Ticket="@ticket" Reservations="@reservations" Showing="@showing" Movie="@movie"></TicketComponent>
+
+@code {
+    [Parameter]
+    public string QRString { get; set; }
+    private Ticket ticket;
+    private IEnumerable<Reservation> reservations;
+    private Showing showing;
+    private Movie movie;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        ticket = GetTicketByQRStringUseCase.Execute(QRString);
+        if (ticket != null)
+        {
+            reservations = GetReservationsByTicketUseCase.Execute(ticket.ClientMail, ticket.TicketId);
+
+            if (reservations != null)
+            {
+                showing = GetShowingByIdUseCase.Execute(reservations.FirstOrDefault().ShowingId);
+                if (showing != null)
+                {
+                    movie = GetMovieByIdUseCase.Execute(showing.MovieId);
+                }
+            }
+        }
+
+    }
+}

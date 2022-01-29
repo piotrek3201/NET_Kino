@@ -4,6 +4,7 @@ using QRCoder;
 using System.Drawing;
 using System.Drawing.Imaging;
 using UseCases.DataStorePluginInterfaces;
+using System.Net;
 
 namespace Plugins.DataStore.SQL
 {
@@ -51,10 +52,16 @@ namespace Plugins.DataStore.SQL
             // fill out mail and send ticket
             string Subject = "Twój bilet do Kina NET na film \"" + linkedMovie.Title + "\"!";
 
-            string Body = "Witaj w naszym kinie! Poniżej znajdziesz swój bilet." +
-                "\n\nFilm: " + linkedMovie.Title + "\nData: " + linkedShowing.Date +
-                "\nTwoja sala: " + linkedShowing.ScreeningRoomId +
-                "\nTwoje miejsca: ";
+            string Body = "<h1 style=\"text-align:center\">Witaj w naszym kinie!" +
+                "<br/>W linku poniżej znajdziesz swój bilet.</h1>" +
+                "<div style=\"text-align:center;font-size:x-large\"><a href=\"" + Dns.GetHostName() 
+                + "/ticket/" + ticket.QRString + 
+                "\">Kliknij tutaj, aby obejrzeć bilet.</a></div>" +
+                "<br/><p style=\"text-align:center;font-size:larger\">Film: " + linkedMovie.Title +
+                "<br/>Numer Twojej sali: " + linkedShowing.ScreeningRoomId +
+                "<br/>Data: " + linkedShowing.Date.ToShortTimeString() 
+                + " " + linkedShowing.Date.ToShortDateString() +
+                "<br/>Twoje miejsca: ";
 
             foreach (Reservation lr in linkedReservations)
             {
@@ -62,7 +69,9 @@ namespace Plugins.DataStore.SQL
                 Body += rLetter.ToString() + lr.ColumnNumber.ToString() + " ";
             }
 
-            Body += "\n\n Kod twojego biletu: " + ticket.QRString;
+            Body += "<br/><br/>Kod Twojego biletu: " + ticket.QRString;
+
+            Body += "</p><h2 style=\"text-align:center\">Życzymy udanego seansu!<br/>Zespół Kino NET</h2>";
 
             try // send mail
             {
@@ -72,6 +81,7 @@ namespace Plugins.DataStore.SQL
                     mail.To.Add(ticket.ClientMail);
                     mail.Subject = Subject;
                     mail.Body = Body;
+                    mail.IsBodyHtml = true;
 
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                     {
@@ -109,6 +119,12 @@ namespace Plugins.DataStore.SQL
         public IEnumerable<Ticket> GetTicketsByMail(string clientMail)
         {
             return db.Tickets.ToList().FindAll(x => x.ClientMail == clientMail);
+        }
+
+        public Ticket GetTicketByQRString(string pQRString)
+        {
+            return db.Tickets.FirstOrDefault(x =>
+                                x.QRString == pQRString);
         }
     }
 }

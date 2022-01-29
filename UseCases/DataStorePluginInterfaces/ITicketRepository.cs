@@ -14,5 +14,6 @@ namespace UseCases.DataStorePluginInterfaces
         void AddTicket(Ticket ticket);
         void DeleteTicketByIds(string clientMail, int ticketId);
         IEnumerable<Ticket> GetTicketsByMail(string clientMail);
+        Ticket GetTicketByQRString(string pQRString);
     }
 }

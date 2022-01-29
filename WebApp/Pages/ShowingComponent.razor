@@ -14,119 +14,119 @@
 @inject IFinalizeTicketUseCase FinalizeTicketUseCase
 @inject IDeleteTicketByIdsUseCase DeleteTicketByIdsUseCase
 @inject IDeleteExpiredReservationsByShowingIdUseCase DeleteExpiredReservationsByShowingIdUseCase
+@inject NavigationManager NavManager
 
 <div class="content">
-@if(showing != null)
-{
-    <div class="row">
-        <div class="col-5" style="vertical-align: bottom;">
-            <h3>Seans @showing.ShowingId</h3>
-            <p>
-                Sala: @screeningRoom.ScreeningRoomName
-                <br />
-                Film: @movie.Title (@movie.Year)
-                <br />
-                Data: @showing.Date.ToString("dd/MM/yyyy")
-                <br />
-                Godzina: @showing.Date.ToString("HH:mm")
-                <br />
-                Zaznaczone miejsca: @markedSeats.Count / 10
-                <br />
-
-                @foreach (Reservation r in markedSeats)
-                {
-                    int c = r.ColumnNumber;
-                    char rLetter = (char)(r.RowNumber + 64);
-                    char whiteSpace = ' ';
-
-                    @rLetter@c@whiteSpace
-                    
-                }
-
-                <br />
-                <br />
-
-                @if (paymentSuccess)
-                {
-                    <dl>Zapłacono!</dl>
-                }
-                else if (processingPayment)
-                {
-                    <dl>Przetwarzanie płatności...</dl>
-                }
-                else if (archivedShowing)
-                {
-                    <dl>Nie można już kupować biletów na ten seans.</dl>
-                }
-                else
-                {
-                    <dl>Wybierz miejsca.</dl>
-                }
-
-            </p>
-        </div>
-        <div class="col" style="text-align: right;">
-            <img src="@movie.ImageUrl" alt="@movie.Title" height=150>
-        </div>
-    </div>
-        <br />
-
-        @if (!paymentSuccess) // display screening room
-        {
-            <table class="screeningRoomTable">
-                <tbody>
-                    @for (var i = 1; i <= @screeningRoom.RowCount; i++)
-                    {
-                        var r = i;
-                        char rLetter = (char)(i + 64);
-                        <tr class="screeningRoomRow">
-                            @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
+    @if(showing != null)
+    {
+        <div class="row">
+            <div class="col-5" style="vertical-align: bottom;">
+                <h3>Seans @showing.ShowingId</h3>
+                <p>
+                    Sala: @screeningRoom.ScreeningRoomName
+                    <br />
+                    Film: @movie.Title (@movie.Year)
+                    <br />
+                    Data: @showing.Date.ToString("HH:mm") @showing.Date.ToString("dd/MM/yyyy")
+                    <br />
+                    Zaznaczone miejsca: @markedSeats.Count / 10
+                    <br />
+                    <p style="color:lightgoldenrodyellow;">
+                        @if (markedSeats.Count > 0)
+                        {
+                            @foreach (Reservation r in markedSeats)
                             {
-                                var c = j;
-                                @if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j && x.ReservationExpirationDate > DateTime.Now.AddYears(1)))
-                                {
-                                    <td class="screeningRoomSeat"><div class="seat_taken"> <dl>@rLetter@c</dl> </div></td>
-                                }
-                                else if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j))
-                                {
-                                    <td class="screeningRoomSeat"><div class="seat_reserved"> <dl>@rLetter@c</dl> </div></td>
-                                }
-                                else if (markedSeats.Any(x => x.RowNumber == i && x.ColumnNumber == j))
-                                {
-                                    <td class="screeningRoomSeat" @onclick="() => ToggleSeatMark(r, c)"><div class="seat_marked"> <dl>@rLetter@c</dl> </div></td>
-                                }
-                                else
-                                {
-                                    <td class="screeningRoomSeat" @onclick="() => ToggleSeatMark(r, c)"><div class="seat"> <dl>@rLetter@c</dl> </div></td>
-                                }
+                                int c = r.ColumnNumber;
+                                char rLetter = (char)(r.RowNumber + 64);
+                                char whiteSpace = ' ';
+
+                                @rLetter@c@whiteSpace
                             }
-                        </tr>
+                        }
+                        else
+                        {
+                            <br />
+                        }
+                    </p>             
+                </p>
+            </div>
+            <div class="col" style="text-align: right;">
+                <img src="@movie.ImageUrl" alt="@movie.Title" height=150>
+            </div>
+            <divd style="text-align:center; font-size:large">
+                @if (paymentSuccess)
+                    {
+                        <dl>Zapłacono!</dl>
+                        <dl>Przekierowuję...</dl>
                     }
-                </tbody>
-            </table>
-            <br />
-            <br />
+                    else if (processingPayment)
+                    {
+                        <dl>Przetwarzanie płatności...</dl>
+                    }
+                    else if (archivedShowing)
+                    {
+                        <dl>Nie można już kupować biletów na ten seans</dl>
+                    }
+                    else
+                    {
+                        <dl>Wybierz miejsca</dl>
+                    }
+            </divd>
+        </div>
 
-            <p>
-                Mail: <input @oninput="checkIfPurchaseButtonEnabled" style="text-align:center; text-transform:lowercase"/> 
-
+            @if (!paymentSuccess) // display screening room
+            {
+                <table class="screeningRoomTable">
+                    <tbody>
+                        @for (var i = 1; i <= @screeningRoom.RowCount; i++)
+                        {
+                            var r = i;
+                            char rLetter = (char)(i + 64);
+                            <tr class="screeningRoomRow">
+                                @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
+                                {
+                                    var c = j;
+                                    @if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j && x.ReservationExpirationDate > DateTime.Now.AddYears(1)))
+                                    {
+                                        <td class="screeningRoomSeat"><div class="seat_taken"> <dl>@rLetter@c</dl> </div></td>
+                                    }
+                                    else if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j))
+                                    {
+                                        <td class="screeningRoomSeat"><div class="seat_reserved"> <dl>@rLetter@c</dl> </div></td>
+                                    }
+                                    else if (markedSeats.Any(x => x.RowNumber == i && x.ColumnNumber == j))
+                                    {
+                                        <td class="screeningRoomSeat" @onclick="() => ToggleSeatMark(r, c)"><div class="seat_marked"> <dl>@rLetter@c</dl> </div></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="screeningRoomSeat" @onclick="() => ToggleSeatMark(r, c)"><div class="seat"> <dl>@rLetter@c</dl> </div></td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
                 <br />
-                <br />
 
-                <button type="button" @onclick="lockSeatsAndProcessPayment" disabled="@cannotSubmit" class="btn btn-primary">Metoda płatności 1</button>    
-
-            </p>
+                <div style="text-align:center;">
+                    <button type="button" class="btn" style="width:400px" @onclick="lockSeatsAndProcessPayment" disabled="@cannotSubmit">Potwierdź maila i zapłać</button>
+                    <br/>
+                    <input @oninput="checkIfPurchaseButtonEnabled" style="text-transform:lowercase;width:400px;text-align:center"/> 
+                    <br />
+                </div>
         }
-        else // display ticket
+        else
         {
-            <TicketComponent Ticket=@ticket Reservations=@markedSeats Showing=@showing Movie=@movie></TicketComponent>
+            openTicket();
         }
+
 
     }
-else
-{
-    <h6>Przepraszamy, podany seans nie istnieje.</h6>
-}
+    else
+    {
+        <h6>Przepraszamy, podany seans nie istnieje.</h6>
+    }
 
 </div>
 
@@ -140,16 +140,23 @@ else
     private Movie movie;
     private List<Reservation> showingReservations = new(); //database state of reservations
     private List<Reservation> markedSeats = new(); //seats marked by the user 
-    private bool cannotSubmit = true;
-    private bool validEmail = false;
-    private bool processingPayment = false;
-    private bool paymentSuccess = false;
-    private bool archivedShowing = false;
-    private string customerEmailString = "";
-    private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute();
-    private Ticket ticket = new Ticket();
+    private bool cannotSubmit = true; // bound to submit button
+    private bool validEmail = false; // whether or not email can be classified as valid
+    private bool processingPayment = false; // payment is being processed (refreshing page will cancel purchase)
+    private bool paymentSuccess = false; // payment has went through
+    private bool archivedShowing = false; // showing is archived - cannot buy or mark tickets
+    private string customerEmailString = ""; // bound to textbox
+    private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute(); // email attribute for validifying email string
+    private Ticket ticket = new Ticket(); // ticket for this browser page
+    private string ticketLink = ""; // ticket link for user
 
-    private async void lockSeatsAndProcessPayment()
+    private async void openTicket() // delay and open a new page
+    {
+        await Task.Delay(3000);
+        NavManager.NavigateTo(ticketLink);
+    }
+
+    private async void lockSeatsAndProcessPayment() // check seats, lock seats, process payment, confirm reservations and send mail
     {
         // add cool stuff to ticket
         ticket.ClientMail = customerEmailString;
@@ -203,6 +210,8 @@ else
         // create ticket
         FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie);
 
+        ticketLink = "/ticket/" + ticket.QRString;
+
         paymentSuccess = true;
         processingPayment = false;
 
@@ -221,7 +230,7 @@ else
         else cannotSubmit = true;
     }
 
-    private void ToggleSeatMark(int rowNumber, int columnNumber)
+    private void ToggleSeatMark(int rowNumber, int columnNumber) // toggle seats between gray and green :)
     {
         Reservation? clickedSeat = markedSeats.FirstOrDefault(x => x.RowNumber == rowNumber && x.ColumnNumber == columnNumber);
 
@@ -244,7 +253,7 @@ else
         checkIfPurchaseButtonEnabled(null);
     }
 
-    private void PopulateReservations()
+    private void PopulateReservations() // populate local reservation variable with db information
     {
         DeleteExpiredReservationsByShowingIdUseCase.Execute(showing.ShowingId);
         var res = GetReservationsByShowingIdUseCase.Execute(showing.ShowingId);
@@ -268,12 +277,12 @@ else
     {
         base.OnParametersSet();
 
-        if(int.TryParse(this.ShowingId, out int iShowingId))
+        if(int.TryParse(this.ShowingId, out int iShowingId)) // get int from string
         {
-            var show = GetShowingByIdUseCase.Execute(iShowingId);
-            if(show != null)
+            var show = GetShowingByIdUseCase.Execute(iShowingId); // find show
+            if(show != null) // get data
             {
-                this.showing = new Showing
+                this.showing = new Showing 
                 {
                     ShowingId = show.ShowingId,
                     ScreeningRoomId = show.ScreeningRoomId,
@@ -301,6 +310,7 @@ else
                     RowCount = scrRoom.RowCount
                 };
 
+                // if showing is archived, you cannot buy tickets or mark seats
                 if (showing.Date < DateTime.Now) archivedShowing = true;
 
                 // populate reservation list for the showing

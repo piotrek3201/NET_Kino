@@ -128,5 +128,10 @@ namespace Plugins.DataStore.InMemory
         {
             return tickets.FindAll(x => x.ClientMail == clientMail);
         }
+
+        public Ticket GetTicketByQRString(string pQRString)
+        {
+            return tickets.FirstOrDefault(x => x.QRString == pQRString);
+        }
     }
 }
