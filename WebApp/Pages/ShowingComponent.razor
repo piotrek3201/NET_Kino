@@ -13,11 +13,7 @@
 @inject IAddTicketUseCase AddTicketUseCase
 @inject IFinalizeTicketUseCase FinalizeTicketUseCase
 @inject IDeleteTicketByIdsUseCase DeleteTicketByIdsUseCase
-
-@using QRCoder;
-@using System.Drawing;
-@using System.Drawing.Imaging;
-@using System.IO;
+@inject IDeleteExpiredReservationsByShowingIdUseCase DeleteExpiredReservationsByShowingIdUseCase
 
 <div class="content">
 @if(showing != null)
@@ -43,7 +39,7 @@
                     char rLetter = (char)(r.RowNumber + 64);
                     char whiteSpace = ' ';
 
-                    @ticket.TicketId @r.ReservationId @rLetter@c@whiteSpace
+                    @rLetter@c@whiteSpace
                     
                 }
 
@@ -57,6 +53,10 @@
                 else if (processingPayment)
                 {
                     <dl>Przetwarzanie płatności...</dl>
+                }
+                else if (archivedShowing)
+                {
+                    <dl>Nie można już kupować biletów na ten seans.</dl>
                 }
                 else
                 {
@@ -119,21 +119,7 @@
         }
         else // display ticket
         {
-            <p>
-                Tu jest Twój bilet, @ticket.ClientMail:
-                <br />
-                <br />
-                <img src="@ticket?.QRStringImage" style="width:200px;height:200px;">
-                <br />
-                <br />
-                Zrób zdjęcie tej strony lub wydrukuj ją.
-                <br />
-                Pokaż ten kod pracownikowi kina sprawdzającemu bilety.
-                <br />
-                Kod biletu dostaniesz również na e-mail.
-                <br />
-                Kod ten jest także upoważnieniem do wejścia na salę.
-            </p>
+            <TicketComponent Ticket=@ticket Reservations=@markedSeats Showing=@showing Movie=@movie></TicketComponent>
         }
 
     }
@@ -158,6 +144,7 @@ else
     private bool validEmail = false;
     private bool processingPayment = false;
     private bool paymentSuccess = false;
+    private bool archivedShowing = false;
     private string customerEmailString = "";
     private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute();
     private Ticket ticket = new Ticket();
@@ -207,8 +194,7 @@ else
 
         processingPayment = true;
         // TODO: visualize fake payment processing
-        await Task.Delay(5000);
-
+        await Task.Delay(3000);
 
         // payment processed - confirm reservations
         // this method will find reservation matching r in db and update that reservation
@@ -221,6 +207,8 @@ else
         processingPayment = false;
 
         checkIfPurchaseButtonEnabled(null);
+
+        StateHasChanged(); // make sure to update UI
     }
 
 
@@ -229,7 +217,7 @@ else
         if (args != null) customerEmailString = args.Value.ToString().Trim();
         validEmail = customerEmailAttribute.IsValid(customerEmailString);
 
-        if (validEmail && markedSeats.Count > 0 && !processingPayment && !paymentSuccess) cannotSubmit = false;
+        if (validEmail && markedSeats.Count > 0 && !processingPayment && !paymentSuccess && !archivedShowing) cannotSubmit = false;
         else cannotSubmit = true;
     }
 
@@ -241,7 +229,7 @@ else
         {
             markedSeats.Remove(clickedSeat);
         }
-        else if (markedSeats.Count < 10) // the seat wasn't selected so it should be marked if max count not reached
+        else if (markedSeats.Count < 10 && !archivedShowing) // the seat wasn't selected so it should be marked if max count not reached
         {
             // this is not a real reservation in db - just a temporary one
             Reservation userMarkedSeat = new Reservation()
@@ -258,6 +246,7 @@ else
 
     private void PopulateReservations()
     {
+        DeleteExpiredReservationsByShowingIdUseCase.Execute(showing.ShowingId);
         var res = GetReservationsByShowingIdUseCase.Execute(showing.ShowingId);
         showingReservations.Clear();
 
@@ -311,6 +300,8 @@ else
                     ColumnCount = scrRoom.ColumnCount,
                     RowCount = scrRoom.RowCount
                 };
+
+                if (showing.Date < DateTime.Now) archivedShowing = true;
 
                 // populate reservation list for the showing
                 PopulateReservations();

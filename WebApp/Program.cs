@@ -66,6 +66,7 @@ builder.Services.AddTransient<IConfirmReservationUseCase, ConfirmReservationUseC
 builder.Services.AddTransient<IDeleteReservationByPositionUseCase, DeleteReservationByPositionUseCase>();
 builder.Services.AddTransient<IGetReservationsByShowingIdUseCase, GetReservationsByShowingIdUseCase>();
 builder.Services.AddTransient<IGetReservationsByTicketUseCase, GetReservationsByTicketUseCase>();
+builder.Services.AddTransient<IDeleteExpiredReservationsByShowingIdUseCase, DeleteExpiredReservationsByShowingIdUseCase>();
 
 builder.Services.AddTransient<IAddTicketUseCase, AddTicketUseCase>();
 builder.Services.AddTransient<IDeleteTicketByIdsUseCase, DeleteTicketByIdsUseCase>();

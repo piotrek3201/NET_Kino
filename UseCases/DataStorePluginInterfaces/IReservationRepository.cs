@@ -15,5 +15,6 @@ namespace UseCases.DataStorePluginInterfaces
         void ConfirmReservation(Reservation reservation);
         IEnumerable<Reservation> GetReservationsByShowingId(int showingId);
         void DeleteReservationByPosition(int showingId, int seatRow, int seatColumn);
+        public void DeleteExpiredReservationsByShowingId(int showingId);
     }
 }

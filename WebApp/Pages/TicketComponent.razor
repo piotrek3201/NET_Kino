@@ -1,0 +1,70 @@
+﻿
+<div style="text-align:center">
+
+    <h2>
+        Twój bilet na film 
+        <br/>
+        "@Movie.Title"
+    </h2>
+    <p>
+        Pokaż go pracownikowi kina sprawdzającemu bilety
+        <br />
+        Możesz również podać kod biletu
+    </p>
+    
+    <img src="@Ticket.QRStringImage" style="width:200px;height:200px;">
+    <p style="color:palevioletred; font-size:large">@Ticket.QRString</p>
+
+    <br/>
+    <h2>Sala @Showing.ScreeningRoomId</h2>
+    <p style="color:lightskyblue; font-size:large">
+        @Showing.Date.ToShortTimeString() @Showing.Date.ToShortDateString()
+    </p>
+    
+    <br/>
+    <h2>Siedzenia</h2>
+    
+    <p style="color:lightgoldenrodyellow; font-size:large">
+        @foreach (Reservation r in Reservations)
+        {
+            int c = r.ColumnNumber;
+            char rLetter = (char)(r.RowNumber + 64);
+
+            if(!firstItem) @separator
+            else firstItem = false;
+
+            @rLetter@c
+
+            counter++;
+            if (counter >= Reservations.Count() / 2)
+            {
+                counter = -1;
+                firstItem = true;
+                <br/>
+            }
+        }
+    </p>
+    
+    <br/>
+    <br/>
+
+</div>
+
+
+@code {
+    [Parameter]
+    public Ticket Ticket { get; set; }
+
+    [Parameter]
+    public List<Reservation> Reservations { get; set; }
+
+    [Parameter]
+    public Showing Showing { get; set; }
+
+    [Parameter]
+    public Movie Movie { get; set; }
+
+    int counter = 0;
+    bool firstItem = true;
+    string separator = " - ";
+}

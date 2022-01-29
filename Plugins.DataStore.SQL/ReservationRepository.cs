@@ -29,11 +29,11 @@ namespace Plugins.DataStore.SQL
 
         public void AddReservation(Reservation reservation)
         {
-            //reservation.ReservationId = db.Reservations.Max(x => x.ReservationId) + 1;
-
             if (db.Reservations.Any(x => x.ShowingId == reservation.ShowingId &&
                                 x.RowNumber == reservation.RowNumber &&
                                 x.ColumnNumber == reservation.ColumnNumber)) return;
+
+            reservation.ReservationExpirationDate = DateTime.Now.AddMinutes(5);
 
             db.Reservations.Add(reservation);
             db.SaveChanges();
@@ -68,6 +68,18 @@ namespace Plugins.DataStore.SQL
                 db.Reservations.Remove(reservationToDelete);
                 db.SaveChanges();
             }
+        }
+
+        public void DeleteExpiredReservationsByShowingId(int showingId)
+        {
+            IEnumerable<Reservation> reservations = GetReservationsByShowingId(showingId);
+            reservations = reservations.ToList().FindAll(x => x.ReservationExpirationDate < DateTime.Now);
+            foreach (Reservation r in reservations)
+            {
+                db.Reservations.Remove(r);
+            }
+            
+            db.SaveChanges();
         }
     }
 }

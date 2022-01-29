@@ -89,5 +89,15 @@ namespace Plugins.DataStore.InMemory
                                 x.ColumnNumber == seatColumn);
             if (reservationToDelete != null) reservations.Remove(reservationToDelete);
         }
+
+        public void DeleteExpiredReservationsByShowingId(int showingId)
+        {
+            IEnumerable<Reservation> reservationsToDelete = GetReservationsByShowingId(showingId);
+            reservations = reservations.ToList().FindAll(x => x.ReservationExpirationDate < DateTime.Now);
+            foreach (Reservation r in reservationsToDelete)
+            {
+                reservations.Remove(r);
+            }
+        }
     }
 }

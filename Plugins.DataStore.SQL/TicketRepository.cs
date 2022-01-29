@@ -26,9 +26,11 @@ namespace Plugins.DataStore.SQL
         {
             // generate qr code for ticket and db
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            //TODO: append a unique string of characters (user id + ticket id I reckon)
+            //TODO: append a unique string of characters (random + ticketId)
             ticket.QRString = new string(Enumerable.Repeat(chars, 9)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            ticket.QRString = ticket.QRString + ticket.TicketId.ToString();
 
             using (MemoryStream ms = new MemoryStream())
             {
