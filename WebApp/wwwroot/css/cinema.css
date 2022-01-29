@@ -276,10 +276,6 @@ img
 
 .vertical_center {
     position: absolute;
-    /*
-    top: 50%;
-    transform: translateY(-50%);
-    */
     top: 50%;
     left: 50%;
     -moz-transform: translateX(-50%) translateY(-50%);
