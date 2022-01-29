@@ -21,6 +21,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
     <PackageReference Include="QRCoderNetCore" Version="1.0.0" />
+    <PackageReference Include="Radzen.Blazor" Version="3.14.9" />
   </ItemGroup>
 
   <ItemGroup>
