@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+
+@inject NavigationManager Navigation
+
+<AuthorizeView Policy="AdminOnly">
+    <Authorized>
+        <li class="nav-item">
+            <div class="option">
+                <a class="nav-link" href="screeningrooms">Sale kinowe</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <div class="option">
+                <a class="nav-link" href="managemovies">Baza filmów</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <div class="option">
+                <a class="nav-link" href="manageshowings">Planowanie seansów</a>
+            </div>
+        </li>
+    </Authorized>
+    <NotAuthorized>
+
+    </NotAuthorized>
+</AuthorizeView>
