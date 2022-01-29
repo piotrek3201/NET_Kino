@@ -1,4 +1,5 @@
 ﻿@page "/editshowing/{showingId}"
+@attribute [Authorize(Policy = "AdminOnly")]
 
 @inject NavigationManager NavigationManager
 @inject IViewScreeningRoomsUseCase ViewScreeningRoomsUseCase

@@ -1,4 +1,5 @@
 ﻿@page "/addscreeningroom"
+@attribute [Authorize(Policy = "AdminOnly")]
 
 @inject NavigationManager NavigationManager
 @inject IAddScreeningRoomUseCase AddScreeningRoomUseCase

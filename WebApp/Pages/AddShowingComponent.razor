@@ -1,4 +1,5 @@
 ﻿@page "/addshowing"
+@attribute [Authorize(Policy = "AdminOnly")]
 
 @inject NavigationManager NavigationManager
 @inject IAddShowingUseCase AddShowingUseCase

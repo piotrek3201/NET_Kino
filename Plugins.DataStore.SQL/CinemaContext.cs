@@ -5,7 +5,7 @@ namespace Plugins.DataStore.SQL
 {
     public class CinemaContext : DbContext
     {
-        public CinemaContext(DbContextOptions options) : base(options)
+        public CinemaContext(DbContextOptions<CinemaContext> options) : base(options)
         {
 
         }

@@ -6,6 +6,7 @@ using Plugins.DataStore.SQL;
 using UseCases;
 using UseCases.DataStorePluginInterfaces;
 using WebApp.Data;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,17 @@ builder.Services.AddDbContext<CinemaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AccountContext>(); 
+
+builder.Services.AddDbContext<AccountContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AccountContextConnection")));
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", p => p.RequireClaim("Position", "Admin"));
+    options.AddPolicy("CashierOnly", p => p.RequireClaim("Position", "Cashier"));
+});
 
 //Dependency injection for in-memory data store
 /*
@@ -88,8 +100,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    app.MapBlazorHub();
+    app.MapFallbackToPage("/_Host");
+});
 
 app.Run();

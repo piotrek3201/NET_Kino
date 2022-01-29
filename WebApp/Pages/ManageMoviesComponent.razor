@@ -1,4 +1,5 @@
 ﻿@page "/managemovies"
+@attribute [Authorize(Policy = "AdminOnly")]
 
 @inject NavigationManager NavigationManager
 @inject IViewMoviesUseCase ViewMoviesUseCase
