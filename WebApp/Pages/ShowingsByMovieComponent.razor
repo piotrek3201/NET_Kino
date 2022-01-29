@@ -32,9 +32,6 @@
                                 <div class="col" style="margin-top: 13px;">
                                     Godzina: @show.Date.ToString("HH:mm")
                                 </div>
-                                <div class="col" style="margin-top: 13px;">
-                                    Sala @GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ScreeningRoomName
-                                </div>
                                 <div class="col" style="margin-top: 13px; width: 100px;">
                                     Wolne miejsca:
                                     @(GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).RowCount *
@@ -43,6 +40,19 @@
                                     GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).RowCount *
                                     GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ColumnCount)
                                 </div>
+                                @if (show.Dubbing == true)
+                                {
+                                    /*Sala @GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ScreeningRoomName*/
+                                    <div class="col" style="margin-top: 13px;">
+                                        Dubbing
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col" style="margin-top: 13px;">
+                                         Napisy
+                                    </div>
+                                }
                                 <div class="col" style="margin-top: 13px;">
                                     Cena biletu: @show.TicketPrice zł
                                 </div>
