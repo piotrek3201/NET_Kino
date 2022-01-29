@@ -408,3 +408,13 @@ img
     height: 350px;
     transition: .5s ease;
 }
+
+.description {
+    color: white;
+    font-size: 16px;
+    padding: 5px 5px;
+    max-width: 680px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: auto;
+}

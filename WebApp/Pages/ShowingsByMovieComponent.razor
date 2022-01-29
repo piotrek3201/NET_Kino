@@ -10,7 +10,14 @@
     @if(showings != null)
     {
         <h3>Seanse filmu @movie.Title</h3>
-
+        
+        <div class="row">
+            <div class="description">
+                @movie.Description
+            </div>
+        <img src="@movie.ImageUrl" alt="@movie.Title" style="height: 250px; width: 200px">
+        </div>
+        <br />
         @foreach(var date in dates)
         {
             <h3>@date.Date.ToString("dd/MM/yyyy")</h3>
