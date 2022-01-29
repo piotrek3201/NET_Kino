@@ -276,10 +276,6 @@ img
 
 .vertical_center {
     position: absolute;
-    /*
-    top: 50%;
-    transform: translateY(-50%);
-    */
     top: 50%;
     left: 50%;
     -moz-transform: translateX(-50%) translateY(-50%);
@@ -293,7 +289,7 @@ img
 
 .center {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 35px;
     margin-left: auto;
     margin-right: auto;
     max-width: 1340px;
@@ -407,6 +403,16 @@ img
     width: 246px;
     height: 350px;
     transition: .5s ease;
+}
+
+.description {
+    color: white;
+    font-size: 16px;
+    padding: 5px 5px;
+    max-width: 680px;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: auto;
 }
 
 #ticket {

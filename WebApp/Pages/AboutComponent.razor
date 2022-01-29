@@ -1,0 +1,21 @@
+﻿@page "/about"
+
+@inject NavigationManager NavigationManager
+
+<div class="content">
+    <div class="text2 center" style="margin-top: auto">O Nas</div>
+    <div class="text center" style="margin-top: auto; color: White">Tu będzie opis kina</div>
+    <div class="text2 center" style="margin-top: auto">Lokalizacja</div>
+    <div class="row">
+        <RadzenGoogleMap Style="height:600px" Zoom="@zoom" Center="@(new GoogleMapPosition() {Lat = 52.255250342640295, Lng = 20.89570625129026})">
+            <Markers>
+                <RadzenGoogleMapMarker Title = "NET Kino" Label = "NET Kino" Position = "@(new GoogleMapPosition() {Lat = 52.255250342640295, Lng = 20.89570625129026})" />
+            </Markers>
+        </RadzenGoogleMap>
+    </div>
+
+</div>
+
+@code {
+    int zoom = 14;
+}
