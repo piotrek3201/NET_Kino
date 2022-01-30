@@ -16,5 +16,6 @@ namespace UseCases.DataStorePluginInterfaces
         void DeleteTicketByIds(string clientMail, int ticketId);
         IEnumerable<Ticket> GetTicketsByMail(string clientMail);
         Ticket GetTicketByQRString(string pQRString);
+        bool IsTicketValid(Ticket ticket);
     }
 }

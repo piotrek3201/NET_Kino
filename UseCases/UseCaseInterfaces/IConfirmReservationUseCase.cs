@@ -4,6 +4,6 @@ namespace UseCases
 {
     public interface IConfirmReservationUseCase
     {
-        void Execute(Reservation reservation);
+        void Execute(Reservation reservation, bool payment);
     }
 }

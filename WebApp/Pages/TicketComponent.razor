@@ -1,4 +1,7 @@
-﻿<div style="color:@TextColor; background-color:@BackgroundColor" id=ticket>
+﻿@inject IConfirmReservationUseCase ConfirmReservationUseCase
+@inject IIsTicketValidUseCase IsTicketValidUseCase
+
+<div style="color:@TextColor; background-color:@BackgroundColor" id=ticket>
 
     <br/><br/><br/>
 
@@ -7,12 +10,30 @@
         <br/>
         "@Movie.Title"
     </h2>
-    <p>
-        Pokaż go pracownikowi kina sprawdzającemu bilety
+
+    @if (purchase)
+    {
+        <p>
+        Pokaż go pracownikowi kina sprawdzającemu bilety.
         <br />
-        Możesz również podać kod biletu
-    </p>
-    
+        Możesz również podać kod biletu.
+        </p>
+    }
+    else
+    {
+        <p>
+            Twój bilet jest zarezerwowany na @Ticket.ClientMail.
+            <br/>
+            Rezerwacja jest ważna do 20 minut przed seansem.
+            <br/> <br/>
+            Przyjdź do kina i podaj kod biletu kasjerowi.
+            <br/>
+            Po zatwierdzeniu zakupu, bilet stanie się ważny. 
+            <br>
+            W przeciwnym wypadku system odrzuci bilet.
+        </p>
+    }
+
     <img src="@Ticket.QRStringImage" style="width:200px;height:200px;">
     <p style="color:palevioletred; font-size:large">@Ticket.QRString</p>
 
@@ -53,9 +74,19 @@
             firstItem = true;
             counter = 0;
         }
-
     </p>
     <br/>
+
+    <AuthorizeView Policy="CashierOnly">
+        <Authorized>
+            @if (!purchase)
+            {
+                <button type="button" class="btn" @onclick="ConfirmPayment" 
+                    disabled="@purchase">Zatwierdź płatność klienta</button>
+                <br/>
+            }
+        </Authorized>
+    </AuthorizeView>
     
 
 </div>
@@ -83,4 +114,21 @@
     int counter = 0;
     bool firstItem = true;
     string separator = " - ";
+    bool purchase = false;
+
+    private void ConfirmPayment()
+    {
+        Ticket.PurchaseDate = DateTime.Now;
+        foreach (Reservation r in Reservations) ConfirmReservationUseCase.Execute(r, true);
+        purchase = true;
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        //jezeli dowolna rezerwacja wygasa przed seansem, nie zaplacono za bilet
+        if (IsTicketValidUseCase.Execute(Ticket)) purchase = true;
+        else purchase = false;
+    }
 }

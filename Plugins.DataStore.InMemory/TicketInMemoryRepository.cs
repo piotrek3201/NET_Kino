@@ -135,5 +135,10 @@ namespace Plugins.DataStore.InMemory
         {
             return tickets.FirstOrDefault(x => x.QRString == pQRString);
         }
+
+        public bool IsTicketValid(Ticket ticket)
+        {
+            return true;
+        }
     }
 }

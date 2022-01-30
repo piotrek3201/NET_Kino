@@ -16,9 +16,9 @@ namespace UseCases
         {
             this.reservationRepository = reservationRepository;
         }
-        public void Execute(Reservation reservation)
+        public void Execute(Reservation reservation, bool payment)
         {
-            reservationRepository.ConfirmReservation(reservation);
+            reservationRepository.ConfirmReservation(reservation, payment);
         }
     }
 }

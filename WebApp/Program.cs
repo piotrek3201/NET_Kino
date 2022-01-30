@@ -85,6 +85,7 @@ builder.Services.AddTransient<IDeleteTicketByIdsUseCase, DeleteTicketByIdsUseCas
 builder.Services.AddTransient<IGetTicketsByMailUseCase, GetTicketsByMailUseCase>();
 builder.Services.AddTransient<IFinalizeTicketUseCase, FinalizeTicketUseCase>();
 builder.Services.AddTransient<IGetTicketByQRStringUseCase, GetTicketByQRStringUseCase>();
+builder.Services.AddTransient<IIsTicketValidUseCase, IsTicketValidUseCase>();
 
 var app = builder.Build();
 

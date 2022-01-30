@@ -12,9 +12,9 @@ namespace UseCases.DataStorePluginInterfaces
         IEnumerable<Reservation> GetReservations();
         IEnumerable<Reservation> GetReservationsByTicket(string clientMail, int ticketId);
         void AddReservation(Reservation reservation);
-        void ConfirmReservation(Reservation reservation);
+        void ConfirmReservation(Reservation reservation, bool payment);
         IEnumerable<Reservation> GetReservationsByShowingId(int showingId);
         void DeleteReservationByPosition(int showingId, int seatRow, int seatColumn);
-        public void DeleteExpiredReservationsByShowingId(int showingId);
+        void DeleteExpiredReservationsByShowingId(int showingId);
     }
 }

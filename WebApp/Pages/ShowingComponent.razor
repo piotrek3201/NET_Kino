@@ -75,7 +75,7 @@
 
                 @if (paymentSuccess)
                 {
-                    <dl>Zapłacono!</dl>
+                    <dl>Udało się!</dl>
                     <dl>Przekierowuję...</dl>
                 }
                 else if (processingPayment)
@@ -105,7 +105,7 @@
                                 @for (var j = 1; j <= @screeningRoom.ColumnCount; j++)
                                 {
                                     var c = j;
-                                    @if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j && x.ReservationExpirationDate > DateTime.Now.AddYears(1)))
+                                    @if (showingReservations.Any(x => x.RowNumber == i && x.ColumnNumber == j && x.ReservationExpirationDate > showing.Date))
                                     {
                                         <td class="screeningRoomSeat"><div class="seat_taken"> <dl>@rLetter@c</dl> </div></td>
                                     }
@@ -131,18 +131,25 @@
             <div style="text-align:center;">
                 @if (isCashier)
                 {
-                    <button type="button" class="btn" style="width:400px" @onclick="lockSeatsAndProcessPayment" 
+                    <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(true)" 
                     disabled="@cannotSubmit">Zatwierdź płatność klienta</button>
+                    <br/>
+                    <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(false)" 
+                    disabled="@cannotSubmit">Zatwierdź rezerwację klienta</button>
                 }
                 else
                 {
-                    <button type="button" class="btn" style="width:400px" @onclick="lockSeatsAndProcessPayment" 
+                    <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(true)" 
                     disabled="@cannotSubmit">Potwierdź maila i zapłać</button>
+                    <br/>
+                    <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(false)" 
+                    disabled="@cannotSubmit">Potwierdź maila i zarezerwuj</button>
                 }
                 <br/>
                 @if (!disableMailBox)
                 {
-                    <input @oninput="checkIfPurchaseButtonEnabled" style="text-transform:lowercase;width:400px;text-align:center"/> 
+                    <input @oninput="checkIfPurchaseButtonEnabled" 
+                    style="text-transform:lowercase;width:400px;text-align:center"/> 
                     <br />
                 }
             </div>
@@ -219,7 +226,8 @@
         NavManager.NavigateTo(ticketLink);
     }
 
-    private async void lockSeatsAndProcessPayment() // check seats, lock seats, process payment, confirm reservations and send mail
+    // check seats, lock seats, process payment, confirm reservations and send mail
+    private async void lockSeatsAndProcessPayment(bool purchase) 
     {
         // add cool stuff to ticket
         ticket.ClientMail = customerEmailString;
@@ -262,16 +270,15 @@
             }
         }
 
-        if (!isCashier)
+        if (!isCashier && purchase)
         {
             processingPayment = true;
-            // TODO: visualize fake payment processing
             await Task.Delay(3000);
         }
         
         // payment processed - confirm reservations
         // this method will find reservation matching r in db and update that reservation
-        foreach (Reservation r in markedSeats) ConfirmReservationUseCase.Execute(r);
+        if (purchase) foreach (Reservation r in markedSeats) ConfirmReservationUseCase.Execute(r, purchase);
 
         // create ticket
         FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie, NavManager.BaseUri, isCashier);

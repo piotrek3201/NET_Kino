@@ -39,7 +39,7 @@ namespace Plugins.DataStore.SQL
             db.SaveChanges();
         }
 
-        public void ConfirmReservation(Reservation reservation)
+        public void ConfirmReservation(Reservation reservation, bool purchase)
         {
             Reservation? reservationToConfirm = db.Reservations.FirstOrDefault(x =>
                                 x.ShowingId == reservation.ShowingId &&
@@ -48,7 +48,12 @@ namespace Plugins.DataStore.SQL
 
             if (reservationToConfirm != null)
             {
-                reservationToConfirm.ReservationExpirationDate = DateTime.Now.AddYears(5);
+                // reservation is paid for
+                if (purchase) reservationToConfirm.ReservationExpirationDate = reservation.Showing.Date.AddYears(2);
+
+                // reservation was made, but was not paid for
+                else reservationToConfirm.ReservationExpirationDate = reservation.Showing.Date.AddMinutes(-20);
+
                 db.SaveChanges();
             }
         }

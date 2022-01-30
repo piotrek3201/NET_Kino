@@ -68,7 +68,7 @@ namespace Plugins.DataStore.InMemory
             reservations.Add(reservation);
         }
 
-        public void ConfirmReservation(Reservation reservation)
+        public void ConfirmReservation(Reservation reservation, bool payment)
         {
             Reservation? reservationToConfirm = reservations.FirstOrDefault(x => 
                                 x.ShowingId == reservation.ShowingId &&

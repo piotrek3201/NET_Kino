@@ -50,10 +50,11 @@ namespace Plugins.DataStore.SQL
             // save ticket
             db.SaveChanges();
 
-            if (!isCashier)
+            if (!isCashier) // fill out mail and send ticket
             {
-                // fill out mail and send ticket
-                string Subject = "Twój bilet do Kina NET na film \"" + linkedMovie.Title + "\"!";
+                string Subject;
+                if (IsTicketValid(ticket)) Subject = "Twój bilet do Kina NET na film \"" + linkedMovie.Title + "\"!";
+                else Subject = "Twoja rezerwacja do Kina NET na film \"" + linkedMovie.Title + "\"!";         
 
                 string Body = "<h1 style=\"text-align:center\">Witaj w naszym kinie!" +
                     "<br/>W linku poniżej znajdziesz swój bilet.</h1>" +
@@ -128,6 +129,13 @@ namespace Plugins.DataStore.SQL
         {
             return db.Tickets.FirstOrDefault(x =>
                                 x.QRString == pQRString);
+        }
+
+        public bool IsTicketValid(Ticket ticket)
+        {
+            Reservation r = ticket.Reservations.FirstOrDefault();
+            if (r != null && r.ReservationExpirationDate > r.Showing.Date) return true;
+            else return false;
         }
     }
 }
