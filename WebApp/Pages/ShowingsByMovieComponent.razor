@@ -7,8 +7,7 @@
 @inject NavigationManager NavigationManager
 
 <div class="content">
-    @if(showings != null)
-    {
+    
         <h3>Seanse filmu @movie.Title</h3>
         
         <div class="row">
@@ -18,6 +17,8 @@
         <img src="@movie.ImageUrl" alt="@movie.Title" style="height: 250px; width: 200px">
         </div>
         <br />
+    @if(showings.Count() != 0)
+    {
         @foreach(var date in dates)
         {
             <h3>@date.Date.ToString("dd/MM/yyyy")</h3>
@@ -72,7 +73,9 @@
     }
     else
     {
-        <h6>Przepraszamy, nie mogliśmy znaleźć podanego filmu <i class="fa-solid fa-face-frown"></i></h6>
+        <div class="center">
+            <h6>Przepraszamy, nie mogliśmy znaleźć seansów dla tego filmu.</h6>
+        </div>
     }
 
     
