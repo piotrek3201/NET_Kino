@@ -1,7 +1,4 @@
-﻿@inject IConfirmReservationUseCase ConfirmReservationUseCase
-@inject IIsTicketValidUseCase IsTicketValidUseCase
-
-<div style="color:@TextColor; background-color:@BackgroundColor" id=ticket>
+﻿<div style="color:@TextColor; background-color:@BackgroundColor" id=ticket>
 
     <br/><br/><br/>
 
@@ -11,7 +8,7 @@
         "@Movie.Title"
     </h2>
 
-    @if (purchase)
+    @if (Purchase)
     {
         <p>
         Pokaż go pracownikowi kina sprawdzającemu bilety.
@@ -77,19 +74,6 @@
     </p>
     <br/>
 
-    <AuthorizeView Policy="CashierOnly">
-        <Authorized>
-            @if (!purchase)
-            {
-                <button type="button" class="btn" @onclick="ConfirmPayment" 
-                    disabled="@purchase">Zatwierdź płatność klienta</button>
-                <br/>
-                <br/>
-            }
-        </Authorized>
-    </AuthorizeView>
-    
-
 </div>
 
 
@@ -112,24 +96,11 @@
     [Parameter]
     public string BackgroundColor { get; set; }
 
+    [Parameter]
+    public bool Purchase { get; set; }
+
     int counter = 0;
     bool firstItem = true;
     string separator = " - ";
-    bool purchase = false;
 
-    private void ConfirmPayment()
-    {
-        Ticket.PurchaseDate = DateTime.Now;
-        foreach (Reservation r in Reservations) ConfirmReservationUseCase.Execute(r, true);
-        purchase = true;
-    }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-
-        //jezeli dowolna rezerwacja wygasa przed seansem, nie zaplacono za bilet
-        if (IsTicketValidUseCase.Execute(Ticket)) purchase = true;
-        else purchase = false;
-    }
 }
