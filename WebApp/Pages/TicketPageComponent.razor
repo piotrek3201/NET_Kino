@@ -6,10 +6,12 @@
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
 @inject IJSRuntime JSRuntime
 
-<TicketComponent Ticket="@ticket" Reservations="@reservations" Showing="@showing" Movie="@movie"></TicketComponent>
+<TicketComponent Ticket="@ticket" Reservations="@reservations" Showing="@showing" 
+Movie="@movie" TextColor="@textColor" BackgroundColor="@backgroundColor"></TicketComponent>
 
 <div class="center">
-    <button class="btn" @onclick="PrintReport">Drukuj bilet</button>
+    <button class="btn" @onclick="PrintReport" 
+    >Drukuj bilet</button>
 </div>
 
 
@@ -20,11 +22,12 @@
     private IEnumerable<Reservation> reservations;
     private Showing showing;
     private Movie movie;
+    private string textColor = "white";
+    private string backgroundColor = "#202020";
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
     }
 
     protected override void OnParametersSet()
@@ -45,11 +48,28 @@
                 }
             }
         }
-
     }
 
-    private void PrintReport()
+    private async Task PrintColors()
     {
-        JSRuntime.InvokeVoidAsync("print");
+        textColor = "black";
+        backgroundColor = "white";
+        await Task.Delay(100);
+    }
+
+    private async Task WebColors()
+    {
+        await Task.Delay(100);
+        textColor = "white";
+        backgroundColor = "#202020";
+        StateHasChanged(); // make sure to update UI
+    }
+
+    private async void PrintReport()
+    {
+        await PrintColors();
+        await JSRuntime.InvokeVoidAsync("print");
+        await WebColors();
+        
     }
 }

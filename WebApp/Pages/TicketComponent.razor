@@ -1,4 +1,4 @@
-﻿<div id=ticket>
+﻿<div style="color:@TextColor; background-color:@BackgroundColor" id=ticket>
 
     <br/><br/><br/>
 
@@ -18,35 +18,42 @@
 
     <br/>
     <h2>Sala @Showing.ScreeningRoomId</h2>
-    <p style="color:lightskyblue; font-size:large">
-        @Showing.Date.ToShortTimeString() 
-        <br/>
+    <p style="color:palegreen; font-size:large">
         @Showing.Date.ToShortDateString()
+        <br/>
+        @Showing.Date.ToShortTimeString() 
     </p>
     
     <br/>
     <h2>Siedzenia</h2>
     
-    <p style="color:lightgoldenrodyellow; font-size:large">
+    <p style="color:paleturquoise; font-size:large">
         @foreach (Reservation r in Reservations)
         {
             int c = r.ColumnNumber;
             char rLetter = (char)(r.RowNumber + 64);
 
-            if(!firstItem) @separator
+            if(!firstItem) @separator // draw separator if not first item in line
             else firstItem = false;
 
             @rLetter@c
 
-            counter++;
-            if (Reservations.Count() > 2 && counter >= Reservations.Count() / 2)
+            counter++; // incremenet line breka variable
+            // line breaks every now and then
+            if (Reservations.Count() > 2 && counter >= Reservations.Count() / 2) 
             {
                 counter = -1;
                 firstItem = true;
                 <br/>
             }
         }
+        @if (!firstItem)
+        {
+            firstItem = true; // reset variable for next page draw            
+        }
+
     </p>
+    <br/>
     
 
 </div>
@@ -64,6 +71,12 @@
 
     [Parameter]
     public Movie Movie { get; set; }
+
+    [Parameter]
+    public string TextColor { get; set; }
+
+    [Parameter]
+    public string BackgroundColor { get; set; }
 
     int counter = 0;
     bool firstItem = true;
