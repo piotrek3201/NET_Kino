@@ -112,8 +112,11 @@
                 <div style="text-align:center;">
                     <button type="button" class="btn" style="width:400px" @onclick="lockSeatsAndProcessPayment" disabled="@cannotSubmit">Potwierdź maila i zapłać</button>
                     <br/>
-                    <input @oninput="checkIfPurchaseButtonEnabled" style="text-transform:lowercase;width:400px;text-align:center"/> 
-                    <br />
+                    @if (!disableMailBox)
+                    {
+                        <input @oninput="checkIfPurchaseButtonEnabled" style="text-transform:lowercase;width:400px;text-align:center"/> 
+                        <br />
+                    }
                 </div>
         }
         else
@@ -145,10 +148,32 @@
     private bool processingPayment = false; // payment is being processed (refreshing page will cancel purchase)
     private bool paymentSuccess = false; // payment has went through
     private bool archivedShowing = false; // showing is archived - cannot buy or mark tickets
-    private string customerEmailString = ""; // bound to textbox
+    private string customerEmailString = ""; // "bound" to textbox
     private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute(); // email attribute for validifying email string
     private Ticket ticket = new Ticket(); // ticket for this browser page
     private string ticketLink = ""; // ticket link for user
+
+    private string boundUserMail = "";
+    private bool disableMailBox = false;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> _authState { get; set; }
+
+    private AuthenticationState authState;
+
+    // initialize and see if you can get user email
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        authState = await _authState;
+        if (authState.User.Identity.Name != null)
+        {
+            boundUserMail = authState.User.Identity.Name;
+            disableMailBox = true;
+            customerEmailString = boundUserMail;
+            checkIfPurchaseButtonEnabled(null);
+        }
+    }
 
     private async void openTicket() // delay and open a new page
     {
@@ -263,14 +288,6 @@
         {
             showingReservations.Add(r);
         }
-    }
-    
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        //showing = new Showing();
-
     }
     
 
