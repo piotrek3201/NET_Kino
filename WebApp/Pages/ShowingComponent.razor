@@ -134,22 +134,27 @@
                     <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(true)" 
                     disabled="@cannotSubmit">Zatwierdź płatność klienta</button>
                     <br/>
+                    <br/>
                     <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(false)" 
                     disabled="@cannotSubmit">Zatwierdź rezerwację klienta</button>
                 }
                 else
                 {
                     <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(true)" 
-                    disabled="@cannotSubmit">Potwierdź maila i zapłać</button>
+                    disabled="@cannotSubmit">Potwierdź dane i zapłać</button>
+                    <br/>
                     <br/>
                     <button type="button" class="btn" style="width:400px" @onclick="() => lockSeatsAndProcessPayment(false)" 
-                    disabled="@cannotSubmit">Potwierdź maila i zarezerwuj</button>
+                    disabled="@cannotSubmit">Potwierdź dane i zarezerwuj</button>
                 }
                 <br/>
                 @if (!disableMailBox)
                 {
-                    <input @oninput="checkIfPurchaseButtonEnabled" 
-                    style="text-transform:lowercase;width:400px;text-align:center"/> 
+                    <br />
+                    <div class="center" style="width: 400px;">
+                        <label for="mail">E-mail</label>
+                        <input type="email" @oninput="checkIfPurchaseButtonEnabled" class="form-control" style="text-transform:lowercase;width:400px;text-align:center">
+                    </div>
                     <br />
                 }
             </div>
