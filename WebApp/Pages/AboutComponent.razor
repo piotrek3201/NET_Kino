@@ -4,10 +4,16 @@
 
 <div class="content">
     <div class="text2 center" style="margin-top: auto">O Nas</div>
-    <div class="text center" style="margin-top: auto; color: White">Tu będzie opis kina</div>
-    <div class="text2 center" style="margin-top: auto">Lokalizacja</div>
-    <div class="row">
-        <RadzenGoogleMap Style="height:600px" Zoom="@zoom" Center="@(new GoogleMapPosition() {Lat = 52.255250342640295, Lng = 20.89570625129026})">
+    <div class="text center" style="margin-top: auto; color: White">@description</div>
+    <div class="text2 center" style="margin-top: auto; font-size: 26px">E-mail</div>
+    <div class="text center" style="margin-top: auto; color: White">kino.net.projekt@gmail.com</div>
+    <div class="text2 center" style="margin-top: auto; font-size: 26px">Telefon</div>
+    <div class="text center" style="margin-top: auto; color: White">261 839 559</div>
+    <div class="text2 center" style="margin-top: auto; font-size: 26px">Lokalizacja</div>
+    <div class="text center" style="margin-top: auto; color: White">ul. Gen. Sylwestra Kaliskiego 25a Warszawa</div>
+    <br />
+    <div class="row" style="border: 3px solid #B70D2F; border-radius: 5px 5px 5px 5px">
+        <RadzenGoogleMap Style="height:600px" Zoom="@zoom" ApiKey="AIzaSyCv0OjSY2cls_KH0gCcALtHZBqb-wBDbLI" Center="@(new GoogleMapPosition() {Lat = 52.255250342640295, Lng = 20.89570625129026})">
             <Markers>
                 <RadzenGoogleMapMarker Title = "NET Kino" Label = "NET Kino" Position = "@(new GoogleMapPosition() {Lat = 52.255250342640295, Lng = 20.89570625129026})" />
             </Markers>
@@ -18,4 +24,6 @@
 
 @code {
     int zoom = 14;
+
+    string description = $"Net Kino to niezwykłe miejsce, które przeniesie zarówno dzieci jak i dorosłych do świata wyobraźni. Każda sala wyposażona jest w wygodne, rozkładane fotele. Kino korzysta z najnowocześniejszych systemów nagłośnienia Dolby Atmos. Dźwięk przestrzenny wzmacnia doznania i urealnia odbiór filmu, dzięki czemu widz może poczuć się częścią akcji rozgrywanej na dużym ekranie. W kinie znajduje się także bar kinowy oraz kawiarnia, gdzie można napić się gorącej czekolady i kawy lub zakupić popcorn i nachosy. W repertuarze znajdują się zarówno najnowsze hity jak i uwielbiane przez wszystkich klasyki.";
 }

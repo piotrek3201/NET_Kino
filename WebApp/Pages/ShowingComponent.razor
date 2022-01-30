@@ -29,6 +29,16 @@
                     <br />
                     Data: @showing.Date.ToString("HH:mm") @showing.Date.ToString("dd/MM/yyyy")
                     <br />
+                    Ścieżka dźwiękowa:
+                    @if(showing.Dubbing)
+                    {
+                        <span>Dubbing</span>
+                    }
+                    else
+                    {
+                        <span>Oryginalna</span>
+                    }
+                    <br />
                     Zaznaczone miejsca: @markedSeats.Count / 10
                     <br />
                     <p style="color:lightgoldenrodyellow;">
@@ -320,6 +330,7 @@
             showingReservations.Add(r);
         }
     }
+    
 
     protected override void OnParametersSet()
     {
@@ -336,7 +347,8 @@
                     ScreeningRoomId = show.ScreeningRoomId,
                     MovieId = show.MovieId,
                     Date = show.Date,
-                    TicketPrice = show.TicketPrice
+                    TicketPrice = show.TicketPrice,
+                    Dubbing = show.Dubbing
                 };
                 var mov = GetMovieByIdUseCase.Execute(showing.MovieId);
                 this.movie = new Movie
