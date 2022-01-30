@@ -4,8 +4,14 @@
 @inject IGetReservationsByTicketUseCase GetReservationsByTicketUseCase
 @inject IGetShowingByIdUseCase GetShowingByIdUseCase
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
+@inject IJSRuntime JSRuntime
 
 <TicketComponent Ticket="@ticket" Reservations="@reservations" Showing="@showing" Movie="@movie"></TicketComponent>
+
+<div class="center">
+    <button class="btn" @onclick="PrintReport">Drukuj bilet</button>
+</div>
+
 
 @code {
     [Parameter]
@@ -40,5 +46,10 @@
             }
         }
 
+    }
+
+    private void PrintReport()
+    {
+        JSRuntime.InvokeVoidAsync("print");
     }
 }

@@ -418,3 +418,22 @@ img
 #ticket {
     text-align:center;
 }
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #ticket, #ticket * {
+        visibility: visible;
+    }
+
+    #ticket {
+        text-align: center;
+    }
+}
+
+.date
+{
+    font-size: 20px;
+}

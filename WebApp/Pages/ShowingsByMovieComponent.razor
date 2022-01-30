@@ -40,26 +40,24 @@
                                     GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).RowCount *
                                     GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ColumnCount)
                                 </div>
-                                @if (show.Dubbing == true)
-                                {
-                                    /*Sala @GetScreeningRoomByIdUseCase.Execute(show.ScreeningRoomId).ScreeningRoomName*/
-                                    <div class="col" style="margin-top: 13px;">
-                                        Dubbing
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="col" style="margin-top: 13px;">
-                                         Napisy
-                                    </div>
-                                }
+                                <div class="col" style="margin-top: 13px;">
+                                    @if (show.Dubbing == true)
+                                    {
+                                        <span>Dubbing</span>
+                                    }
+                                </div>
                                 <div class="col" style="margin-top: 13px;">
                                     Cena biletu: @show.TicketPrice zł
                                 </div>
                                 <div class="col" style="margin-top: 5px;">
-                                    
+                                    @if(show.Date >= DateTime.Now)
+                                    {
                                         <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))">Kup bilet</button>
-                                   
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))" disabled>Kup bilet</button>
+                                    }
                                 </div>
                             </div>
                         </div>

@@ -7,9 +7,12 @@
 <div class="content">
     <h3>Repertuar</h3>
 
-    Dzień: @date.ToString("dd/MM/yyyy") (@date.DayOfWeek)
-    <button type="button" @onclick="@(() => PreviousDay())" class="btn">Poprzedni dzień</button>
-    <button type="button" @onclick="@(() => NextDay())" class="btn">Następny dzień</button>
+    <div class="center">
+        <button type="button" @onclick="@(() => PreviousDay())" class="btn">🡄</button>
+        <span class="date">Dzień: @date.ToString("dd/MM/yyyy") (@date.DayOfWeek)</span>
+        <button type="button" @onclick="@(() => NextDay())" class="btn">🡆</button>
+    </div>
+    
     <br />
     @foreach(var movie in movies)
     {
