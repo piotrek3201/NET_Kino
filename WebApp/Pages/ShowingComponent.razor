@@ -54,23 +54,32 @@
                 <img src="@movie.ImageUrl" alt="@movie.Title" height=150>
             </div>
             <divd style="text-align:center; font-size:large">
+                @if (isCashier)
+                {
+                    <dl>Zalogowano jako kasjer</dl>
+                }
+                else if (disableMailBox)
+                {
+                    <dl>Witaj @customerEmailString</dl>
+                }
+
                 @if (paymentSuccess)
-                    {
-                        <dl>Zapłacono!</dl>
-                        <dl>Przekierowuję...</dl>
-                    }
-                    else if (processingPayment)
-                    {
-                        <dl>Przetwarzanie płatności...</dl>
-                    }
-                    else if (archivedShowing)
-                    {
-                        <dl>Nie można już kupować biletów na ten seans</dl>
-                    }
-                    else
-                    {
-                        <dl>Wybierz miejsca</dl>
-                    }
+                {
+                    <dl>Zapłacono!</dl>
+                    <dl>Przekierowuję...</dl>
+                }
+                else if (processingPayment)
+                {
+                    <dl>Przetwarzanie płatności...</dl>
+                }
+                else if (archivedShowing)
+                {
+                    <dl>Nie można już kupować biletów na ten seans</dl>
+                }
+                else
+                {
+                    <dl>Wybierz miejsca</dl>
+                }
             </divd>
         </div>
 
@@ -107,17 +116,26 @@
                         }
                     </tbody>
                 </table>
-                <br />
+            <br />
 
-                <div style="text-align:center;">
-                    <button type="button" class="btn" style="width:400px" @onclick="lockSeatsAndProcessPayment" disabled="@cannotSubmit">Potwierdź maila i zapłać</button>
-                    <br/>
-                    @if (!disableMailBox)
-                    {
-                        <input @oninput="checkIfPurchaseButtonEnabled" style="text-transform:lowercase;width:400px;text-align:center"/> 
-                        <br />
-                    }
-                </div>
+            <div style="text-align:center;">
+                @if (isCashier)
+                {
+                    <button type="button" class="btn" style="width:400px" @onclick="lockSeatsAndProcessPayment" 
+                    disabled="@cannotSubmit">Zatwierdź płatność klienta</button>
+                }
+                else
+                {
+                    <button type="button" class="btn" style="width:400px" @onclick="lockSeatsAndProcessPayment" 
+                    disabled="@cannotSubmit">Potwierdź maila i zapłać</button>
+                }
+                <br/>
+                @if (!disableMailBox)
+                {
+                    <input @oninput="checkIfPurchaseButtonEnabled" style="text-transform:lowercase;width:400px;text-align:center"/> 
+                    <br />
+                }
+            </div>
         }
         else
         {
@@ -143,18 +161,22 @@
     private Movie movie;
     private List<Reservation> showingReservations = new(); //database state of reservations
     private List<Reservation> markedSeats = new(); //seats marked by the user 
+
     private bool cannotSubmit = true; // bound to submit button
     private bool validEmail = false; // whether or not email can be classified as valid
     private bool processingPayment = false; // payment is being processed (refreshing page will cancel purchase)
     private bool paymentSuccess = false; // payment has went through
     private bool archivedShowing = false; // showing is archived - cannot buy or mark tickets
+    private bool disableMailBox = false; // disable textbox for logged-in users
+    private bool isCashier = false; // if cashier is selling the ticket, he has to register the payment
+
     private string customerEmailString = ""; // "bound" to textbox
     private EmailAddressAttribute customerEmailAttribute = new EmailAddressAttribute(); // email attribute for validifying email string
     private Ticket ticket = new Ticket(); // ticket for this browser page
     private string ticketLink = ""; // ticket link for user
 
     private string boundUserMail = "";
-    private bool disableMailBox = false;
+
 
     [CascadingParameter]
     private Task<AuthenticationState> _authState { get; set; }
@@ -166,11 +188,17 @@
     {
         base.OnInitialized();
         authState = await _authState;
-        if (authState.User.Identity.Name != null)
+        if (authState.User.Identity.Name != null) // user logged in
         {
+
+            if (authState.User.Claims.Any(x => x.Value == "Cashier"))
+            {
+                isCashier = true;
+            }
             boundUserMail = authState.User.Identity.Name;
-            disableMailBox = true;
             customerEmailString = boundUserMail;
+            disableMailBox = true;
+
             checkIfPurchaseButtonEnabled(null);
         }
     }
@@ -224,16 +252,19 @@
             }
         }
 
-        processingPayment = true;
-        // TODO: visualize fake payment processing
-        await Task.Delay(3000);
-
+        if (!isCashier)
+        {
+            processingPayment = true;
+            // TODO: visualize fake payment processing
+            await Task.Delay(3000);
+        }
+        
         // payment processed - confirm reservations
         // this method will find reservation matching r in db and update that reservation
         foreach (Reservation r in markedSeats) ConfirmReservationUseCase.Execute(r);
 
         // create ticket
-        FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie, NavManager.BaseUri);
+        FinalizeTicketUseCase.Execute(ticket, markedSeats, showing, movie, NavManager.BaseUri, isCashier);
 
         ticketLink = "/ticket/" + ticket.QRString;
 

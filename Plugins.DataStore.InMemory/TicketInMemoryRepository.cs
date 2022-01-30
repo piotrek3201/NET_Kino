@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
+// THIS IS NOT UP TO DATE - SQL DATABASE IS NOW IN USE
 namespace Plugins.DataStore.InMemory
 {
     public class TicketInMemoryRepository : ITicketRepository
@@ -43,7 +44,8 @@ namespace Plugins.DataStore.InMemory
             return tickets; 
         }
 
-        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie, string localhost)
+        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, 
+            Movie linkedMovie, string localhost, bool isCashier)
         {
             // check if ticket like this already exists, if it does then RETURN
             if (tickets.Any(x => x.ClientMail == ticket.ClientMail &&

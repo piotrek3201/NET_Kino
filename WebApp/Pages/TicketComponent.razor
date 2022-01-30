@@ -36,9 +36,9 @@
             if(!firstItem) @separator // draw separator if not first item in line
             else firstItem = false;
 
-            @rLetter@c
+            @rLetter@c //draw seat position name
 
-            counter++; // incremenet line breka variable
+            counter++; // incremenet line break variable
             // line breaks every now and then
             if (Reservations.Count() > 2 && counter >= Reservations.Count() / 2) 
             {
@@ -47,9 +47,11 @@
                 <br/>
             }
         }
-        @if (!firstItem)
+        @if(true)
         {
-            firstItem = true; // reset variable for next page draw            
+            // reset variables for next page draw   
+            firstItem = true;
+            counter = 0;
         }
 
     </p>

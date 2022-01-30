@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UseCases.DataStorePluginInterfaces;
 
+// THIS IS NOT UP TO DATE - SQL DATABASE IS NOW IN USE
 namespace Plugins.DataStore.InMemory
 {
     public class ReservationInMemoryRepository : IReservationRepository

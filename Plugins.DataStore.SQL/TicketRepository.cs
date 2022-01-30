@@ -23,7 +23,8 @@ namespace Plugins.DataStore.SQL
             return db.Tickets;
         }
 
-        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie, string localhost)
+        public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, 
+            Movie linkedMovie, string localhost, bool isCashier)
         {
             // generate qr code for ticket and db
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -49,53 +50,55 @@ namespace Plugins.DataStore.SQL
             // save ticket
             db.SaveChanges();
 
-            // fill out mail and send ticket
-            string Subject = "Twój bilet do Kina NET na film \"" + linkedMovie.Title + "\"!";
-
-            string Body = "<h1 style=\"text-align:center\">Witaj w naszym kinie!" +
-                "<br/>W linku poniżej znajdziesz swój bilet.</h1>" +
-                "<div style=\"text-align:center;font-size:x-large\"><a href=\"" + localhost
-                + "/ticket/" + ticket.QRString + 
-                "\">Kliknij tutaj, aby obejrzeć bilet.</a></div>" +
-                "<br/><p style=\"text-align:center;font-size:larger\">Film: " + linkedMovie.Title +
-                "<br/>Numer Twojej sali: " + linkedShowing.ScreeningRoomId +
-                "<br/>Data: " + linkedShowing.Date.ToShortTimeString() 
-                + " " + linkedShowing.Date.ToShortDateString() +
-                "<br/>Twoje miejsca: ";
-
-            foreach (Reservation lr in linkedReservations)
+            if (!isCashier)
             {
-                char rLetter = (char)(lr.RowNumber + 64);
-                Body += rLetter.ToString() + lr.ColumnNumber.ToString() + " ";
-            }
+                // fill out mail and send ticket
+                string Subject = "Twój bilet do Kina NET na film \"" + linkedMovie.Title + "\"!";
 
-            Body += "<br/><br/>Kod Twojego biletu: " + ticket.QRString;
+                string Body = "<h1 style=\"text-align:center\">Witaj w naszym kinie!" +
+                    "<br/>W linku poniżej znajdziesz swój bilet.</h1>" +
+                    "<div style=\"text-align:center;font-size:x-large\"><a href=\"" + localhost
+                    + "/ticket/" + ticket.QRString +
+                    "\">Kliknij tutaj, aby obejrzeć bilet.</a></div>" +
+                    "<br/><p style=\"text-align:center;font-size:larger\">Film: " + linkedMovie.Title +
+                    "<br/>Numer Twojej sali: " + linkedShowing.ScreeningRoomId +
+                    "<br/>Data: " + linkedShowing.Date.ToShortTimeString()
+                    + " " + linkedShowing.Date.ToShortDateString() +
+                    "<br/>Twoje miejsca: ";
 
-            Body += "</p><h2 style=\"text-align:center\">Życzymy udanego seansu!<br/>Zespół Kino NET</h2>";
-
-            try // send mail
-            {
-                using (MailMessage mail = new MailMessage())
+                foreach (Reservation lr in linkedReservations)
                 {
-                    mail.From = new MailAddress("kino.net.projekt@gmail.com");
-                    mail.To.Add(ticket.ClientMail);
-                    mail.Subject = Subject;
-                    mail.Body = Body;
-                    mail.IsBodyHtml = true;
+                    char rLetter = (char)(lr.RowNumber + 64);
+                    Body += rLetter.ToString() + lr.ColumnNumber.ToString() + " ";
+                }
 
-                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                Body += "<br/><br/>Kod Twojego biletu: " + ticket.QRString;
+
+                Body += "</p><h2 style=\"text-align:center\">Życzymy udanego seansu!<br/>Zespół Kino NET</h2>";
+
+                try // send mail
+                {
+                    using (MailMessage mail = new MailMessage())
                     {
-                        smtp.Credentials = new System.Net.NetworkCredential("kino.net.projekt@gmail.com", "Comand94");
-                        smtp.EnableSsl = true;
-                        smtp.Send(mail);
+                        mail.From = new MailAddress("kino.net.projekt@gmail.com");
+                        mail.To.Add(ticket.ClientMail);
+                        mail.Subject = Subject;
+                        mail.Body = Body;
+                        mail.IsBodyHtml = true;
+
+                        using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                        {
+                            smtp.Credentials = new System.Net.NetworkCredential("kino.net.projekt@gmail.com", "Comand94");
+                            smtp.EnableSsl = true;
+                            smtp.Send(mail);
+                        }
                     }
                 }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
-            catch (Exception)
-            {
-                throw;
-            }
-
         }
 
         public void AddTicket(Ticket ticket)

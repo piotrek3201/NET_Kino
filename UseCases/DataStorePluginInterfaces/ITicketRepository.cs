@@ -10,7 +10,8 @@ namespace UseCases.DataStorePluginInterfaces
     public interface ITicketRepository
     {
         IEnumerable<Ticket> GetTickets();
-        void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, Movie linkedMovie, string localhost);
+        void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, 
+            Movie linkedMovie, string localhost, bool isCashier);
         void AddTicket(Ticket ticket);
         void DeleteTicketByIds(string clientMail, int ticketId);
         IEnumerable<Ticket> GetTicketsByMail(string clientMail);
