@@ -73,16 +73,32 @@
                                 <div class="col" style="margin-top: 13px;">
                                     Cena biletu: @show.TicketPrice zł
                                 </div>
-                                <div class="col" style="margin-top: 5px;">
-                                    @if(show.Date >= DateTime.Now)
-                                    {
-                                        <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))">Kup bilet</button>
-                                    }
-                                    else
-                                    {
-                                        <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))" disabled>Kup bilet</button>
-                                    }
-                                </div>
+                                <AuthorizeView Policy="CashierOnly">
+                                    <Authorized>
+                                        <div class="col" style="margin-top: 5px;">
+                                            @if(show.Date >= DateTime.Now)
+                                            {
+                                                <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))">Sprzedaj bilet</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))" disabled>Sprzedaj bilet</button>
+                                            }
+                                        </div>
+                                    </Authorized>
+                                    <NotAuthorized>
+                                        <div class="col" style="margin-top: 5px;">
+                                            @if(show.Date >= DateTime.Now)
+                                            {
+                                                <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))">Kup bilet</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn" @onclick="@(() => ViewShowing(show.ShowingId))" disabled>Kup bilet</button>
+                                            }
+                                        </div>
+                                    </NotAuthorized>
+                                </AuthorizeView>
                             </div>
                         </div>
                         <br />
