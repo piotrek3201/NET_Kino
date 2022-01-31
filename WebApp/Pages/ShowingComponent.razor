@@ -95,6 +95,10 @@
 
             @if (!paymentSuccess) // display screening room
             {
+                <div class="rectangle">
+                    <p>EKRAN</p>
+                </div>
+                <br />
                 <table class="screeningRoomTable">
                     <tbody>
                         @for (var i = 1; i <= @screeningRoom.RowCount; i++)
@@ -198,7 +202,6 @@
     private string ticketLink = ""; // ticket link for user
 
     private string boundUserMail = "";
-
 
     [CascadingParameter]
     private Task<AuthenticationState> _authState { get; set; }
