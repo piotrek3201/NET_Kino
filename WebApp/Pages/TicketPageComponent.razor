@@ -5,11 +5,26 @@
 @inject IGetShowingByIdUseCase GetShowingByIdUseCase
 @inject IGetMovieByIdUseCase GetMovieByIdUseCase
 @inject IJSRuntime JSRuntime
+@inject IConfirmReservationUseCase ConfirmReservationUseCase
+@inject IIsTicketValidUseCase IsTicketValidUseCase
 
 <TicketComponent Ticket="@ticket" Reservations="@reservations" Showing="@showing" 
-Movie="@movie" TextColor="@textColor" BackgroundColor="@backgroundColor"></TicketComponent>
+Movie="@movie" TextColor="@textColor" BackgroundColor="@backgroundColor" Purchase="@purchase"></TicketComponent>
 
 <div class="center">
+
+    <AuthorizeView Policy="CashierOnly">
+        <Authorized>
+            @if (!purchase)
+            {
+                <button type="button" class="btn" @onclick="ConfirmPayment" 
+                    disabled="@purchase">Zatwierdź płatność klienta</button>
+                <br/>
+                <br/>
+            }
+        </Authorized>
+    </AuthorizeView>
+
     <button class="btn" @onclick="PrintReport" 
     >Drukuj bilet</button>
 </div>
@@ -24,6 +39,7 @@ Movie="@movie" TextColor="@textColor" BackgroundColor="@backgroundColor"></Ticke
     private Movie movie;
     private string textColor = "white";
     private string backgroundColor = "#202020";
+    private bool purchase = false;
 
     protected override void OnInitialized()
     {
@@ -37,6 +53,10 @@ Movie="@movie" TextColor="@textColor" BackgroundColor="@backgroundColor"></Ticke
         ticket = GetTicketByQRStringUseCase.Execute(QRString);
         if (ticket != null)
         {
+            //jezeli dowolna rezerwacja wygasa przed seansem, nie zaplacono za bilet
+            if (IsTicketValidUseCase.Execute(ticket)) purchase = true;
+            else purchase = false;
+
             reservations = GetReservationsByTicketUseCase.Execute(ticket.ClientMail, ticket.TicketId);
 
             if (reservations != null)
@@ -48,6 +68,13 @@ Movie="@movie" TextColor="@textColor" BackgroundColor="@backgroundColor"></Ticke
                 }
             }
         }
+    }
+
+    private void ConfirmPayment()
+    {
+        ticket.PurchaseDate = DateTime.Now;
+        foreach (Reservation r in reservations) ConfirmReservationUseCase.Execute(r, true);
+        purchase = true;
     }
 
     private async Task PrintColors()
