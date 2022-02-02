@@ -26,6 +26,10 @@ namespace Plugins.DataStore.SQL
         public void FinalizeTicket(Ticket ticket, List<Reservation> linkedReservations, Showing linkedShowing, 
             Movie linkedMovie, string localhost, bool isCashier)
         {
+            // link reservations
+            ticket.Reservations.Clear();
+            foreach (Reservation lr in linkedReservations) ticket.Reservations.Add(lr);
+
             // generate qr code for ticket and db
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             //TODO: append a unique string of characters (random + ticketId)
@@ -59,7 +63,7 @@ namespace Plugins.DataStore.SQL
                 string Body = "<h1 style=\"text-align:center\">Witaj w naszym kinie!" +
                     "<br/>W linku poniżej znajdziesz swój bilet.</h1>" +
                     "<div style=\"text-align:center;font-size:x-large\"><a href=\"" + localhost
-                    + "/ticket/" + ticket.QRString +
+                    + "ticket/" + ticket.QRString +
                     "\">Kliknij tutaj, aby obejrzeć bilet.</a></div>" +
                     "<br/><p style=\"text-align:center;font-size:larger\">Film: " + linkedMovie.Title +
                     "<br/>Numer Twojej sali: " + linkedShowing.ScreeningRoomId +
@@ -133,8 +137,9 @@ namespace Plugins.DataStore.SQL
 
         public bool IsTicketValid(Ticket ticket)
         {
-            Reservation r = ticket.Reservations.FirstOrDefault();
-            if (r != null && r.ReservationExpirationDate > r.Showing.Date) return true;
+            Reservation r = db.Reservations.FirstOrDefault(x => x.TicketId == ticket.TicketId);
+            Showing s = db.Showings.FirstOrDefault(x => x.ShowingId == r.ShowingId);
+            if (r != null && s != null && r.ReservationExpirationDate > s.Date) return true;
             else return false;
         }
     }
