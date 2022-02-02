@@ -20,6 +20,7 @@ namespace Plugins.DataStore.SQL
         public void AddScreeningRoom(ScreeningRoom screeningRoom)
         {
             db.ScreeningRooms.Add(screeningRoom);
+            db.SaveChanges();
         }
 
         public void DeleteScreeningRoom(int screeningRoomId)
