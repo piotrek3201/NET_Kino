@@ -3,9 +3,9 @@ A simple cinema management application created for Programming in .NET subject.
 Used technologies: .NET Core Blazor, MS SQL Server, Entity Framework Core, .NET Core Identity
 
 Authors:
-Piotr Kałuziński
-Beata Dziewulska
-Dawid Leszczyński
+Piotr Kałuziński,
+Beata Dziewulska,
+Dawid Leszczyński,
 
 Video presentation:
 https://youtu.be/3Kprlcea54w
